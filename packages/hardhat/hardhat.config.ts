@@ -118,6 +118,12 @@ const config: HardhatUserConfig = {
       url: "https://sepolia.publicgoods.network",
       accounts: [deployerPrivateKey],
     },
+    testnet_aurora: {
+      url: "https://testnet.aurora.dev",
+      accounts: [deployerPrivateKey],
+      chainId: 1313161555,
+      gasPrice: 120 * 1000000000,
+    },
   },
   // configuration for harhdat-verify plugin
   etherscan: {
