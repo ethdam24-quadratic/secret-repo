@@ -2,6 +2,7 @@
 pragma solidity >=0.8.0 <0.9.0;
 
 import "hardhat/console.sol";
+import "../interfaces/IGateway.sol";
 
 /**
  * A smart contract for cross-chain quadratic voting.
@@ -10,6 +11,16 @@ import "hardhat/console.sol";
  */
 
 contract Funding {
+	// ========================================
+	//     CONSTRUCTOR AND VALUES
+	// ========================================
+
+	IGateway public gatewayContract;
+
+	constructor(address _gatewayAddress) {
+		gatewayContract = IGateway(_gatewayAddress);
+	}
+
 	// ========================================
 	//     STRUCTS AND MAPPIGNS
 	// ========================================
