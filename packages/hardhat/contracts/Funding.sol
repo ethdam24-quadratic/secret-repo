@@ -77,8 +77,8 @@ contract Funding {
 		address userAddress,
 		string calldata routingInfo,
 		IGateway.ExecutionInfo calldata info
-	) public {
-		gatewayContract.send(payloadHash, userAddress, routingInfo, info);
+	) public payable {
+		gatewayContract.send{value: msg.value}(payloadHash, userAddress, routingInfo, info);
 		emit RoundCreated(id, name);
 	}
 

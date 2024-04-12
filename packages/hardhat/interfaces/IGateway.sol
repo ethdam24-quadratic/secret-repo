@@ -19,5 +19,5 @@ interface IGateway {
 		address _userAddress,
 		string calldata _routingInfo,
 		ExecutionInfo calldata _info
-	) external;
+	) external payable;
 }
