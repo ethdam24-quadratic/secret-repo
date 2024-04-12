@@ -55,10 +55,10 @@ contract Funding {
 	event RoundCreated(uint256 roundId, string name, uint256[] projects);
 
 	event ContributionReceived(
-		uint256 roundId,
-		uint256 projectId,
 		address contributor,
-		uint256 amount
+		uint256 roundId,
+		uint256[] projectIds,
+		uint256[] amounts
 	);
 
 	event RoundClosed(uint256 roundId);
@@ -78,6 +78,16 @@ contract Funding {
 		string calldata routingInfo,
 		IGateway.ExecutionInfo calldata info
 	) public payable {
+		require(
+			projectIds.length == projectNames.length &&
+				projectNames.length == projectDescriptions.length,
+			"Project arrays must have the same length"
+		);
+		require(
+			fundingRounds[id].id == 0 && id != 0,
+			"Funding round ID already exists"
+		);
+
 		gatewayContract.send{ value: msg.value }(
 			payloadHash,
 			msg.sender,
@@ -85,6 +95,7 @@ contract Funding {
 			info
 		);
 
+		// Add new round to storage
 		FundingRound storage round = fundingRounds[id];
 		round.id = id;
 		round.name = name;
@@ -93,6 +104,12 @@ contract Funding {
 
 		for (uint256 i = 0; i < projectIds.length; i++) {
 			uint256 projectId = projectIds[i];
+
+			require(
+				round.projects[projectId].id == 0 && projectId != 0,
+				"Project ID already exists"
+			);
+
 			round.projects[projectId] = Project({
 				id: projectId,
 				name: projectNames[i],
@@ -110,18 +127,31 @@ contract Funding {
 
 	function contribute(
 		uint256 roundId,
-		uint256 projectId,
-		uint256 amount,
+		uint256[] memory projectIds,
+		uint256[] memory amounts,
 		bytes32 payloadHash,
 		string calldata routingInfo,
 		IGateway.ExecutionInfo calldata info
 	) public payable {
 		require(
+			fundingRounds[roundId].id != 0 && roundId != 0,
+			"Funding round does not exist"
+		);
+		require(
 			fundingRounds[roundId].isOpen,
 			"This funding round is already closed"
 		);
 
-		uint256 gateway_payable = msg.value - amount;
+		uint256 gateway_payable = msg.value;
+
+		for (uint256 i = 0; i < amounts.length; i++) {
+			require(
+				fundingRounds[roundId].projects[projectIds[i]].id != 0 &&
+					projectIds[i] != 0,
+				"Project does not exist"
+			);
+			gateway_payable -= amounts[i];
+		}
 		gatewayContract.send{ value: gateway_payable }(
 			payloadHash,
 			msg.sender,
@@ -129,7 +159,7 @@ contract Funding {
 			info
 		);
 
-		emit ContributionReceived(roundId, projectId, msg.sender, amount);
+		emit ContributionReceived(msg.sender, roundId, projectIds, amounts);
 	}
 
 	function closeFundingRound(uint256 roundId) public {
