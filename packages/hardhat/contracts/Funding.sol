@@ -67,8 +67,8 @@ contract Funding {
 	// ========================================
 
 	function createFundingRound(
-		// uint256 _id,
-		// string memory _name,
+		uint256 id,
+		string memory name,
 		// string memory _description,
 		// uint256[] memory _projectIds,
 		// string[] memory _projectNames,
@@ -79,13 +79,18 @@ contract Funding {
 		IGateway.ExecutionInfo calldata info
 	) public {
 		gatewayContract.send(payloadHash, userAddress, routingInfo, info);
+		emit RoundCreated(id, name);
 	}
 
 	function contribute(
-		uint256 _roundId,
-		uint256 _projectId,
-		uint256 _amount
-	) public payable {}
+		uint256 roundId,
+		uint256 projectId,
+		uint256 amount
+	) public payable {
+		emit ContributionReceived(roundId, projectId, msg.sender, amount);
+	}
 
-	function closeFundingRound(uint256 _roundId) public {}
+	function closeFundingRound(uint256 _roundId) public {
+		emit RoundClosed(roundId);
+	}
 }
