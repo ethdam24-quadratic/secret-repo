@@ -90,7 +90,7 @@ contract Funding {
 		emit ContributionReceived(roundId, projectId, msg.sender, amount);
 	}
 
-	function closeFundingRound(uint256 _roundId) public {
+	function closeFundingRound(uint256 roundId) public {
 		emit RoundClosed(roundId);
 	}
 }
