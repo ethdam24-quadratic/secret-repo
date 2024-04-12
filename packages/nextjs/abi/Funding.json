@@ -9,18 +9,6 @@
     "inputs": [
       {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "roundId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "projectId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
         "internalType": "address",
         "name": "contributor",
         "type": "address"
@@ -28,8 +16,20 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "amount",
+        "name": "roundId",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256[]",
+        "name": "projectIds",
+        "type": "uint256[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256[]",
+        "name": "amounts",
+        "type": "uint256[]"
       }
     ],
     "name": "ContributionReceived",
@@ -94,14 +94,14 @@
         "type": "uint256"
       },
       {
-        "internalType": "uint256",
-        "name": "projectId",
-        "type": "uint256"
+        "internalType": "uint256[]",
+        "name": "projectIds",
+        "type": "uint256[]"
       },
       {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
+        "internalType": "uint256[]",
+        "name": "amounts",
+        "type": "uint256[]"
       },
       {
         "internalType": "bytes32",

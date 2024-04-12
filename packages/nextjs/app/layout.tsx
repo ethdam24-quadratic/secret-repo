@@ -10,7 +10,7 @@ const baseUrl = process.env.VERCEL_URL
 const imageUrl = `${baseUrl}/thumbnail.jpg`;
 
 const title = "Quadratic fund";
-const titleTemplate = "%s | Quadratic fun";
+const titleTemplate = "%s | Quadratic fund";
 const description = "ETHDam";
 
 export const metadata: Metadata = {

@@ -17,6 +17,7 @@
     "@ethersproject/providers": "^5.7.2",
     "@heroicons/react": "^2.0.11",
     "@rainbow-me/rainbowkit": "1.3.5",
+    "@solar-republic/cosmos-grpc": "0.14.2",
     "@solar-republic/neutrino": "^1.2.4",
     "@uniswap/sdk-core": "^4.0.1",
     "@uniswap/v2-sdk": "^3.0.1",

@@ -5,7 +5,7 @@ type Address = {
   value: string;
 };
 
-const VotingCreationForm: React.FC = () => {
+const RoundCreationForm: React.FC = () => {
   const [name, setName] = useState<string>("");
   const [id, setId] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -65,4 +65,4 @@ const VotingCreationForm: React.FC = () => {
   );
 };
 
-export default VotingCreationForm;
+export default RoundCreationForm;

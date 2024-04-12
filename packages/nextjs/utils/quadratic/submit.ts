@@ -11,11 +11,20 @@ import { chacha20_poly1305_seal, ecdh } from "@solar-republic/neutrino";
 import { ethers } from "ethers";
 import { SigningKey, arrayify, computeAddress, hexlify, keccak256, recoverPublicKey } from "ethers/lib/utils";
 
-const submit = async (address: string, provider: ethers.providers.Web3Provider) => {
-  const publicClientAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || "";
+// the function name of the function that is called on the private contract
 
-  const abi = [{ inputs: [], name: "upgradeHandler", outputs: [], stateMutability: "nonpayable", type: "function" }];
-  const iface = new ethers.utils.Interface(abi);
+const submit = async (
+  address: string,
+  provider: ethers.providers.Web3Provider,
+  contractAddress: string,
+  contractAbi: any,
+  functionName: string, // the function name of the function that is called on the private contract
+  parameters: object,
+  callbackFunctionName: string,
+  callbackGasLimit: number,
+) => {
+  const publicClientAddress = contractAddress;
+  const iface = new ethers.utils.Interface(contractAbi);
 
   const routing_contract = "secret1pfg825wflcl40dqpd3yj96zhevnlxkh35hedks"; //the contract you want to call in secret
   const routing_code_hash = "fc5007efb0580334be20142a3011f34101be681eaa2fe277ee429f4d76107876"; //its codehash
@@ -33,26 +42,12 @@ const submit = async (address: string, provider: ethers.providers.Web3Provider) 
   // create the sharedKey via ECDH
   const sharedKey = await sha256(ecdh(userPrivateKeyBytes, gatewayPublicKeyBytes));
 
-  const key = document.querySelector<HTMLFormElement>("#input1")?.value;
-  const value = document.querySelector<HTMLFormElement>("#input2")?.value;
-  const viewing_key = document.querySelector<HTMLFormElement>("#input3")?.value;
-  const callback_gas_limit = document.querySelector<HTMLFormElement>("#input4")?.value;
-
-  // the function name of the function that is called on the private contract
-  const handle = "store_value";
-
-  const data = JSON.stringify({
-    key: key,
-    value: value,
-    viewing_key: viewing_key,
-    addresses: [address],
-  });
+  const data = JSON.stringify(parameters);
 
   const callbackAddress = publicClientAddress.toLowerCase();
   // This is an empty callback for the sake of having a callback in the sample code.
   // Here, you would put your callback selector for you contract in.
-  const callbackSelector = iface.getSighash(iface.getFunction("upgradeHandler"));
-  const callbackGasLimit = Number(callback_gas_limit);
+  const callbackSelector = iface.getSighash(iface.getFunction(callbackFunctionName));
 
   // payload data that are going to be encrypted
   const payload = {
@@ -108,7 +103,7 @@ const submit = async (address: string, provider: ethers.providers.Web3Provider) 
     user_pubkey: user_pubkey,
     routing_code_hash: routing_code_hash,
     task_destination_network: "pulsar-3", //Destination for the task, here: pulsar-3 testnet
-    handle: handle,
+    handle: functionName,
     nonce: hexlify(nonce),
     payload: hexlify(ciphertext),
     payload_signature: payloadSignature,
