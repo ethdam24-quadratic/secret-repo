@@ -16,9 +16,11 @@ contract Funding {
 	// ========================================
 
 	IGateway public gatewayContract;
+	address gatewayAddressSepolia =
+		address(0x3879E146140b627a5C858a08e507B171D9E43139);
 
-	constructor(address _gatewayAddress) {
-		gatewayContract = IGateway(_gatewayAddress);
+	constructor() {
+		gatewayContract = IGateway(gatewayAddressSepolia);
 	}
 
 	// ========================================
