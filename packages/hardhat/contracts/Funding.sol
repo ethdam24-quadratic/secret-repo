@@ -150,6 +150,10 @@ contract Funding {
 					projectIds[i] != 0,
 				"Project does not exist"
 			);
+			require(
+				gateway_payable >= amounts[i],
+				"Insufficient funds for contributions"
+			);
 			gateway_payable -= amounts[i];
 		}
 		gatewayContract.send{ value: gateway_payable }(
