@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   11155111: {
     Funding: {
-      address: "0x73a159fB3Dd537724244aCFFd1E76358AD265161",
+      address: "0xd2afe636a676aDF5Fd5CC414C95d3d45baF85954",
       abi: [
         {
           inputs: [],
@@ -19,18 +19,6 @@ const deployedContracts = {
           inputs: [
             {
               indexed: false,
-              internalType: "uint256",
-              name: "roundId",
-              type: "uint256",
-            },
-            {
-              indexed: false,
-              internalType: "uint256",
-              name: "projectId",
-              type: "uint256",
-            },
-            {
-              indexed: false,
               internalType: "address",
               name: "contributor",
               type: "address",
@@ -38,8 +26,20 @@ const deployedContracts = {
             {
               indexed: false,
               internalType: "uint256",
-              name: "amount",
+              name: "roundId",
               type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "uint256[]",
+              name: "projectIds",
+              type: "uint256[]",
+            },
+            {
+              indexed: false,
+              internalType: "uint256[]",
+              name: "amounts",
+              type: "uint256[]",
             },
           ],
           name: "ContributionReceived",
@@ -104,14 +104,14 @@ const deployedContracts = {
               type: "uint256",
             },
             {
-              internalType: "uint256",
-              name: "projectId",
-              type: "uint256",
+              internalType: "uint256[]",
+              name: "projectIds",
+              type: "uint256[]",
             },
             {
-              internalType: "uint256",
-              name: "amount",
-              type: "uint256",
+              internalType: "uint256[]",
+              name: "amounts",
+              type: "uint256[]",
             },
             {
               internalType: "bytes32",
