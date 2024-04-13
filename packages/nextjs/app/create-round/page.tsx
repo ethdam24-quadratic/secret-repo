@@ -1,7 +1,7 @@
 "use client";
 
 import type { NextPage } from "next";
-import VotingCreationForm from "~~/components/RoundCreationForm";
+import VotingCreationForm from "~~/components/rounds-and-votes/RoundCreationForm";
 
 const Quadratic: NextPage = () => {
   return (

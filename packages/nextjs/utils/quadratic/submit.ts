@@ -83,11 +83,12 @@ const submit = async (
   // this is what we provide to metamask
   const msgParams = ciphertextHash;
   const from = address;
-  const params = [from, msgParams];
+  const params = [msgParams, from];
   const method = "personal_sign";
   console.log(`Payload Hash: ${payloadHash}`);
 
   const payloadSignature = await provider.send(method, params);
+  console.log(payloadSignature);
   console.log(`Payload Signature: ${payloadSignature}`);
 
   const user_pubkey = recoverPublicKey(payloadHash, payloadSignature);
