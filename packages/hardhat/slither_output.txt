@@ -1,0 +1,359 @@
+'npx hardhat clean' running (wd: /home/arjanjohan/git/hack/ethdam/scaffold-eth-2/packages/hardhat)
+'npx hardhat clean --global' running (wd: /home/arjanjohan/git/hack/ethdam/scaffold-eth-2/packages/hardhat)
+'npx hardhat compile --force' running (wd: /home/arjanjohan/git/hack/ethdam/scaffold-eth-2/packages/hardhat)
+INFO:Detectors:
+ABDKMath64x64.divuu(uint256,uint256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#677-716) performs a multiplication on the result of a division:
+	- result = (x << 255 - msb) / ((y - 1 >> msb - 191) + 1) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#695)
+	- hi = result * (y >> 128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#698)
+ABDKMath64x64.divuu(uint256,uint256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#677-716) performs a multiplication on the result of a division:
+	- result = (x << 255 - msb) / ((y - 1 >> msb - 191) + 1) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#695)
+	- lo = result * (y & 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#699)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply
+INFO:Detectors:
+YourContract.constructor(address)._owner (contracts/YourContract.sol#33) lacks a zero-check on :
+		- owner = _owner (contracts/YourContract.sol#34)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation
+INFO:Detectors:
+Reentrancy in Funding.createFundingRound(uint256,string,string,string,uint256[],string[],string[],address[],bool,bytes32,string,IGateway.ExecutionInfo) (contracts/Funding.sol#70-115):
+	External calls:
+	- gatewayContract.send{value: msg.value}(payloadHash,msg.sender,routingInfo,info) (contracts/Funding.sol#93-98)
+	State variables written after the call(s):
+	- roundIds.push(id) (contracts/Funding.sol#113)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2
+INFO:Detectors:
+Reentrancy in Funding.closeFundingRound(uint256,bool,bytes32,string,IGateway.ExecutionInfo) (contracts/Funding.sol#142-164):
+	External calls:
+	- gatewayContract.send{value: msg.value}(payloadHash,msg.sender,routingInfo,info) (contracts/Funding.sol#153-158)
+	External calls sending eth:
+	- gatewayContract.send{value: msg.value}(payloadHash,msg.sender,routingInfo,info) (contracts/Funding.sol#153-158)
+	- distributeFunds(roundId) (contracts/Funding.sol#162)
+		- project.projectAddress.transfer(payout) (contracts/Funding.sol#240)
+	Event emitted after the call(s):
+	- RoundClosed(roundId) (contracts/Funding.sol#163)
+Reentrancy in Funding.contribute(uint256,uint256[],uint256[],bytes32,string,IGateway.ExecutionInfo) (contracts/Funding.sol#117-140):
+	External calls:
+	- gatewayContract.send{value: msg.value - totalContributed}(payloadHash,msg.sender,routingInfo,info) (contracts/Funding.sol#133-138)
+	Event emitted after the call(s):
+	- ContributionReceived(msg.sender,roundId,totalContributed) (contracts/Funding.sol#139)
+Reentrancy in Funding.createFundingRound(uint256,string,string,string,uint256[],string[],string[],address[],bool,bytes32,string,IGateway.ExecutionInfo) (contracts/Funding.sol#70-115):
+	External calls:
+	- gatewayContract.send{value: msg.value}(payloadHash,msg.sender,routingInfo,info) (contracts/Funding.sol#93-98)
+	Event emitted after the call(s):
+	- RoundCreated(id,name,projectIds) (contracts/Funding.sol#114)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3
+INFO:Detectors:
+console._sendLogPayloadImplementation(bytes) (node_modules/hardhat/console.sol#8-23) uses assembly
+	- INLINE ASM (node_modules/hardhat/console.sol#11-22)
+console._castToPure(function(bytes)) (node_modules/hardhat/console.sol#25-31) uses assembly
+	- INLINE ASM (node_modules/hardhat/console.sol#28-30)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage
+INFO:Detectors:
+3 different versions of Solidity are used:
+	- Version constraint ^0.8.0 is used by:
+ 		- node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#6
+	- Version constraint >=0.8.0<0.9.0 is used by:
+ 		- contracts/Funding.sol#2
+		- contracts/YourContract.sol#2
+		- interfaces/IGateway.sol#2
+	- Version constraint >=0.4.22<0.9.0 is used by:
+ 		- node_modules/hardhat/console.sol#2
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#different-pragma-directives-are-used
+INFO:Detectors:
+ABDKMath64x64.pow(int128,uint256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#366-439) has a high cyclomatic complexity (19).
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) has a high cyclomatic complexity (65).
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#cyclomatic-complexity
+INFO:Detectors:
+Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+	- FullInlinerNonExpressionSplitArgumentEvaluationOrder
+	- MissingSideEffectsOnSelectorAccess
+	- AbiReencodingHeadOverflowWithStaticArrayCleanup
+	- DirtyBytesArrayToStorage
+	- DataLocationChangeInInternalOverride
+	- NestedCalldataArrayAbiReencodingSizeValidation
+	- SignedImmutables
+	- ABIDecodeTwoDimensionalArrayMemory
+	- KeccakCaching.
+ It is used by:
+	- node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#6
+Version constraint >=0.8.0<0.9.0 is too complex.
+ It is used by:
+	- contracts/Funding.sol#2
+	- contracts/YourContract.sol#2
+	- interfaces/IGateway.sol#2
+Version constraint >=0.4.22<0.9.0 is too complex.
+ It is used by:
+	- node_modules/hardhat/console.sol#2
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity
+INFO:Detectors:
+Low level call in YourContract.withdraw() (contracts/YourContract.sol#78-81):
+	- (success,None) = owner.call{value: address(this).balance}() (contracts/YourContract.sol#79)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls
+INFO:Detectors:
+Function ABDKMath64x64.log_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#460-485) is not in mixedCase
+Function ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) is not in mixedCase
+Constant ABDKMath64x64.MIN_64x64 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#20) is not in UPPER_CASE_WITH_UNDERSCORES
+Constant ABDKMath64x64.MAX_64x64 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#25) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter YourContract.setGreeting(string)._newGreeting (contracts/YourContract.sol#50) is not in mixedCase
+Contract console (node_modules/hardhat/console.sol#4-1552) is not in CapWords
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions
+INFO:Detectors:
+Reentrancy in Funding.closeFundingRound(uint256,bool,bytes32,string,IGateway.ExecutionInfo) (contracts/Funding.sol#142-164):
+	External calls:
+	- distributeFunds(roundId) (contracts/Funding.sol#162)
+		- project.projectAddress.transfer(payout) (contracts/Funding.sol#240)
+	External calls sending eth:
+	- gatewayContract.send{value: msg.value}(payloadHash,msg.sender,routingInfo,info) (contracts/Funding.sol#153-158)
+	- distributeFunds(roundId) (contracts/Funding.sol#162)
+		- project.projectAddress.transfer(payout) (contracts/Funding.sol#240)
+	Event emitted after the call(s):
+	- RoundClosed(roundId) (contracts/Funding.sol#163)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-4
+INFO:Detectors:
+ABDKMath64x64.fromInt(int256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#34-39) uses literals with too many digits:
+	- require(bool)(x >= - 0x8000000000000000 && x <= 0x7FFFFFFFFFFFFFFF) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#36)
+ABDKMath64x64.muli(int128,int256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#163-191) uses literals with too many digits:
+	- require(bool)(y >= - 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF && y <= 0x1000000000000000000000000000000000000000000000000) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#166-167)
+ABDKMath64x64.muli(int128,int256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#163-191) uses literals with too many digits:
+	- require(bool)(absoluteResult <= 0x8000000000000000000000000000000000000000000000000000000000000000) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#181-182)
+ABDKMath64x64.divi(int256,int256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#244-266) uses literals with too many digits:
+	- require(bool)(absoluteResult <= 0x80000000000000000000000000000000) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#259)
+ABDKMath64x64.inv(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#318-325) uses literals with too many digits:
+	- result = int256(0x100000000000000000000000000000000) / x (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#321)
+ABDKMath64x64.gavg(int128,int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#348-356) uses literals with too many digits:
+	- require(bool)(m < 0x4000000000000000000000000000000000000000000000000000000000000000) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#352-353)
+ABDKMath64x64.pow(int128,uint256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#366-439) uses literals with too many digits:
+	- absResult = 0x100000000000000000000000000000000 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#372)
+ABDKMath64x64.pow(int128,uint256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#366-439) uses literals with too many digits:
+	- absX <= 0x10000000000000000 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#374)
+ABDKMath64x64.pow(int128,uint256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#366-439) uses literals with too many digits:
+	- absX < 0x1000000000000000000000000 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#403)
+ABDKMath64x64.pow(int128,uint256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#366-439) uses literals with too many digits:
+	- absX < 0x10000000000000000000000000000 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#404)
+ABDKMath64x64.pow(int128,uint256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#366-439) uses literals with too many digits:
+	- absX < 0x1000000000000000000000000000000 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#405)
+ABDKMath64x64.pow(int128,uint256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#366-439) uses literals with too many digits:
+	- absX < 0x10000000000000000000000000000000 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#406)
+ABDKMath64x64.pow(int128,uint256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#366-439) uses literals with too many digits:
+	- absX < 0x40000000000000000000000000000000 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#407)
+ABDKMath64x64.pow(int128,uint256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#366-439) uses literals with too many digits:
+	- absX < 0x80000000000000000000000000000000 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#408)
+ABDKMath64x64.pow(int128,uint256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#366-439) uses literals with too many digits:
+	- absResult > 0x100000000000000000000000000000000 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#417)
+ABDKMath64x64.pow(int128,uint256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#366-439) uses literals with too many digits:
+	- absX >= 0x100000000000000000000000000000000 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#424)
+ABDKMath64x64.log_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#460-485) uses literals with too many digits:
+	- xc >= 0x10000000000000000 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#466)
+ABDKMath64x64.log_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#460-485) uses literals with too many digits:
+	- xc >= 0x100000000 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#467)
+ABDKMath64x64.log_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#460-485) uses literals with too many digits:
+	- bit = 0x8000000000000000 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#476)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- require(bool)(x < 0x400000000000000000) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#510)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x < - 0x400000000000000000 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#512)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = 0x80000000000000000000000000000000 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#514)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x8000000000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#516)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x4000000000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#518)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x2000000000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#520)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x1000000000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#522)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x800000000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#524)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x400000000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#526)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x200000000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#528)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x100000000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#530)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x80000000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#532)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x40000000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#534)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x20000000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#536)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x10000000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#538)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x8000000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#540)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x4000000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#542)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x2000000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#544)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x1000000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#546)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x800000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#548)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x400000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#550)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x200000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#552)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x100000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#554)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x100000B1721BCFC99D9F890EA06911763 >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#555)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x80000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#556)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x10000058B90CF1E6D97F9CA14DBCC1628 >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#557)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x40000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#558)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x1000002C5C863B73F016468F6BAC5CA2B >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#559)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x20000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#560)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x100000162E430E5A18F6119E3C02282A5 >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#561)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x10000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#562)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x1000000B1721835514B86E6D96EFD1BFE >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#563)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x8000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#564)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x100000058B90C0B48C6BE5DF846C5B2EF >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#565)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x4000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#566)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x10000002C5C8601CC6B9E94213C72737A >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#567)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x2000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#568)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x1000000162E42FFF037DF38AA2B219F06 >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#569)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x1000000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#570)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x10000000B17217FBA9C739AA5819F44F9 >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#571)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x800000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#572)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x1000000058B90BFCDEE5ACD3C1CEDC823 >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#573)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x400000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#574)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x100000002C5C85FE31F35A6A30DA1BE50 >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#575)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x200000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#576)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x10000000162E42FF0999CE3541B9FFFCF >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#577)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x100000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#578)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x100000000B17217F80F4EF5AADDA45554 >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#579)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x80000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#580)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x10000000058B90BFBF8479BD5A81B51AD >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#581)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x40000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#582)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x1000000002C5C85FDF84BD62AE30A74CC >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#583)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x20000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#584)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x100000000162E42FEFB2FED257559BDAA >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#585)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x10000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#586)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x1000000000B17217F7D5A7716BBA4A9AE >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#587)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x8000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#588)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x100000000058B90BFBE9DDBAC5E109CCE >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#589)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x4000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#590)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x10000000002C5C85FDF4B15DE6F17EB0D >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#591)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x2000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#592)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x1000000000162E42FEFA494F1478FDE05 >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#593)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x1000000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#594)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x10000000000B17217F7D20CF927C8E94C >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#595)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x800000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#596)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x1000000000058B90BFBE8F71CB4E4B33D >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#597)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x400000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#598)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x100000000002C5C85FDF477B662B26945 >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#599)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x200000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#600)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x10000000000162E42FEFA3AE53369388C >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#601)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- x & 0x100000 > 0 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#602)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x100000000000B17217F7D1D351A389D40 >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#603)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x10000000000058B90BFBE8E8B2D3D4EDE >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#605)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x1000000000002C5C85FDF4741BEA6E77E >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#607)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x100000000000162E42FEFA39FE95583C2 >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#609)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x1000000000000B17217F7D1CFB72B45E1 >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#611)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x100000000000058B90BFBE8E7CC35C3F0 >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#613)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x10000000000002C5C85FDF473E242EA38 >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#615)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x1000000000000162E42FEFA39F02B772C >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#617)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x10000000000000B17217F7D1CF7D83C1A >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#619)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x1000000000000058B90BFBE8E7BDCBE2E >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#621)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x100000000000002C5C85FDF473DEA871F >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#623)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x10000000000000162E42FEFA39EF44D91 >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#625)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x100000000000000B17217F7D1CF79E949 >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#627)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x10000000000000058B90BFBE8E7BCE544 >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#629)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x1000000000000002C5C85FDF473DE6ECA >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#631)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x100000000000000162E42FEFA39EF366F >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#633)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x1000000000000000B17217F7D1CF79AFA >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#635)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x100000000000000058B90BFBE8E7BCD6D >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#637)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x10000000000000002C5C85FDF473DE6B2 >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#639)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x1000000000000000162E42FEFA39EF358 >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#641)
+ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) uses literals with too many digits:
+	- result = result * 0x10000000000000000B17217F7D1CF79AB >> 128 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#643)
+ABDKMath64x64.exp(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#658-667) uses literals with too many digits:
+	- require(bool)(x < 0x400000000000000000) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#660)
+ABDKMath64x64.exp(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#658-667) uses literals with too many digits:
+	- x < - 0x400000000000000000 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#662)
+ABDKMath64x64.divuu(uint256,uint256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#677-716) uses literals with too many digits:
+	- xc >= 0x100000000 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#688)
+ABDKMath64x64.sqrtu(uint256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#725-749) uses literals with too many digits:
+	- xx >= 0x100000000000000000000000000000000 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#731)
+ABDKMath64x64.sqrtu(uint256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#725-749) uses literals with too many digits:
+	- xx >= 0x10000000000000000 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#732)
+ABDKMath64x64.sqrtu(uint256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#725-749) uses literals with too many digits:
+	- xx >= 0x100000000 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#733)
+ABDKMath64x64.slitherConstructorConstantVariables() (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#16-750) uses literals with too many digits:
+	- MIN_64x64 = - 0x80000000000000000000000000000000 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#20)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits
+INFO:Detectors:
+The following unused import(s) in contracts/Funding.sol should be removed: 
+	-import "abdk-libraries-solidity/ABDKMath64x64.sol"; (contracts/Funding.sol#3)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-imports
+INFO:Detectors:
+Funding.gatewayAddressSepolia (contracts/Funding.sol#44-45) should be constant 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant
+INFO:Detectors:
+Funding.gatewayContract (contracts/Funding.sol#43) should be immutable 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-immutable
+INFO:Slither:. analyzed (5 contracts with 95 detectors), 144 result(s) found
