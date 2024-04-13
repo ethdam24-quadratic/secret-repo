@@ -31,6 +31,7 @@ contract Funding {
 		uint256[] projectIds;
 		uint256 totalContributions;
 		bool isOpen;
+		bool isDistributed;
 	}
 
 	struct ProjectFundingData {
@@ -189,14 +190,15 @@ contract Funding {
 		IGateway.ExecutionInfo calldata info
 	) public payable {
 		require(!fundingRounds[roundId].isOpen, "Round is not closed");
+		require(fundingRounds[roundId].isDistributed, "Already distributed");
 		gatewayContract.send{ value: msg.value }(
 			payloadHash,
 			userAddress,
 			routingInfo,
 			info
 		);
-
-		emit RoundClosed(roundId);
+		fundingRounds[roundId].isDistributed = true;
+		emit DistributedTokens(roundId);
 	}
 
 	// callback function for secret
@@ -205,7 +207,7 @@ contract Funding {
 			string(json)
 		);
 		processFundingRound(fundingData, roundId);
-		emit RoundClosedInSecret(roundId);
+		emit DistributedTokensInSecret(roundId);
 	}
 
 	// ========================================
