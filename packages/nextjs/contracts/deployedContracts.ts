@@ -7,12 +7,25 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   11155111: {
     Funding: {
-      address: "0x871461b4e42b51095431E42cFC5a2705E1ae5915",
+      address: "0xeb4d4A578Da1A6589F72f87B5E664CC387412826",
       abi: [
         {
           inputs: [],
           stateMutability: "nonpayable",
           type: "constructor",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "contributor",
+              type: "address",
+            },
+          ],
+          name: "ContributionReceived",
+          type: "event",
         },
         {
           anonymous: false,
@@ -29,14 +42,8 @@ const deployedContracts = {
               name: "roundId",
               type: "uint256",
             },
-            {
-              indexed: false,
-              internalType: "uint256",
-              name: "amount",
-              type: "uint256",
-            },
           ],
-          name: "ContributionReceived",
+          name: "ContributionReceivedInSecret",
           type: "event",
         },
         {
@@ -50,6 +57,19 @@ const deployedContracts = {
             },
           ],
           name: "RoundClosed",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "roundId",
+              type: "uint256",
+            },
+          ],
+          name: "RoundClosedInSecret",
           type: "event",
         },
         {
@@ -75,6 +95,31 @@ const deployedContracts = {
             },
           ],
           name: "RoundCreated",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "roundId",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "name",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "uint256[]",
+              name: "projectIds",
+              type: "uint256[]",
+            },
+          ],
+          name: "RoundCreatedInSecret",
           type: "event",
         },
         {
@@ -164,15 +209,18 @@ const deployedContracts = {
               name: "roundId",
               type: "uint256",
             },
+          ],
+          name: "closedFundingRound",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
             {
-              internalType: "uint256[]",
-              name: "projectIds",
-              type: "uint256[]",
-            },
-            {
-              internalType: "uint256[]",
-              name: "amounts",
-              type: "uint256[]",
+              internalType: "address",
+              name: "userAddress",
+              type: "address",
             },
             {
               internalType: "bytes32",
@@ -246,6 +294,19 @@ const deployedContracts = {
           inputs: [
             {
               internalType: "uint256",
+              name: "roundId",
+              type: "uint256",
+            },
+          ],
+          name: "contribute",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
               name: "id",
               type: "uint256",
             },
@@ -283,6 +344,11 @@ const deployedContracts = {
               internalType: "address payable[]",
               name: "projectAddresses",
               type: "address[]",
+            },
+            {
+              internalType: "address",
+              name: "userAddress",
+              type: "address",
             },
             {
               internalType: "bool",
@@ -355,6 +421,47 @@ const deployedContracts = {
           name: "createFundingRound",
           outputs: [],
           stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "id",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "name",
+              type: "string",
+            },
+            {
+              internalType: "uint256[]",
+              name: "projectIds",
+              type: "uint256[]",
+            },
+          ],
+          name: "createdFundingRound",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "json",
+              type: "string",
+            },
+            {
+              internalType: "uint256",
+              name: "roundId",
+              type: "uint256",
+            },
+          ],
+          name: "distributeFunds",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
         {
