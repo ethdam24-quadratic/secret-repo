@@ -67,11 +67,23 @@ Run smart contract test with `yarn hardhat:test`
 
 We plan to add ... TODO
 
+## Hackathon bounties
+
+### NEAR
+
+todo
+
+### dRPC
+
+Deployed using dRPC, see [here](https://github.com/ethdam24-quadratic/secret-repo/blob/4300b8cc0d541eb2f804f10b690959a6def031e6/packages/hardhat/hardhat.config.ts#L54).
+
 ## Links
 
 - [Video demo]()
 - [Presentation slides]()
 - [Vercel deployment]()
+- [Smart contract on Sepolia](https://sepolia.etherscan.io/address/0xf87d0ca6a6B121CAB4Bc51bf7Cd3eaFF491e28c5#code)
+- [Smart contract on Aurora testnet]()
 
 ## Team
 
