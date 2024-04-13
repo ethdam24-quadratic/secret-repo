@@ -35,6 +35,14 @@ pub struct CloseFundingRoundMsg {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+pub struct TriggerPayoutMsg {
+    // Unique identifier for the funding round
+    pub funding_round_id: String,
+    //Admin Address
+    pub admin_address: String
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct OpenFundingRoundMsg {
     // Name of the funding round
     pub name: String,

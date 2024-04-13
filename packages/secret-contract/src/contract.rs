@@ -1,7 +1,9 @@
 use crate::{
     msg::{
         ExecuteMsg, GatewayMsg, ResponseCreateVoteMsg, InstantiateMsg, QueryMsg,
-        QueryResponse, ResponseVoteMsg, ResponseCloseVotingMsg, OpenFundingRoundMsg, VotesMsg, CloseFundingRoundMsg, VoteItem
+        QueryResponse, ResponseVoteMsg, ResponseCloseVotingMsg, OpenFundingRoundMsg, 
+        VotesMsg, CloseFundingRoundMsg, VoteItem,
+        TriggerPayoutMsg
     },
     state::{State, CONFIG, FOUNDING_ROUND_MAP, VOTES_MAP, VOTERS_OF_FUNDING_ROUND_MAP, FundingRoundItem, VoteAssociation},
 };
@@ -273,32 +275,6 @@ fn close_voting(
     Ok(Response::new().add_message(callback_msg))
 }
 
-// fn calculate_percentage_tally(vote_items: VoteItems, type: String) -> Result<HashMap<String, f64>, String> {
-//     let mut project_votes: HashMap<String, u64> = HashMap::new();
-
-//     // Aggregate votes per project
-//     for vote in vote_items.votes {
-//         *project_votes.entry(vote.project_id.clone()).or_insert(0) += vote.vote_amount;
-//     }
-
-//     // Calculate matched sums using a quadratic funding formula (or similar)
-//     let mut calculated_grants: HashMap<String, u128> = project_votes.iter().map(|(id, &amount)| {
-//         let sum_of_sqrts: f64 = vote.iter().map(|&vote| (vote as f64).sqrt()).sum();
-//         let funding = (sum_of_sqrts * sum_of_sqrts) as u128;
-//         (id.clone(), funding)
-//     }).collect();
-
-//     // Calculate total of all matched sums
-//     let total_grants: u128 = calculated_grants.values().sum();
-
-//     // Convert matched sums to percentages
-//     let percentages: HashMap<String, f64> = calculated_grants.iter().map(|(id, &grant)| {
-//         (id.clone(), (grant as f64) / (total_grants as f64) * 100.0)  // Calculating percentage
-//     }).collect();
-
-//     Ok(percentages)
-// }
-
 fn trigger_payout(
     deps: DepsMut,
     _env: Env,
@@ -308,8 +284,21 @@ fn trigger_payout(
 ) -> StdResult<Response> {
     let config = CONFIG.load(deps.storage)?;
 
+    let input: TriggerPayoutMsg = serde_json_wasm::from_str(&input_values)
+    .map_err(|err| StdError::generic_err(err.to_string()))?;
+
+    let founding_round = FOUNDING_ROUND_MAP
+        .get(deps.storage, &input.funding_round_id)
+        .ok_or_else(|| StdError::generic_err("Founding round not found"))?;
+
+    let voters_of_funding_round_map = VOTERS_OF_FUNDING_ROUND_MAP
+        .get(deps.storage, &input.funding_round_id)
+        .unwrap_or_default();
+
+    let funding_results = calculate_curve_funding(deps, input.funding_round_id, founding_round.funding_curve)
+    
     let data = ResponseVoteMsg {
-        message: "TriggerPayout".to_string(),
+        message: funding_results,
     };
 
     // Serialize the struct to a JSON string
@@ -333,4 +322,56 @@ fn trigger_payout(
     )?;
 
     Ok(Response::new().add_message(callback_msg))
+}
+
+fn calculate_curve_funding(deps: DepsMut, funding_round_id: String, curve: String) -> Result<Vec<FundingResult>, StdError> {
+    let voters_of_funding_round_map = VOTERS_OF_FUNDING_ROUND_MAP
+        .get(deps.storage, &funding_round_id)
+        .unwrap_or_default();
+
+    let mut project_contributions: HashMap<String, u128> = HashMap::new();
+    let mut total_votes = 0u128;  // This will calculate the total budget
+
+    // Aggregate votes and calculate the total budget
+    for voter_address in voters_of_funding_round_map {
+        let vote_association = VoteAssociation {
+            funding_round_id: funding_round_id.clone(),
+            voter_address: voter_address.clone(),
+        };
+
+        if let Some(votes_map) = VOTES_MAP.get(deps.storage, &vote_association) {
+            for vote_item in votes_map {
+                let contribution_sqrt = integer_sqrt(vote_item.vote_amount as u128);
+                *project_contributions.entry(vote_item.project_id.clone()).or_insert(0) += contribution_sqrt;
+                total_votes += vote_item.vote_amount as u128;  // Summing up all vote amounts to get total budget
+            }
+        }
+    }
+
+    // Calculate the square of the sums of square roots for each project
+    let total_funding = project_contributions.values()
+        .map(|&sum_sqrt| sum_sqrt * sum_sqrt)
+        .sum::<u128>();
+
+    // Calculate percentages based on total budget
+    let results: Vec<FundingResult> = project_contributions.iter().map(|(project_id, &sum_sqrt)| {
+        let funding_amount = sum_sqrt * sum_sqrt;
+        let funding_percentage = if total_funding > 0 { (funding_amount * 100) / total_funding } else { 0 };
+        FundingResult {
+            project_id: project_id.clone(),
+            funding_percentage,
+        }
+    }).collect();
+
+    Ok(results)
+}
+
+fn integer_sqrt(value: u128) -> u128 {
+    let mut x = value;
+    let mut y = (x + 1) / 2;
+    while y < x {
+        x = y;
+        y = (x + value / x) / 2;
+    }
+    x
 }
