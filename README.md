@@ -2,7 +2,7 @@
   <h1 align="center">🤫 Whisper</h1>
   <h3>Private Cross-chain Quadratic Funding</h3>
   
-![banner (6)](https://github.com/ethdam24-quadratic/secret-repo/assets/101796507/96b666bd-ef34-4562-a6ec-ddae0e325ccb)
+![banner (7)](https://github.com/ethdam24-quadratic/secret-repo/assets/101796507/524f48ae-bd05-4d8b-b7dc-4f57492dea89)
 </div>
 
 Whisper redefines the traditional quadratic funding model to enhance flexibility, privacy, and cross-chain functionality. Our platform seamlessly facilitates funding across various EVM-compatible chains, while utilizing the Secret Network to encrypt contribution data, ensuring that all donations remain confidential. This integration not only protects user privacy but also enhances security for all parties involved. Unlike traditional models that are strictly quadratic, our platform provides the unique ability to customize the funding curve. Project creators can now choose from a variety of curve types to best suit their fundraising needs.<br><br>
