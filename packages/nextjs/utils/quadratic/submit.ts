@@ -17,7 +17,7 @@ import contractAbi from "../../abi/Funding.json";
 const contractAddress = "0xd15dbaB3A09aEFfDD179AC645f375658F0B11B01";
 const routing_contract = "secret15h8t2gj7yg799gssemmlvzltf57t94adrhh4az"; //the contract you want to call in secret
 const routing_code_hash = "843d3933406685821bea2a945baf210c63ebee33be745a0926f44ae78e81f989"; //its codehash
-const admin_address = "0x000"
+const admin_address = "0x50FcF0c327Ee4341313Dd5Cb987f0Cd289Be6D4D"
 
 const submitOpenFundingRound = async (
   address: string,
@@ -139,8 +139,8 @@ const submitOpenFundingRound = async (
   console.log(`Payload Hash: ${payloadHash}`);
 
   const payloadSignature = await provider.send(method, params);
-  console.log(payloadSignature);
-  console.log(`Payload Signature: ${payloadSignature}`);
+  console.log(payloadSignature.result);
+  console.log(`Payload Signature: ${payloadSignature.result}`);
 
   const user_pubkey = recoverPublicKey(payloadHash, payloadSignature.result);
   console.log(`Recovered public key: ${user_pubkey}`);
@@ -157,9 +157,9 @@ const submitOpenFundingRound = async (
     task_destination_network: "pulsar-3", //Destination for the task, here: pulsar-3 testnet
     handle: functionName,
     nonce: hexlify(nonce),
-    payload: hexlify(ciphertext),
-    payload_signature: payloadSignature,
     callback_gas_limit: Number(callbackGasLimit),
+    payload: hexlify(ciphertext),
+    payload_signature: payloadSignature.result,
   };
 
   console.log(`_userAddress: ${_userAddress}
@@ -172,9 +172,10 @@ const submitOpenFundingRound = async (
 
   
   const functionData = iface.encodeFunctionData("createFundingRound", [functionArguments.id, functionArguments.name, functionArguments.description,
-    functionArguments.curveType,functionArguments.projectIds, functionArguments.projectNames, 
-    functionArguments.projectDescriptions, functionArguments.projectAddresses, true, 
-    _payloadHash, _userAddress, _routingInfo, _info]);
+    functionArguments.funding_curve, functionArguments.projectIds, functionArguments.projectNames, 
+    functionArguments.projectDescriptions, functionArguments.projectAddresses, _userAddress, true, 
+   _payloadHash, _routingInfo, _info]);
+
 
   // Then calculate how much gas you have to pay for the callback
   // Forumla: callbackGasLimit*block.basefee.
@@ -295,8 +296,8 @@ const submitVote = async (
   console.log(`Payload Hash: ${payloadHash}`);
 
   const payloadSignature = await provider.send(method, params);
-  console.log(payloadSignature);
-  console.log(`Payload Signature: ${payloadSignature}`);
+  console.log(payloadSignature.result);
+  console.log(`Payload Signature: ${payloadSignature.result}`);
 
   const user_pubkey = recoverPublicKey(payloadHash, payloadSignature.result);
   console.log(`Recovered public key: ${user_pubkey}`);
@@ -314,7 +315,7 @@ const submitVote = async (
     handle: functionName,
     nonce: hexlify(nonce),
     payload: hexlify(ciphertext),
-    payload_signature: payloadSignature,
+    payload_signature: payloadSignature.result,
     callback_gas_limit: Number(callbackGasLimit),
   };
 
@@ -327,7 +328,7 @@ const submitVote = async (
         _callbackGasLimit: ${callbackGasLimit}`);
 
   
-  const functionData = iface.encodeFunctionData("contribute", [_payloadHash, _userAddress, _routingInfo, _info]);
+  const functionData = iface.encodeFunctionData("contribute", [_userAddress, _payloadHash, _routingInfo, _info]);
 
   // Then calculate how much gas you have to pay for the callback
   // Forumla: callbackGasLimit*block.basefee.
@@ -437,8 +438,8 @@ const submitCloseFundingRound = async (
   console.log(`Payload Hash: ${payloadHash}`);
 
   const payloadSignature = await provider.send(method, params);
-  console.log(payloadSignature);
-  console.log(`Payload Signature: ${payloadSignature}`);
+  console.log(payloadSignature.result);
+  console.log(`Payload Signature: ${payloadSignature.result}`);
 
   const user_pubkey = recoverPublicKey(payloadHash, payloadSignature.result);
   console.log(`Recovered public key: ${user_pubkey}`);
@@ -456,7 +457,7 @@ const submitCloseFundingRound = async (
     handle: functionName,
     nonce: hexlify(nonce),
     payload: hexlify(ciphertext),
-    payload_signature: payloadSignature,
+    payload_signature: payloadSignature.result,
     callback_gas_limit: Number(callbackGasLimit),
   };
 
@@ -579,14 +580,15 @@ const submitTriggerPayout = async (
     console.log(`Payload Hash: ${payloadHash}`);
   
     const payloadSignature = await provider.send(method, params);
-    console.log(payloadSignature);
-    console.log(`Payload Signature: ${payloadSignature}`);
+    console.log(payloadSignature.result);
+    console.log(`Payload Signature: ${payloadSignature.result}`);
   
     const user_pubkey = recoverPublicKey(payloadHash, payloadSignature.result);
     console.log(`Recovered public key: ${user_pubkey}`);
     console.log(`Verify this matches the user address: ${computeAddress(user_pubkey)}`);
   
     // function data to be abi encoded
+    console.log(address)
     const _userAddress = address;
     const _routingInfo = routing_contract;
     const _payloadHash = payloadHash;
@@ -598,7 +600,7 @@ const submitTriggerPayout = async (
       handle: functionName,
       nonce: hexlify(nonce),
       payload: hexlify(ciphertext),
-      payload_signature: payloadSignature,
+      payload_signature: payloadSignature.result,
       callback_gas_limit: Number(callbackGasLimit),
     };
   
