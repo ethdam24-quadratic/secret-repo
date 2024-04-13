@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Sen:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Flow+Block&display=swap');
 
 @import "tailwindcss/base";
 @import "tailwindcss/components";
@@ -11,6 +13,11 @@
 
 body {
   min-height: 100vh;
+  background-color: #050505;
+}
+
+main {
+  background-color: #050505;
 }
 
 h1,
@@ -38,9 +45,12 @@ p {
   outline-offset: 1px !important;
 }
 
+
+/* HEADER */
 .quadratic-header a {
   font-family: "Sen", sans-serif !important;
   font-size: 1rem;
+  color: #FBF7F9;
 }
 
 .quadratic-header a.header-active {
@@ -53,10 +63,59 @@ p {
   transform: scale(1.1);
 }
 
+/* MENU ICON */
 .quadratic-header label {
-  color: #94FEBE;
+  color: #FBF7F9;
 }
 
 .quadratic-header menu .dropdown-content {
   height: 100vh;
+}
+
+.landing h1 {
+  font-family: "VT323", sans-serif;
+  font-size: 7rem;
+  word-break: break-word;
+  color: #FBF7F9;
+}
+
+.landing h1 .flow-block {
+  font-family: "Flow Block", system-ui;
+  font-size: 5rem;
+}
+
+
+.landing h1 .flow-block:hover {
+  font-family: "VT323", sans-serif;
+  font-weight: 400;
+  font-size: 7rem;
+}
+
+@media (max-width: 660px) {
+  .landing h1 {
+    font-family: "VT323", sans-serif;
+    font-size: 5rem;
+  }
+  
+  .landing h1 .flow-block {
+    font-family: "Flow Block", system-ui;
+    font-size: 4rem;
+  }
+  
+  
+  .landing h1 .flow-block:hover {
+    font-family: "VT323", sans-serif;
+    font-weight: 400;
+    font-size: 5rem;
+  }
+}
+
+/* BUTTONS */
+button.quadratic-button {
+  box-shadow: 4px 4px #FFFFFF;
+}
+
+.landing div button {
+  box-shadow: 4px 4px #FFFFFF;
+  color: red;
 }

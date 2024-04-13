@@ -81,7 +81,7 @@ export const Header = () => {
   );
 
   return (
-    <div className="quadratic-header sticky lg:static top-0 navbar bg-black min-h-0 flex-shrink-0 justify-between z-20 shadow-md shadow-secondary px-0 sm:px-2">
+    <div className="quadratic-header sticky lg:static top-0 navbar bg-transparent min-h-0 flex-shrink-0 justify-between z-20 px-0 sm:px-2">
       <div className="flex flex-row justify-items-center w-full">
         <div className="lg:hidden dropdown" ref={burgerMenuRef}>
           <label
