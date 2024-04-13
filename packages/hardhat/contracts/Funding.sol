@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0 <0.9.0;
-
+import "abdk-libraries-solidity/ABDKMath64x64.sol";
 import "hardhat/console.sol";
 import "../interfaces/IGateway.sol";
 
@@ -25,13 +25,20 @@ contract Funding {
 	}
 
 	// ========================================
-	//     STRUCTS AND MAPPIGNS
+	//     ENUM, STRUCTS AND MAPPIGNS
 	// ========================================
+
+	enum FundingCurveType {
+		Quadratic,
+		Linear,
+		Exponential
+	}
 
 	struct Project {
 		uint256 id;
 		string name;
 		string description;
+		address payable projectAddress;
 		uint256 totalContributions;
 		uint256 totalSquareRoots;
 	}
@@ -40,8 +47,10 @@ contract Funding {
 		uint256 id;
 		string name;
 		string description;
+		FundingCurveType curveType;
 		mapping(uint256 => Project) projects;
 		uint256[] projectIds;
+		uint256 totalContributions;
 		bool isOpen;
 	}
 
@@ -57,23 +66,24 @@ contract Funding {
 	event ContributionReceived(
 		address contributor,
 		uint256 roundId,
-		uint256[] projectIds,
-		uint256[] amounts
+		uint256 amount
 	);
 
 	event RoundClosed(uint256 roundId);
 
 	// ========================================
-	//     FUNCTIONS
+	//     CORE FUNCTIONS
 	// ========================================
 
 	function createFundingRound(
 		uint256 id,
 		string memory name,
 		string memory description,
+		FundingCurveType curveType,
 		uint256[] memory projectIds,
 		string[] memory projectNames,
 		string[] memory projectDescriptions,
+		address payable[] memory projectAddresses,
 		bytes32 payloadHash,
 		string calldata routingInfo,
 		IGateway.ExecutionInfo calldata info
@@ -100,6 +110,7 @@ contract Funding {
 		round.id = id;
 		round.name = name;
 		round.description = description;
+		round.curveType = curveType;
 		round.isOpen = true;
 
 		for (uint256 i = 0; i < projectIds.length; i++) {
@@ -114,6 +125,7 @@ contract Funding {
 				id: projectId,
 				name: projectNames[i],
 				description: projectDescriptions[i],
+				projectAddress: projectAddresses[i],
 				totalContributions: 0,
 				totalSquareRoots: 0
 			});
@@ -145,15 +157,33 @@ contract Funding {
 		uint256 gateway_payable = msg.value;
 
 		for (uint256 i = 0; i < amounts.length; i++) {
+			Project storage project = fundingRounds[roundId].projects[
+				projectIds[i]
+			];
 			require(
-				fundingRounds[roundId].projects[projectIds[i]].id != 0 &&
-					projectIds[i] != 0,
+				project.id != 0 && projectIds[i] != 0,
 				"Project does not exist"
 			);
 			require(
 				gateway_payable >= amounts[i],
 				"Insufficient funds for contributions"
 			);
+
+			if (
+				fundingRounds[roundId].curveType == FundingCurveType.Quadratic
+			) {
+				project.totalSquareRoots += sqrt(amounts[i]);
+			} else if (
+				fundingRounds[roundId].curveType == FundingCurveType.Linear
+			) {
+				project.totalContributions += amounts[i];
+			} else if (
+				fundingRounds[roundId].curveType == FundingCurveType.Exponential
+			) {
+				project.totalSquareRoots += exp(amounts[i]);
+			}
+			fundingRounds[roundId].totalContributions += amounts[i];
+
 			gateway_payable -= amounts[i];
 		}
 		gatewayContract.send{ value: gateway_payable }(
@@ -163,18 +193,70 @@ contract Funding {
 			info
 		);
 
-		emit ContributionReceived(msg.sender, roundId, projectIds, amounts);
+		emit ContributionReceived(
+			msg.sender,
+			roundId,
+			msg.value - gateway_payable
+		);
 	}
 
 	function closeFundingRound(uint256 roundId) public {
-		require(
-			fundingRounds[roundId].isOpen,
-			"This funding round is already closed"
-		);
+		FundingRound storage round = fundingRounds[roundId];
+		require(round.isOpen, "This funding round is already closed");
 		fundingRounds[roundId].isOpen = false;
 
-		// todo add logic
+		uint256 totalFunds = fundingRounds[roundId].totalContributions;
+
+		for (uint256 i = 0; i < round.projectIds.length; i++) {
+			Project storage project = round.projects[round.projectIds[i]];
+
+			uint256 payout = calculatePayout(round.curveType, project);
+			totalFunds -= payout;
+
+			project.projectAddress.transfer(payout);
+			// payable(address(project)).transfer(payout); // Make sure each project has a valid withdrawal address
+		}
+
+		// require(
+		// 	totalFunds < 1,
+		// 	"Calculation error, sum of payouts does not match totalContributions"
+		// );
 
 		emit RoundClosed(roundId);
+	}
+
+	// ========================================
+	//     HELPER FUNCTIONS
+	// ========================================
+
+	function calculatePayout(
+		FundingCurveType curveType,
+		Project memory project
+	) private pure returns (uint256) {
+		uint256 payout = 0;
+
+		if (curveType == FundingCurveType.Quadratic) {
+			payout = project.totalSquareRoots * project.totalSquareRoots;
+		} else if (curveType == FundingCurveType.Linear) {
+			payout = project.totalContributions; // Directly use the contributed amount
+		} else if (curveType == FundingCurveType.Exponential) {
+			payout = (exp(project.totalSquareRoots) - 1); // Example exponential calculation
+		}
+		return payout;
+	}
+
+	function sqrt(uint256 x) private pure returns (uint256 y) {
+		uint256 z = (x + 1) / 2;
+		y = x;
+		while (z < y) {
+			y = z;
+			z = (x / z + z) / 2;
+		}
+	}
+
+	function exp(uint x) public pure returns (uint) {
+		int128 x_fixed = ABDKMath64x64.fromUInt(x);
+		int128 result_fixed = ABDKMath64x64.exp(x_fixed);
+		return ABDKMath64x64.toUInt(result_fixed);
 	}
 }
