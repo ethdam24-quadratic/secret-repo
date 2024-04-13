@@ -335,9 +335,9 @@ const submitVote = async (
   // Then calculate how much gas you have to pay for the callback
   // Forumla: callbackGasLimit*block.basefee.
   // Use an appropriate overhead for the transaction, 1,5x = 3/2 is recommended since gasPrice fluctuates.
-  const provider2 = new ethers.providers.Web3Provider(window?.ethereum);
-
-  const gasFee = await provider2.getGasPrice();
+    //@ts-ignore
+    const provider2 = new ethers.providers.Web3Provider(window?.ethereum);
+    const gasFee = await provider2.getGasPrice();
   const amountOfGas = gasFee.mul(callbackGasLimit).mul(3).div(2);
 
   const tx_params = [
@@ -472,14 +472,15 @@ const submitCloseFundingRound = async (
         _callbackAddress: ${callbackAddress},
         _callbackSelector: ${callbackSelector} ,
         _callbackGasLimit: ${callbackGasLimit}`);
-
   
-  const functionData = iface.encodeFunctionData("closeFundingRound", [_payloadHash, _userAddress, _routingInfo, _info]);
+  const functionData = iface.encodeFunctionData("closeFundingRound", [ functionArguments.id,true ,_userAddress ,_payloadHash, _routingInfo, _info]);
 
   // Then calculate how much gas you have to pay for the callback
   // Forumla: callbackGasLimit*block.basefee.
   // Use an appropriate overhead for the transaction, 1,5x = 3/2 is recommended since gasPrice fluctuates.
-  const gasFee = await provider.getGasPrice();
+    //@ts-ignore
+    const provider2 = new ethers.providers.Web3Provider(window?.ethereum);
+    const gasFee = await provider2.getGasPrice();
   const amountOfGas = gasFee.mul(callbackGasLimit).mul(3).div(2);
 
   const tx_params = [
