@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import contractAbi from "../../abi/Funding.json";
+import { useAccount } from "wagmi";
+import { submit } from "~~/utils/quadratic/submit";
 
 type Address = {
   id: number;
@@ -11,6 +14,40 @@ const RoundCreationForm: React.FC = () => {
   const [description, setDescription] = useState<string>("");
   const [addresses, setAddresses] = useState<Address[]>([{ id: Date.now(), value: "" }]);
 
+  const { address, connector } = useAccount();
+
+  const CONTRACT_ADDRESS = "0xd2afe636a676aDF5Fd5CC414C95d3d45baF85954";
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!address || !connector) return;
+    const provider = connector.options.getProvider();
+
+    const functionArguments = {
+      id: "123",
+      name: "new funding round",
+      description: "a lot of good things",
+      projectIds: ["1", "2", "3"],
+      projectNames: ["first", "second", "third"],
+      projectDescriptions: ["first", "second", "third"],
+      payloadHash: "",
+      routingInfo: "123",
+      info: "info",
+    };
+
+    await submit(
+      address,
+      provider,
+      CONTRACT_ADDRESS,
+      contractAbi,
+      "createFundingRound",
+      functionArguments,
+      "createFundingRound",
+      Number("123456"),
+    );
+  };
+
   const handleAddAddress = () => {
     setAddresses([...addresses, { id: Date.now(), value: "" }]);
   };
@@ -22,12 +59,6 @@ const RoundCreationForm: React.FC = () => {
   const handleAddressChange = (id: number, newValue: string) => {
     const updatedAddresses = addresses.map(address => (address.id === id ? { ...address, value: newValue } : address));
     setAddresses(updatedAddresses);
-  };
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    console.log({ name, id, description, addresses });
-    // Submit these values to your backend or handle them as needed
   };
 
   return (
