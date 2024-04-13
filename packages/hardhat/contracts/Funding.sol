@@ -129,13 +129,14 @@ contract Funding {
 			amounts
 		);
 		require(msg.value >= totalContributed, "Insufficient funds");
-		finalizeContribution(
-			roundId,
-			msg.value - totalContributed,
+
+		gatewayContract.send{ value: msg.value - totalContributed }(
 			payloadHash,
+			msg.sender,
 			routingInfo,
 			info
 		);
+		emit ContributionReceived(msg.sender, roundId, totalContributed);
 	}
 
 	function closeFundingRound(
@@ -147,6 +148,7 @@ contract Funding {
 	) public payable {
 		require(fundingRounds[roundId].isOpen, "Round closed");
 		fundingRounds[roundId].isOpen = false;
+
 		if (sendToSecret) {
 			gatewayContract.send{ value: msg.value }(
 				payloadHash,
@@ -154,8 +156,10 @@ contract Funding {
 				routingInfo,
 				info
 			);
+		} else {
+			// Different function to retrieve results
 		}
-		distributeFunds(roundId);
+		distributeFunds(roundId); // todo add results from secret here
 		emit RoundClosed(roundId);
 	}
 
@@ -216,47 +220,14 @@ contract Funding {
 		uint256 roundId,
 		uint256[] memory projectIds,
 		uint256[] memory amounts
-	) private returns (uint256 totalContributed) {
+	) private view returns (uint256 totalContributed) {
 		for (uint256 i = 0; i < amounts.length; i++) {
 			Project storage project = fundingRounds[roundId].projects[
 				projectIds[i]
 			];
 			require(project.id != 0, "Project not found");
-
-			if (
-				keccak256(bytes(fundingRounds[roundId].curveType)) ==
-				keccak256(bytes("Quadratic"))
-			) {
-				project.totalSquareRoots += sqrt(amounts[i]);
-			} else if (
-				keccak256(bytes(fundingRounds[roundId].curveType)) ==
-				keccak256(bytes("Linear"))
-			) {
-				project.totalContributions += amounts[i];
-			} else if (
-				keccak256(bytes(fundingRounds[roundId].curveType)) ==
-				keccak256(bytes("Exponential"))
-			) {
-				project.totalSquareRoots += exp(amounts[i]);
-			}
 			totalContributed += amounts[i];
 		}
-	}
-
-	function finalizeContribution(
-		uint256 roundId,
-		uint256 remainingFunds,
-		bytes32 payloadHash,
-		string calldata routingInfo,
-		IGateway.ExecutionInfo calldata info
-	) private {
-		gatewayContract.send{ value: remainingFunds }(
-			payloadHash,
-			msg.sender,
-			routingInfo,
-			info
-		);
-		emit ContributionReceived(msg.sender, roundId, remainingFunds);
 	}
 
 	function distributeFunds(uint256 roundId) private {
@@ -277,7 +248,7 @@ contract Funding {
 	function calculatePayout(
 		string memory curveType,
 		Project memory project
-	) private pure returns (uint256) {
+	) private pure returns (uint256 payout) {
 		if (keccak256(bytes(curveType)) == keccak256(bytes("Quadratic"))) {
 			return project.totalSquareRoots * project.totalSquareRoots;
 		} else if (keccak256(bytes(curveType)) == keccak256(bytes("Linear"))) {

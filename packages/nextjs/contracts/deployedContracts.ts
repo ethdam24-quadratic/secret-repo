@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   11155111: {
     Funding: {
-      address: "0xA849cFd98E7a993332753b317ad7bDA9E30A5308",
+      address: "0x8Ef8f8daF80e8A996f98D00c9ebC10f29B16a8Ba",
       abi: [
         {
           inputs: [],
@@ -84,10 +84,77 @@ const deployedContracts = {
               name: "roundId",
               type: "uint256",
             },
+            {
+              internalType: "bool",
+              name: "sendToSecret",
+              type: "bool",
+            },
+            {
+              internalType: "bytes32",
+              name: "payloadHash",
+              type: "bytes32",
+            },
+            {
+              internalType: "string",
+              name: "routingInfo",
+              type: "string",
+            },
+            {
+              components: [
+                {
+                  internalType: "bytes",
+                  name: "user_key",
+                  type: "bytes",
+                },
+                {
+                  internalType: "bytes",
+                  name: "user_pubkey",
+                  type: "bytes",
+                },
+                {
+                  internalType: "string",
+                  name: "routing_code_hash",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "task_destination_network",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "handle",
+                  type: "string",
+                },
+                {
+                  internalType: "bytes12",
+                  name: "nonce",
+                  type: "bytes12",
+                },
+                {
+                  internalType: "uint32",
+                  name: "callback_gas_limit",
+                  type: "uint32",
+                },
+                {
+                  internalType: "bytes",
+                  name: "payload",
+                  type: "bytes",
+                },
+                {
+                  internalType: "bytes",
+                  name: "payload_signature",
+                  type: "bytes",
+                },
+              ],
+              internalType: "struct IGateway.ExecutionInfo",
+              name: "info",
+              type: "tuple",
+            },
           ],
           name: "closeFundingRound",
           outputs: [],
-          stateMutability: "nonpayable",
+          stateMutability: "payable",
           type: "function",
         },
         {
@@ -193,9 +260,9 @@ const deployedContracts = {
               type: "string",
             },
             {
-              internalType: "enum Funding.FundingCurveType",
+              internalType: "string",
               name: "curveType",
-              type: "uint8",
+              type: "string",
             },
             {
               internalType: "uint256[]",
@@ -216,6 +283,11 @@ const deployedContracts = {
               internalType: "address payable[]",
               name: "projectAddresses",
               type: "address[]",
+            },
+            {
+              internalType: "bool",
+              name: "sendToSecret",
+              type: "bool",
             },
             {
               internalType: "bytes32",
@@ -330,9 +402,9 @@ const deployedContracts = {
               type: "string",
             },
             {
-              internalType: "enum Funding.FundingCurveType",
+              internalType: "string",
               name: "curveType",
-              type: "uint8",
+              type: "string",
             },
             {
               internalType: "uint256",
@@ -397,7 +469,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     YourContract: {
-      address: "0x01e6da0691c7CeeF521AD850f29Ebf501007656b",
+      address: "0x9717145D58785D9135E8fFd5bFF8f59ce4F5d975",
       abi: [
         {
           inputs: [
