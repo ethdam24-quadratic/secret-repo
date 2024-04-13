@@ -47,8 +47,11 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
+    "@nucypher/shared": "^0.2.2",
+    "@nucypher/taco": "0.2.4",
     "@openzeppelin/contracts": "^4.8.1",
     "@typechain/ethers-v6": "^0.5.1",
+    "abdk-libraries-solidity": "^3.2.0",
     "dotenv": "^16.0.3",
     "envfile": "^6.18.0",
     "qrcode": "^1.5.1"
