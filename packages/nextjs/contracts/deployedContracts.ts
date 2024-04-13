@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   11155111: {
     Funding: {
-      address: "0x8Ef8f8daF80e8A996f98D00c9ebC10f29B16a8Ba",
+      address: "0xf87d0ca6a6B121CAB4Bc51bf7Cd3eaFF491e28c5",
       abi: [
         {
           inputs: [],
@@ -355,25 +355,6 @@ const deployedContracts = {
           name: "createFundingRound",
           outputs: [],
           stateMutability: "payable",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "x",
-              type: "uint256",
-            },
-          ],
-          name: "exp",
-          outputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          stateMutability: "pure",
           type: "function",
         },
         {

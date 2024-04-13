@@ -236,42 +236,9 @@ contract Funding {
 			Project storage project = fundingRounds[roundId].projects[
 				fundingRounds[roundId].projectIds[i]
 			];
-			uint256 payout = calculatePayout(
-				fundingRounds[roundId].curveType,
-				project
-			);
+			uint256 payout = 0; // TODO: use data from secret to do payout
 			project.projectAddress.transfer(payout);
 			totalFunds -= payout;
 		}
-	}
-
-	function calculatePayout(
-		string memory curveType,
-		Project memory project
-	) private pure returns (uint256 payout) {
-		if (keccak256(bytes(curveType)) == keccak256(bytes("Quadratic"))) {
-			return project.totalSquareRoots * project.totalSquareRoots;
-		} else if (keccak256(bytes(curveType)) == keccak256(bytes("Linear"))) {
-			return project.totalContributions;
-		} else if (
-			keccak256(bytes(curveType)) == keccak256(bytes("Exponential"))
-		) {
-			return (exp(project.totalSquareRoots) - 1);
-		}
-	}
-
-	function sqrt(uint256 x) private pure returns (uint256 y) {
-		uint256 z = (x + 1) / 2;
-		y = x;
-		while (z < y) {
-			y = z;
-			z = (x / z + z) / 2;
-		}
-	}
-
-	function exp(uint x) public pure returns (uint) {
-		int128 x_fixed = ABDKMath64x64.fromUInt(x);
-		int128 result_fixed = ABDKMath64x64.exp(x_fixed);
-		return ABDKMath64x64.toUInt(result_fixed);
 	}
 }
