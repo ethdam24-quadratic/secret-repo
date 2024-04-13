@@ -7,7 +7,8 @@ use crate::msg::{ProjectItem, VoteItem};
 
 pub static CONFIG: Item<State> = Item::new(b"config");
 pub static FOUNDING_ROUND_MAP: Keymap<String, FundingRoundItem> = Keymap::new(b"FOUNDING_ROUND_MAP");
-pub static VOTES_MAP: Keymap<VoteAssociation, VoteItems> = Keymap::new(b"VOTES_MAP");
+pub static VOTERS_OF_FUNDING_ROUND_MAP: Keymap<String, Vec<String>> = Keymap::new(b"VOTERS_OF_FUNDING_ROUND_MAP");
+pub static VOTES_MAP: Keymap<VoteAssociation, Vec<VoteItem>> = Keymap::new(b"VOTES_MAP");
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct State {
@@ -35,11 +36,6 @@ pub struct FundingRoundItem {
     pub admin_address: String
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
-pub struct VoteItems {
-    // Details of the vote cast
-    pub votes: Vec<VoteItem>,
-}
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct VoteAssociation {
     // Identifier of the associated funding round

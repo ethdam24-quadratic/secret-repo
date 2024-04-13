@@ -1,10 +1,11 @@
 use crate::{
     msg::{
         ExecuteMsg, GatewayMsg, ResponseCreateVoteMsg, InstantiateMsg, QueryMsg,
-        QueryResponse, ResponseVoteMsg, ResponseCloseVotingMsg, OpenFundingRoundMsg, VotesMsg, CloseFundingRoundMsg
+        QueryResponse, ResponseVoteMsg, ResponseCloseVotingMsg, OpenFundingRoundMsg, VotesMsg, CloseFundingRoundMsg, VoteItem
     },
-    state::{State, CONFIG, FOUNDING_ROUND_MAP, VOTES_MAP, FundingRoundItem, VoteAssociation},
+    state::{State, CONFIG, FOUNDING_ROUND_MAP, VOTES_MAP, VOTERS_OF_FUNDING_ROUND_MAP, FundingRoundItem, VoteAssociation},
 };
+use std::collections::HashMap;
 use cosmwasm_std::{
     entry_point, to_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdError, StdResult,
 };
@@ -70,7 +71,7 @@ fn try_handle(
         "create_voting" => create_voting(deps, env, msg.input_values, msg.task, msg.input_hash),
         "close_voting" => close_voting(deps, env, msg.input_values, msg.task, msg.input_hash),
         "vote" => vote(deps, env, msg.input_values, msg.task, msg.input_hash),
-        "trigger_payout" => vote(deps, env, msg.input_values, msg.task, msg.input_hash),
+        "trigger_payout" => trigger_payout(deps, env, msg.input_values, msg.task, msg.input_hash),
         _ => Err(StdError::generic_err("invalid handle".to_string())),
     }
 }
@@ -129,57 +130,6 @@ fn create_voting(
     Ok(Response::new().add_message(callback_msg))
 }
 
-fn close_voting(
-    deps: DepsMut,
-    _env: Env,
-    input_values: String,
-    task: Task,
-    input_hash: Binary,
-) -> StdResult<Response> {
-    let config = CONFIG.load(deps.storage)?;
-
-    let input: CloseFundingRoundMsg = serde_json_wasm::from_str(&input_values)
-        .map_err(|err| StdError::generic_err(err.to_string()))?;
-
-    let mut value = FOUNDING_ROUND_MAP
-        .get(deps.storage, &input.id)
-        .ok_or_else(|| StdError::generic_err("Value for this key not found"))?;
-
-    if value.admin_address != input.admin_address {
-        return Err(StdError::generic_err("Admin Address not matching".to_string()))
-    }
-
-    value.is_running = false;
-
-    FOUNDING_ROUND_MAP.insert(deps.storage, &value.id, &value)?;
-
-    let data = ResponseCloseVotingMsg {
-        message: "Closed Voting successfully".to_string(),
-    };
-
-    // Serialize the struct to a JSON string1
-    let json_string =
-        serde_json_wasm::to_string(&data).map_err(|err| StdError::generic_err(err.to_string()))?;
-
-    // Encode the JSON string to base64
-    let result = base64::encode(json_string);
-
-    let callback_msg = GatewayMsg::Output {
-        outputs: PostExecutionMsg {
-            result,
-            task,
-            input_hash,
-        },
-    }
-    .to_cosmos_msg(
-        config.gateway_hash,
-        config.gateway_address.to_string(),
-        None,
-    )?;
-
-    Ok(Response::new().add_message(callback_msg))
-}
-
 fn vote(
     deps: DepsMut,
     _env: Env,
@@ -201,17 +151,49 @@ fn vote(
     }
 
     let vote_association = VoteAssociation {
-        funding_round_id: input.funding_round_id,
-        voter_address: input.voter_address
+        funding_round_id: input.funding_round_id.clone(),
+        voter_address: input.voter_address.clone()
     };
 
-    let mut votings = VOTES_MAP
+    let mut voters_of_funding_round_map = VOTERS_OF_FUNDING_ROUND_MAP
+        .get(deps.storage, &input.funding_round_id)
+        .unwrap_or_default();
+
+    let mut voters = vec![input.voter_address.clone()]; // Create a Vec with the voter's address
+
+    voters_of_funding_round_map.append(&mut voters);
+
+    VOTERS_OF_FUNDING_ROUND_MAP.insert(deps.storage, &input.funding_round_id, &voters_of_funding_round_map)?;
+
+    let mut votes_map = VOTES_MAP
         .get(deps.storage, &vote_association)
-        .ok_or_else(|| StdError::generic_err("Vote round not found"))?;
+        .unwrap_or_default();
+    
+    // Function to aggregate votes
+    fn aggregate_votes(existing_votes: &mut Vec<VoteItem>, new_votes: Vec<VoteItem>) {
+        for new_vote in new_votes {
+            let mut found = false;
+            for existing_vote in existing_votes.iter_mut() {
+                // Check if the project ID matches
+                if existing_vote.project_id == new_vote.project_id {
+                    // Add the new vote amount to the existing one
+                    existing_vote.vote_amount += new_vote.vote_amount;
+                    found = true;
+                    break;
+                }
+            }
+            // If the project is not found in existing votes, add it
+            if !found {
+                existing_votes.push(new_vote);
+            }   
+        }
+    }
 
-    votings.votes.append(&mut input.votes);
+    // Aggregate the votes
+    aggregate_votes(&mut votes_map, input.votes);
 
-    VOTES_MAP.insert(deps.storage, &vote_association, &votings)?;
+    // Save the updated votes map back into the storage
+    VOTES_MAP.insert(deps.storage, &vote_association, &votes_map)?;
 
     let data = ResponseVoteMsg {
         message: "Voted successfully".to_string(),
@@ -240,85 +222,115 @@ fn vote(
     Ok(Response::new().add_message(callback_msg))
 }
 
-// #[entry_point]
-// pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
-//     let response = match msg {
-//         QueryMsg::RetrieveValue { key, viewing_key } => {
-//             retrieve_value_query(deps, key, viewing_key)
-//         }
-//     };
-//     pad_query_result(response, BLOCK_SIZE)
-// }
+fn close_voting(
+    deps: DepsMut,
+    _env: Env,
+    input_values: String,
+    task: Task,
+    input_hash: Binary,
+) -> StdResult<Response> {
+    let config = CONFIG.load(deps.storage)?;
 
-// fn retrieve_value_query(deps: Deps, key: String, viewing_key: String) -> StdResult<Binary> {
-//     let value = KV_MAP
-//         .get(deps.storage, &key)
-//         .ok_or_else(|| StdError::generic_err("Value for this key not found"))?;
+    let input: CloseFundingRoundMsg = serde_json_wasm::from_str(&input_values)
+        .map_err(|err| StdError::generic_err(err.to_string()))?;
 
-//     if value.viewing_key != viewing_key {
-//         return Err(StdError::generic_err("Viewing Key incorrect or not found"));
+    let mut founding_round = FOUNDING_ROUND_MAP
+        .get(deps.storage, &input.id)
+        .ok_or_else(|| StdError::generic_err("Value for this key not found"))?;
+
+    if founding_round.admin_address != input.admin_address {
+        return Err(StdError::generic_err("Admin Address not matching".to_string()))
+    }
+
+    founding_round.is_running = false;
+
+    FOUNDING_ROUND_MAP.insert(deps.storage, &founding_round.id, &founding_round)?;
+
+    let data = ResponseCloseVotingMsg {
+        message: "Closed Voting successfully".to_string(),
+    };
+
+    // Serialize the struct to a JSON string1
+    let json_string =
+        serde_json_wasm::to_string(&data).map_err(|err| StdError::generic_err(err.to_string()))?;
+
+    // Encode the JSON string to base64
+    let result = base64::encode(json_string);
+
+    let callback_msg = GatewayMsg::Output {
+        outputs: PostExecutionMsg {
+            result,
+            task,
+            input_hash,
+        },
+    }
+    .to_cosmos_msg(
+        config.gateway_hash,
+        config.gateway_address.to_string(),
+        None,
+    )?;
+
+    Ok(Response::new().add_message(callback_msg))
+}
+
+// fn calculate_percentage_tally(vote_items: VoteItems, type: String) -> Result<HashMap<String, f64>, String> {
+//     let mut project_votes: HashMap<String, u64> = HashMap::new();
+
+//     // Aggregate votes per project
+//     for vote in vote_items.votes {
+//         *project_votes.entry(vote.project_id.clone()).or_insert(0) += vote.vote_amount;
 //     }
 
-//     to_binary(&ResponseRetrieveMsg {
-//         key: key.to_string(),
-//         message: "Retrieved value successfully".to_string(),
-//         value: value.value,
-//     })
+//     // Calculate matched sums using a quadratic funding formula (or similar)
+//     let mut calculated_grants: HashMap<String, u128> = project_votes.iter().map(|(id, &amount)| {
+//         let sum_of_sqrts: f64 = vote.iter().map(|&vote| (vote as f64).sqrt()).sum();
+//         let funding = (sum_of_sqrts * sum_of_sqrts) as u128;
+//         (id.clone(), funding)
+//     }).collect();
+
+//     // Calculate total of all matched sums
+//     let total_grants: u128 = calculated_grants.values().sum();
+
+//     // Convert matched sums to percentages
+//     let percentages: HashMap<String, f64> = calculated_grants.iter().map(|(id, &grant)| {
+//         (id.clone(), (grant as f64) / (total_grants as f64) * 100.0)  // Calculating percentage
+//     }).collect();
+
+//     Ok(percentages)
 // }
 
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
-//     use cosmwasm_std::testing::{mock_dependencies, mock_env, mock_info};
-//     use cosmwasm_std::{from_binary, Addr};
+fn trigger_payout(
+    deps: DepsMut,
+    _env: Env,
+    input_values: String,
+    task: Task,
+    input_hash: Binary,
+) -> StdResult<Response> {
+    let config = CONFIG.load(deps.storage)?;
 
-//     #[test]
-//     fn proper_initialization() {
-//         let mut deps = mock_dependencies();
-//         let env = mock_env();
-//         let info = mock_info("sender", &[]);
-//         let msg = InstantiateMsg {
-//             gateway_address: Addr::unchecked("fake address".to_string()),
-//             gateway_hash: "fake code hash".to_string(),
-//             gateway_key: Binary(b"fake key".to_vec()),
-//         };
+    let data = ResponseVoteMsg {
+        message: "TriggerPayout".to_string(),
+    };
 
-//         // we can just call .unwrap() to assert this was a success
-//         let res = instantiate(deps.as_mut(), env.clone(), info.clone(), msg).unwrap();
-//         assert_eq!(0, res.messages.len());
+    // Serialize the struct to a JSON string
+    let json_string =
+        serde_json_wasm::to_string(&data).map_err(|err| StdError::generic_err(err.to_string()))?;
 
-//         // it worked, let's query
-//         let res = query(deps.as_ref(), env.clone(), QueryMsg::Query {});
-//         assert!(res.is_ok(), "query failed: {}", res.err().unwrap());
-//         let value: QueryResponse = from_binary(&res.unwrap()).unwrap();
-//         assert_eq!("placeholder", value.message);
-//     }
+    // Encode the JSON string to base64
+    let result = base64::encode(json_string);
 
-//     #[test]
-//     fn request_score() {
-//         let mut deps = mock_dependencies();
-//         let env = mock_env();
-//         let info = mock_info("sender", &[]);
-//         let init_msg = InstantiateMsg {
-//             gateway_address: Addr::unchecked("fake address".to_string()),
-//             gateway_hash: "fake code hash".to_string(),
-//             gateway_key: Binary(b"fake key".to_vec()),
-//         };
-//         instantiate(deps.as_mut(), env.clone(), info.clone(), init_msg).unwrap();
+    let callback_msg = GatewayMsg::Output {
+        outputs: PostExecutionMsg {
+            result,
+            task,
+            input_hash,
+        },
+    }
+    .to_cosmos_msg(
+        config.gateway_hash,
+        config.gateway_address.to_string(),
+        None,
+    )?;
 
-//         let message = PrivContractHandleMsg {
-//             input_values: "{\"address\":\"0x249C8753A9CB2a47d97A11D94b2179023B7aBCca\",\"name\":\"bob\",\"offchain_assets\":100,\"onchain_assets\":100,\"liabilities\":100,\"missed_payments\":100,\"income\":100}".to_string(),
-//             handle: "request_score".to_string(),
-//             user_address: Addr::unchecked("0x1".to_string()),
-//             task_id: 1,
-//             input_hash: to_binary(&"".to_string()).unwrap(),
-//             signature: to_binary(&"".to_string()).unwrap(),
-//         };
-//         let handle_msg = ExecuteMsg::Input { message };
-
-//         let handle_response =
-//             execute(deps.as_mut(), env.clone(), info.clone(), handle_msg).unwrap();
-//         let result = &handle_response.attributes[0].value;
-//         assert_eq!(result, "private computation complete");
-//     }
-// }
+    Ok(Response::new().add_message(callback_msg))
+}
