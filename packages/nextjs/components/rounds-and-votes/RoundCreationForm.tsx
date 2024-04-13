@@ -10,16 +10,19 @@ const projects = [
     id: "0",
     name: "it's the first one",
     description: "new project",
+    address: "0x0000"
   },
   {
     id: "1",
     name: "it's the second one",
     description: "not new project",
+    address: "0x0000"
   },
   {
     id: "2",
     name: "one more project",
     description: "very old project",
+    address: "0x0000"
   },
 ];
 
@@ -47,6 +50,8 @@ const RoundCreationForm: React.FC = () => {
       projectIds: chosenProjects.map(project => project.id),
       projectNames: chosenProjects.map(project => project.name),
       projectDescriptions: chosenProjects.map(project => project.description),
+      projectAddresses: chosenProjects.map(project => project.address),
+      projects: chosenProjects
     };
 
     console.log("AVH functionArguments: " + functionArguments);

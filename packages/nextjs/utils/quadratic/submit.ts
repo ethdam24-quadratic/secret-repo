@@ -19,7 +19,7 @@ const contractAddress = "0xd15dbaB3A09aEFfDD179AC645f375658F0B11B01";
 const submitOpenFundingRound = async (
   address: string,
   provider: ethers.providers.Web3Provider,
-  parameters: object,
+  functionArguments: any,
 ) => {
 
   let functionName = "";
@@ -45,6 +45,53 @@ const submitOpenFundingRound = async (
 
   // create the sharedKey via ECDH
   const sharedKey = await sha256(ecdh(userPrivateKeyBytes, gatewayPublicKeyBytes));
+
+//   {
+//     id: roundId,
+//     name: roundTitle,
+//     description: roundDescription,
+//     funding_curve: "x^2",
+//     projectIds: chosenProjects.map(project => project.id),
+//     projectNames: chosenProjects.map(project => project.name),
+//     projectDescriptions: chosenProjects.map(project => project.description),
+//   };
+//   #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+// pub struct OpenFundingRoundMsg {
+//     // Name of the funding round
+//     pub name: String,
+//     // Unique identifier for the funding round
+//     pub id: String,
+//     // Description of the funding round
+//     pub description: String,
+//     // Definition of the funding curve used in the round
+//     pub funding_curve: String,
+//     // List of projects participating in the funding round
+//     pub projects: Vec<ProjectItem>,
+//     // List of addresses allowed to participate in the funding round
+//     pub allowlist: Vec<String>,
+//     // Bool that contains if the funding round is still running
+//     pub is_running: bool,
+//     //Admin Address
+//     pub admin_address: String
+// }
+// #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+// pub struct ProjectItem {
+//     // Name of the project
+//     pub name: String,
+//     // Unique identifier for the project
+//     pub id: String,
+//     // Description of the project
+//     pub description: String,
+
+  const parameters = {
+    name: functionArguments.name,
+    id: functionArguments.id,
+    description: functionArguments.description,
+    funding_curve: functionArguments.funding_curve,
+    projects: functionArguments.projects,
+    allowlist: [],
+    admin_address: ""
+  }
 
   const data = JSON.stringify(parameters);
 
@@ -123,7 +170,25 @@ const submitOpenFundingRound = async (
         _callbackSelector: ${callbackSelector} ,
         _callbackGasLimit: ${callbackGasLimit}`);
 
-  const functionData = iface.encodeFunctionData("send", [_payloadHash, _userAddress, _routingInfo, _info]);
+  
+        // function createFundingRound(
+        //   uint256 id,
+        //   string memory name,
+        //   string memory description,
+        //   string memory curveType,
+        //   uint256[] memory projectIds,
+        //   string[] memory projectNames,
+        //   string[] memory projectDescriptions,
+        //   address payable[] memory projectAddresses,
+        //   bool sendToSecret,
+        //   bytes32 payloadHash,
+        //   string calldata routingInfo,
+        //   IGateway.ExecutionInfo calldata info
+        // ) public payable 
+  const functionData = iface.encodeFunctionData("createFundingRound", [functionArguments.id, functionArguments.name, functionArguments.description,
+    functionArguments.curveType,functionArguments.projectIds, functionArguments.projectNames, 
+    functionArguments.projectDescriptions, functionArguments.projectAddresses, 
+    _payloadHash, _userAddress, _routingInfo, _info]);
 
   // Then calculate how much gas you have to pay for the callback
   // Forumla: callbackGasLimit*block.basefee.
