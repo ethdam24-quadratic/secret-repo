@@ -180,8 +180,8 @@ contract Funding {
 	}
 
 	// callback function for secret
-	function closedFundingRound(string memory json, uint256 roundId) public {
-		ProjectFundingData[] memory fundingData = parseFundingData(json);
+	function closedFundingRound(uint256 roundId, bytes memory json) public {
+		ProjectFundingData[] memory fundingData = parseFundingData(string(json));
 		processFundingRound(fundingData, roundId);
 		emit RoundClosedInSecret(roundId);
 	}
