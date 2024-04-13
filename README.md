@@ -15,11 +15,13 @@ Whisper redefines the traditional quadratic funding model to enhance flexibility
 
 📈 **Customizable Funding Curves**: Choose from quadratic or alternative curve structures to optimize your project’s funding potential.
 
+![tech stack (1)](https://github.com/ethdam24-quadratic/secret-repo/assets/101796507/75ea194f-1f9a-4e52-b652-099a25bcaa7e)
+
 ## Hackathon bounties
 
 ### NEAR
 
-Deployed our smart contract on Aurora testnet, see [here](https://explorer.testnet.aurora.dev/address/0x072117443CEb3920d9D95d2F005b23FeC9E761aD).
+We have decided to utilize NEAR as the MasterChain for fund distribution due to its EVM compatability and cost-efficiency. Deployed our smart contract on Aurora testnet, see [here](https://explorer.testnet.aurora.dev/address/0x072117443CEb3920d9D95d2F005b23FeC9E761aD).
 
 ### dRPC
 
