@@ -1,18 +1,33 @@
 import React, { useState } from "react";
 import contractAbi from "../../abi/Funding.json";
+import ProjectsSelect, { type Project } from "./ProjectsSelect";
 import { useAccount } from "wagmi";
 import { submit } from "~~/utils/quadratic/submit";
 
-type Address = {
-  id: number;
-  value: string;
-};
+const projects = [
+  {
+    id: "0",
+    name: "it's the first one",
+    description: "new project",
+  },
+  {
+    id: "1",
+    name: "it's the second one",
+    description: "not new project",
+  },
+  {
+    id: "2",
+    name: "one more project",
+    description: "very old project",
+  },
+];
 
 const RoundCreationForm: React.FC = () => {
   const [name, setName] = useState<string>("");
   const [id, setId] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [addresses, setAddresses] = useState<Address[]>([{ id: Date.now(), value: "" }]);
+
+  const [choosenProjects, setChoosenProjects] = useState<Project[]>([]);
 
   const { address, connector } = useAccount();
 
@@ -48,50 +63,53 @@ const RoundCreationForm: React.FC = () => {
     );
   };
 
-  const handleAddAddress = () => {
-    setAddresses([...addresses, { id: Date.now(), value: "" }]);
-  };
-
-  const handleRemoveAddress = (id: number) => {
-    setAddresses(addresses.filter(address => address.id !== id));
-  };
-
-  const handleAddressChange = (id: number, newValue: string) => {
-    const updatedAddresses = addresses.map(address => (address.id === id ? { ...address, value: newValue } : address));
-    setAddresses(updatedAddresses);
-  };
+  console.log(choosenProjects);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="roundTitle">Round title:</label>
-        <input type="text" id="roundTitle" value={name} onChange={e => setName(e.target.value)} />
-      </div>
-      <div>
-        <label htmlFor="id">ID:</label>
-        <input type="text" id="id" value={id} onChange={e => setId(e.target.value)} />
-      </div>
-      <div>
-        <label htmlFor="description">Description:</label>
-        <textarea id="description" value={description} onChange={e => setDescription(e.target.value)} />
-      </div>
-      <div>
-        <label>Addresses:</label>
-        {addresses.map(address => (
-          <div key={address.id}>
-            <input type="text" value={address.value} onChange={e => handleAddressChange(address.id, e.target.value)} />
-            {addresses.length > 1 && (
-              <button type="button" onClick={() => handleRemoveAddress(address.id)}>
-                Remove
-              </button>
-            )}
-          </div>
-        ))}
-        <button type="button" onClick={handleAddAddress}>
-          Add Address
-        </button>
-      </div>
-      <button type="submit">Submit</button>
+    <form className="flex flex-col w-full px-2" onSubmit={handleSubmit}>
+      <label className="form-control w-full my-1">
+        <span className="label-text-alt">Round title</span>
+        <input
+          type="text"
+          value={name}
+          onChange={e => setName(e.target.value)}
+          placeholder="Type here"
+          className="input input-bordered w-full rounded-none"
+          required
+        />
+      </label>
+
+      <label className="form-control w-full my-1">
+        <span className="label-text-alt">ID</span>
+        <input
+          type="text"
+          value={id}
+          onChange={e => setId(e.target.value)}
+          placeholder="Type here"
+          className="input input-bordered w-full rounded-none"
+          required
+        />
+      </label>
+
+      <label className="form-control w-full my-1">
+        <span className="label-text-alt">Description</span>
+        <textarea
+          className="textarea textarea-bordered h-24 rounded-none"
+          placeholder="Description"
+          value={description}
+          onChange={e => setDescription(e.target.value)}
+          required
+        ></textarea>
+      </label>
+
+      <label className="form-control w-full my-1">
+        <span className="label-text-alt">Projects</span>
+        <ProjectsSelect projects={projects} setChoosenProjects={setChoosenProjects} />
+      </label>
+
+      <button type="submit" className="btn rounded-none my-4">
+        Submit
+      </button>
     </form>
   );
 };
