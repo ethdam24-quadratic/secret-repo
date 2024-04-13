@@ -49,7 +49,7 @@ p {
 /* HEADER */
 .quadratic-header a {
   font-family: "Sen", sans-serif !important;
-  font-size: 1rem;
+  font-size: 1.4rem;
   color: #FBF7F9;
 }
 
@@ -110,12 +110,30 @@ p {
   }
 }
 
-/* BUTTONS */
-button.quadratic-button {
-  box-shadow: 4px 4px #FFFFFF;
+/* SHADOWS */
+.q-shadow {
+  box-shadow: 4px 4px 0 1px #FFFFFF;
 }
 
-.landing div button {
-  box-shadow: 4px 4px #FFFFFF;
-  color: red;
+/* PROJECT CARD */
+.project-card {
+  color: white;
+  font-family: "Sen", sans-serif !important;
+}
+
+.project-card h3 {
+  font-family: "VT323", sans-serif;
+  color: white;
+  font-size: 2rem;
+}
+
+.project-card p {
+  /* font-family: "Sen", sans-serif; */
+  color: white;
+  font-size: 1rem;
+  letter-spacing: 1.5px;
+}
+
+.fund-button:hover {
+  color: #94FEBE !important;
 }

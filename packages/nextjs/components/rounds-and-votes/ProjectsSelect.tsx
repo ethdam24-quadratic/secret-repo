@@ -1,12 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import React from "react";
+import { Project } from "./IProject";
 import Select, { MultiValue, StylesConfig } from "react-select";
-
-export interface Project {
-  id: string;
-  name: string;
-  description: string;
-}
 
 interface ProjectSelectProps {
   projects: Project[];

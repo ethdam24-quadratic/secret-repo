@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import ProjectsSelect, { type Project } from "./ProjectsSelect";
+// import contractAbi from "../../abi/Funding.json";
+import { Project } from "./IProject";
+import ProjectsSelect from "./ProjectsSelect";
 import { useAccount } from "wagmi";
 import { submitOpenFundingRound } from "~~/utils/quadratic/submit";
 
