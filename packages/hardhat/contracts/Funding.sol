@@ -88,6 +88,7 @@ contract Funding {
 		string[] memory projectNames,
 		string[] memory projectDescriptions,
 		address payable[] memory projectAddresses,
+		address userAddress,
 		bool sendToSecret,
 		bytes32 payloadHash,
 		string calldata routingInfo,
@@ -104,7 +105,7 @@ contract Funding {
 		if (sendToSecret) {
 			gatewayContract.send{ value: msg.value }(
 				payloadHash,
-				msg.sender,
+				userAddress,
 				routingInfo,
 				info
 			);
@@ -136,13 +137,14 @@ contract Funding {
 	}
 
 	function contribute(
+		address userAddress,
 		bytes32 payloadHash,
 		string calldata routingInfo,
 		IGateway.ExecutionInfo calldata info
 	) public payable {
 		gatewayContract.send{ value: msg.value }( // todo change this value
 			payloadHash,
-			msg.sender,
+			userAddress,
 			routingInfo,
 			info
 		);

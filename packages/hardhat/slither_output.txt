@@ -10,36 +10,48 @@ ABDKMath64x64.divuu(uint256,uint256) (node_modules/abdk-libraries-solidity/ABDKM
 	- lo = result * (y & 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#699)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply
 INFO:Detectors:
+JsmnSolLib.parse(string,uint256) (contracts/JsmnSolLib.sol#183-339) contains a tautology or contradiction:
+	- i >= 0 (contracts/JsmnSolLib.sol#288)
+JsmnSolLib.parse(string,uint256) (contracts/JsmnSolLib.sol#183-339) contains a tautology or contradiction:
+	- i >= 0 (contracts/JsmnSolLib.sol#224)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#tautology-or-contradiction
+INFO:Detectors:
+Funding.distributeFunds(string,uint256) (contracts/Funding.sol#254-304) ignores return value by (None,tokens,numTokens) = JsmnSolLib.parse(json,20) (contracts/Funding.sol#258)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return
+INFO:Detectors:
 YourContract.constructor(address)._owner (contracts/YourContract.sol#33) lacks a zero-check on :
 		- owner = _owner (contracts/YourContract.sol#34)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation
 INFO:Detectors:
-Reentrancy in Funding.createFundingRound(uint256,string,string,string,uint256[],string[],string[],address[],bool,bytes32,string,IGateway.ExecutionInfo) (contracts/Funding.sol#70-115):
+Funding.distributeFunds(string,uint256) (contracts/Funding.sol#254-304) has external calls inside a loop: project.projectAddress.transfer(payout) (contracts/Funding.sol#301)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop
+INFO:Detectors:
+Reentrancy in Funding.createFundingRound(uint256,string,string,string,uint256[],string[],string[],address[],bool,bytes32,string,IGateway.ExecutionInfo) (contracts/Funding.sol#82-127):
 	External calls:
-	- gatewayContract.send{value: msg.value}(payloadHash,msg.sender,routingInfo,info) (contracts/Funding.sol#93-98)
+	- gatewayContract.send{value: msg.value}(payloadHash,msg.sender,routingInfo,info) (contracts/Funding.sol#105-110)
 	State variables written after the call(s):
-	- roundIds.push(id) (contracts/Funding.sol#113)
+	- roundIds.push(id) (contracts/Funding.sol#125)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2
 INFO:Detectors:
-Reentrancy in Funding.closeFundingRound(uint256,bool,bytes32,string,IGateway.ExecutionInfo) (contracts/Funding.sol#142-164):
+Reentrancy in Funding.closeFundingRound(uint256,bool,bytes32,string,IGateway.ExecutionInfo) (contracts/Funding.sol#157-180):
 	External calls:
-	- gatewayContract.send{value: msg.value}(payloadHash,msg.sender,routingInfo,info) (contracts/Funding.sol#153-158)
+	- gatewayContract.send{value: msg.value}(payloadHash,msg.sender,routingInfo,info) (contracts/Funding.sol#169-174)
 	External calls sending eth:
-	- gatewayContract.send{value: msg.value}(payloadHash,msg.sender,routingInfo,info) (contracts/Funding.sol#153-158)
-	- distributeFunds(roundId) (contracts/Funding.sol#162)
-		- project.projectAddress.transfer(payout) (contracts/Funding.sol#240)
+	- gatewayContract.send{value: msg.value}(payloadHash,msg.sender,routingInfo,info) (contracts/Funding.sol#169-174)
+	- distributeFunds(json,roundId) (contracts/Funding.sol#178)
+		- project.projectAddress.transfer(payout) (contracts/Funding.sol#301)
 	Event emitted after the call(s):
-	- RoundClosed(roundId) (contracts/Funding.sol#163)
-Reentrancy in Funding.contribute(uint256,uint256[],uint256[],bytes32,string,IGateway.ExecutionInfo) (contracts/Funding.sol#117-140):
+	- RoundClosed(roundId) (contracts/Funding.sol#179)
+Reentrancy in Funding.contribute(bytes32,string,IGateway.ExecutionInfo) (contracts/Funding.sol#138-150):
 	External calls:
-	- gatewayContract.send{value: msg.value - totalContributed}(payloadHash,msg.sender,routingInfo,info) (contracts/Funding.sol#133-138)
+	- gatewayContract.send{value: msg.value}(payloadHash,msg.sender,routingInfo,info) (contracts/Funding.sol#143-148)
 	Event emitted after the call(s):
-	- ContributionReceived(msg.sender,roundId,totalContributed) (contracts/Funding.sol#139)
-Reentrancy in Funding.createFundingRound(uint256,string,string,string,uint256[],string[],string[],address[],bool,bytes32,string,IGateway.ExecutionInfo) (contracts/Funding.sol#70-115):
+	- ContributionReceived(msg.sender) (contracts/Funding.sol#149)
+Reentrancy in Funding.createFundingRound(uint256,string,string,string,uint256[],string[],string[],address[],bool,bytes32,string,IGateway.ExecutionInfo) (contracts/Funding.sol#82-127):
 	External calls:
-	- gatewayContract.send{value: msg.value}(payloadHash,msg.sender,routingInfo,info) (contracts/Funding.sol#93-98)
+	- gatewayContract.send{value: msg.value}(payloadHash,msg.sender,routingInfo,info) (contracts/Funding.sol#105-110)
 	Event emitted after the call(s):
-	- RoundCreated(id,name,projectIds) (contracts/Funding.sol#114)
+	- RoundCreated(id,name,projectIds) (contracts/Funding.sol#126)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3
 INFO:Detectors:
 console._sendLogPayloadImplementation(bytes) (node_modules/hardhat/console.sol#8-23) uses assembly
@@ -53,6 +65,7 @@ INFO:Detectors:
  		- node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#6
 	- Version constraint >=0.8.0<0.9.0 is used by:
  		- contracts/Funding.sol#2
+		- contracts/JsmnSolLib.sol#22
 		- contracts/YourContract.sol#2
 		- interfaces/IGateway.sol#2
 	- Version constraint >=0.4.22<0.9.0 is used by:
@@ -61,7 +74,15 @@ Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#differe
 INFO:Detectors:
 ABDKMath64x64.pow(int128,uint256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#366-439) has a high cyclomatic complexity (19).
 ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) has a high cyclomatic complexity (65).
+JsmnSolLib.parse(string,uint256) (contracts/JsmnSolLib.sol#183-339) has a high cyclomatic complexity (24).
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#cyclomatic-complexity
+INFO:Detectors:
+Funding.processContributions(uint256,uint256[],uint256[]) (contracts/Funding.sol#240-252) is never used and should be removed
+Funding.validRound(uint256) (contracts/Funding.sol#236-238) is never used and should be removed
+JsmnSolLib.parseBool(string) (contracts/JsmnSolLib.sol#400-406) is never used and should be removed
+JsmnSolLib.strCompare(string,string) (contracts/JsmnSolLib.sol#408-422) is never used and should be removed
+JsmnSolLib.uint2str(uint256) (contracts/JsmnSolLib.sol#383-398) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code
 INFO:Detectors:
 Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
 	- FullInlinerNonExpressionSplitArgumentEvaluationOrder
@@ -78,6 +99,7 @@ Version constraint ^0.8.0 contains known severe issues (https://solidity.readthe
 Version constraint >=0.8.0<0.9.0 is too complex.
  It is used by:
 	- contracts/Funding.sol#2
+	- contracts/JsmnSolLib.sol#22
 	- contracts/YourContract.sol#2
 	- interfaces/IGateway.sol#2
 Version constraint >=0.4.22<0.9.0 is too complex.
@@ -93,20 +115,26 @@ Function ABDKMath64x64.log_2(int128) (node_modules/abdk-libraries-solidity/ABDKM
 Function ABDKMath64x64.exp_2(int128) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#508-650) is not in mixedCase
 Constant ABDKMath64x64.MIN_64x64 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#20) is not in UPPER_CASE_WITH_UNDERSCORES
 Constant ABDKMath64x64.MAX_64x64 (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#25) is not in UPPER_CASE_WITH_UNDERSCORES
+Parameter JsmnSolLib.parseInt(string)._a (contracts/JsmnSolLib.sol#355) is not in mixedCase
+Parameter JsmnSolLib.parseInt(string,uint256)._a (contracts/JsmnSolLib.sol#360) is not in mixedCase
+Parameter JsmnSolLib.parseInt(string,uint256)._b (contracts/JsmnSolLib.sol#360) is not in mixedCase
+Parameter JsmnSolLib.parseBool(string)._a (contracts/JsmnSolLib.sol#400) is not in mixedCase
+Parameter JsmnSolLib.strCompare(string,string)._a (contracts/JsmnSolLib.sol#409) is not in mixedCase
+Parameter JsmnSolLib.strCompare(string,string)._b (contracts/JsmnSolLib.sol#410) is not in mixedCase
 Parameter YourContract.setGreeting(string)._newGreeting (contracts/YourContract.sol#50) is not in mixedCase
 Contract console (node_modules/hardhat/console.sol#4-1552) is not in CapWords
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions
 INFO:Detectors:
-Reentrancy in Funding.closeFundingRound(uint256,bool,bytes32,string,IGateway.ExecutionInfo) (contracts/Funding.sol#142-164):
+Reentrancy in Funding.closeFundingRound(uint256,bool,bytes32,string,IGateway.ExecutionInfo) (contracts/Funding.sol#157-180):
 	External calls:
-	- distributeFunds(roundId) (contracts/Funding.sol#162)
-		- project.projectAddress.transfer(payout) (contracts/Funding.sol#240)
+	- distributeFunds(json,roundId) (contracts/Funding.sol#178)
+		- project.projectAddress.transfer(payout) (contracts/Funding.sol#301)
 	External calls sending eth:
-	- gatewayContract.send{value: msg.value}(payloadHash,msg.sender,routingInfo,info) (contracts/Funding.sol#153-158)
-	- distributeFunds(roundId) (contracts/Funding.sol#162)
-		- project.projectAddress.transfer(payout) (contracts/Funding.sol#240)
+	- gatewayContract.send{value: msg.value}(payloadHash,msg.sender,routingInfo,info) (contracts/Funding.sol#169-174)
+	- distributeFunds(json,roundId) (contracts/Funding.sol#178)
+		- project.projectAddress.transfer(payout) (contracts/Funding.sol#301)
 	Event emitted after the call(s):
-	- RoundClosed(roundId) (contracts/Funding.sol#163)
+	- RoundClosed(roundId) (contracts/Funding.sol#179)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-4
 INFO:Detectors:
 ABDKMath64x64.fromInt(int256) (node_modules/abdk-libraries-solidity/ABDKMath64x64.sol#34-39) uses literals with too many digits:
@@ -351,9 +379,9 @@ The following unused import(s) in contracts/Funding.sol should be removed:
 	-import "abdk-libraries-solidity/ABDKMath64x64.sol"; (contracts/Funding.sol#3)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-imports
 INFO:Detectors:
-Funding.gatewayAddressSepolia (contracts/Funding.sol#44-45) should be constant 
+Funding.gatewayAddressSepolia (contracts/Funding.sol#45-46) should be constant 
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant
 INFO:Detectors:
-Funding.gatewayContract (contracts/Funding.sol#43) should be immutable 
+Funding.gatewayContract (contracts/Funding.sol#44) should be immutable 
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-immutable
-INFO:Slither:. analyzed (5 contracts with 95 detectors), 144 result(s) found
+INFO:Slither:. analyzed (6 contracts with 95 detectors), 160 result(s) found
