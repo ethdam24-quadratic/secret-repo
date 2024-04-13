@@ -77,6 +77,10 @@ Deployed our smart contract on Aurora testnet, see [here](https://explorer.testn
 
 Deployed using dRPC, see [here](https://github.com/ethdam24-quadratic/secret-repo/blob/4300b8cc0d541eb2f804f10b690959a6def031e6/packages/hardhat/hardhat.config.ts#L54).
 
+### Trail of Bits - Slither
+
+We used Slither to find issues and vunerabilities in our smart contracts. We found a lot so we were not able to resolve most of them, but we learned that this tool is very valuable and will use it in our next projects for sure. See the Slither output [here](https://github.com/ethdam24-quadratic/secret-repo/blob/8a836b64df14884b867c4bb847eb89416977d735/packages/hardhat/slither_output.txt).
+
 ## Links
 
 - [Video demo](todo)
