@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   11155111: {
     Funding: {
-      address: "0xEFE2c9908e1fad32dfbcFdB040bE2E862516bc3E",
+      address: "0x5D1Fc9da0af509d69a17b6Aa150886dB6597B347",
       abi: [
         {
           inputs: [],
@@ -141,6 +141,11 @@ const deployedContracts = {
               internalType: "bool",
               name: "sendToSecret",
               type: "bool",
+            },
+            {
+              internalType: "address",
+              name: "userAddress",
+              type: "address",
             },
             {
               internalType: "bytes32",
@@ -465,6 +470,11 @@ const deployedContracts = {
               internalType: "uint256",
               name: "roundId",
               type: "uint256",
+            },
+            {
+              internalType: "address",
+              name: "userAddress",
+              type: "address",
             },
             {
               internalType: "bytes32",
