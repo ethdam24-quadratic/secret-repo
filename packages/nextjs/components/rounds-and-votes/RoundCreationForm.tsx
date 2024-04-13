@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import contractAbi from "../../abi/Funding.json";
 import ProjectsSelect, { type Project } from "./ProjectsSelect";
 import { useAccount } from "wagmi";
-import { submit } from "~~/utils/quadratic/submit";
+import { submitOpenFundingRound } from "~~/utils/quadratic/submit";
 
 const projects = [
   {
@@ -31,8 +30,6 @@ const RoundCreationForm: React.FC = () => {
 
   const { address, connector } = useAccount();
 
-  const CONTRACT_ADDRESS = "0xd2afe636a676aDF5Fd5CC414C95d3d45baF85954";
-
   const handleSubmit = async (event: React.FormEvent) => {
     console.log("GM");
     event.preventDefault();
@@ -44,24 +41,17 @@ const RoundCreationForm: React.FC = () => {
       id: roundId,
       name: roundTitle,
       description: roundDescription,
+      funding_curve: "x^2",
       projectIds: chosenProjects.map(project => project.id),
       projectNames: chosenProjects.map(project => project.name),
       projectDescriptions: chosenProjects.map(project => project.description),
-      payloadHash: "",
-      routingInfo: "123",
-      info: "info",
     };
 
     console.log("AVH functionArguments: " + functionArguments);
-    await submit(
+    await submitOpenFundingRound(
       address,
       provider,
-      CONTRACT_ADDRESS,
-      contractAbi,
-      "createFundingRound",
       functionArguments,
-      "createFundingRound",
-      Number("123456"),
     );
   };
   console.log(chosenProjects);
