@@ -7,6 +7,8 @@ import { Project } from "~~/components/rounds-and-votes/IProject";
 import ProjectCard from "~~/components/rounds-and-votes/ProjectCard";
 import RoundCard from "~~/components/rounds-and-votes/RoundCard";
 import { projects } from "~~/utils/quadratic/projects";
+import { submitVote } from "~~/utils/quadratic/submit";
+
 
 const round = {
   id: "3",
@@ -34,10 +36,23 @@ const Vote: NextPage = () => {
 
   const handleFund = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log("fund");
+    console.log("handlefund 1");
+    if (!address || !connector) return;
+    const provider = connector.options.getProvider();
 
-    //subMIT HERE!!!!!!!
-    
+    console.log("handlefund 2");
+    const functionArguments = {
+      funding_round_id: 3, // todo hardcoded? should we change it?
+      voter_address: projectVotes.map(p => p.address),
+      votes: projectVotes.map(p => p.value),
+    };
+
+    console.log("handlefund 3");
+    await submitVote(
+      address,
+      provider,
+      functionArguments,
+    );    
     console.log(!address, !connector);
   };
 
