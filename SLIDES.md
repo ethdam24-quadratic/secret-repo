@@ -1,12 +1,12 @@
 <div align="center">
   <h1 align="center">🤫 🤫 🤫</h1>
 
-![intro (2)](https://github.com/ethdam24-quadratic/secret-repo/assets/101796507/4431a90f-a641-4edf-978e-eb9da063033a)
+![intro (4)](https://github.com/ethdam24-quadratic/secret-repo/assets/101796507/816d6bdf-f13c-46a1-b5a1-9a5b107a273e)
 
-![why (1)](https://github.com/ethdam24-quadratic/secret-repo/assets/101796507/d4e836c3-b515-43d5-a802-07a09ddafab8)
+![why (2)](https://github.com/ethdam24-quadratic/secret-repo/assets/101796507/4d0a2be6-6ca6-4458-bbe6-1a3df15c1738)
 
-![what (1)](https://github.com/ethdam24-quadratic/secret-repo/assets/101796507/cbbc1911-7b6c-4fa8-89be-299cb95ff146)
+![what (2)](https://github.com/ethdam24-quadratic/secret-repo/assets/101796507/cc268b5e-1f1a-4eb5-a87e-41ce00d77b59)
 
-![tech stack (1)](https://github.com/ethdam24-quadratic/secret-repo/assets/101796507/3571bf65-043b-4bdc-91aa-24367fcdcb1e)
+![tech stack (3)](https://github.com/ethdam24-quadratic/secret-repo/assets/101796507/d75d2fb1-a6b1-441b-a3dc-a34266e9d7f5)
 
-![user flow](https://github.com/ethdam24-quadratic/secret-repo/assets/101796507/cb49d013-9087-4ac2-99c1-6209b9b45491)
+![user flow (1)](https://github.com/ethdam24-quadratic/secret-repo/assets/101796507/ef37c308-caa1-4e1d-a641-59e20a6ac5ec)
