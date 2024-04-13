@@ -26,8 +26,8 @@ const submit = async (
   const publicClientAddress = contractAddress;
   const iface = new ethers.utils.Interface(contractAbi);
 
-  const routing_contract = "secret1pfg825wflcl40dqpd3yj96zhevnlxkh35hedks"; //the contract you want to call in secret
-  const routing_code_hash = "fc5007efb0580334be20142a3011f34101be681eaa2fe277ee429f4d76107876"; //its codehash
+  const routing_contract = "secret15h8t2gj7yg799gssemmlvzltf57t94adrhh4az"; //the contract you want to call in secret
+  const routing_code_hash = "843d3933406685821bea2a945baf210c63ebee33be745a0926f44ae78e81f989"; //its codehash
 
   // Generating ephemeral keys
   const wallet = ethers.Wallet.createRandom();
