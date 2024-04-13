@@ -1,7 +1,7 @@
 <div align="center">
   <h1 align="center">🤫 Whisper</h1>
-  
-![intro (1)](https://github.com/ethdam24-quadratic/secret-repo/assets/101796507/e512116c-8532-43d9-8c2e-1077000f6f23)
+
+![intro (2)](https://github.com/ethdam24-quadratic/secret-repo/assets/101796507/4431a90f-a641-4edf-978e-eb9da063033a)
 
 ![why (1)](https://github.com/ethdam24-quadratic/secret-repo/assets/101796507/d4e836c3-b515-43d5-a802-07a09ddafab8)
 
