@@ -87,7 +87,7 @@ pub struct VoteItem {
     // Identifier of the project voted on
     pub project_id: String,
     // Description of the voting choice or reason
-    pub vote_amount: u64,
+    pub vote_amount: u128,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]

@@ -359,8 +359,8 @@ fn calculate_curve_funding(deps: DepsMut, funding_round_id: String, curve: Strin
         .sum::<u128>();
 
     // Calculate percentages based on total budget
-    let results: Vec<FundingResult> = project_contributions.iter().map(|(project_id, &sum_sqrt)| {
-        let funding_amount = sum_sqrt * sum_sqrt;
+    let results: Vec<FundingResult> = project_contributions.iter().map(|(project_id, &sum)| {
+        let funding_amount = apply_math_operation(&curve, sum);
         let funding_percentage = if total_funding > 0 { (funding_amount * 100) / total_funding } else { 0 };
         FundingResult {
             project_id: project_id.clone(),
