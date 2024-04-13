@@ -35,6 +35,14 @@ pub struct CloseFundingRoundMsg {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+pub struct TriggerPayoutMsg {
+    // Unique identifier for the funding round
+    pub funding_round_id: String,
+    //Admin Address
+    pub admin_address: String
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct OpenFundingRoundMsg {
     // Name of the funding round
     pub name: String,
@@ -79,7 +87,7 @@ pub struct VoteItem {
     // Identifier of the project voted on
     pub project_id: String,
     // Description of the voting choice or reason
-    pub vote_amount: u64,
+    pub vote_amount: u128,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
@@ -96,6 +104,20 @@ pub struct ResponseVoteMsg {
 pub struct ResponseCloseVotingMsg {
     // response message
     pub message: String,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+pub struct FundingResult {
+    pub project_id: String,
+    pub funding_percentage: u128,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+pub struct ResponseTriggerPayoutMsg {
+    // response message
+    pub message: String,
+    // response message
+    pub tally: Vec<FundingResult>
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
