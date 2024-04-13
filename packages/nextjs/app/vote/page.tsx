@@ -28,6 +28,8 @@ const Vote: NextPage = () => {
     e.preventDefault();
     console.log("fund");
 
+    //subMIT HERE!!!!!!!
+    
     console.log(!address, !connector);
   };
 

@@ -171,23 +171,9 @@ const submitOpenFundingRound = async (
         _callbackGasLimit: ${callbackGasLimit}`);
 
   
-        // function createFundingRound(
-        //   uint256 id,
-        //   string memory name,
-        //   string memory description,
-        //   string memory curveType,
-        //   uint256[] memory projectIds,
-        //   string[] memory projectNames,
-        //   string[] memory projectDescriptions,
-        //   address payable[] memory projectAddresses,
-        //   bool sendToSecret,
-        //   bytes32 payloadHash,
-        //   string calldata routingInfo,
-        //   IGateway.ExecutionInfo calldata info
-        // ) public payable 
   const functionData = iface.encodeFunctionData("createFundingRound", [functionArguments.id, functionArguments.name, functionArguments.description,
     functionArguments.curveType,functionArguments.projectIds, functionArguments.projectNames, 
-    functionArguments.projectDescriptions, functionArguments.projectAddresses, 
+    functionArguments.projectDescriptions, functionArguments.projectAddresses, true, 
     _payloadHash, _userAddress, _routingInfo, _info]);
 
   // Then calculate how much gas you have to pay for the callback
