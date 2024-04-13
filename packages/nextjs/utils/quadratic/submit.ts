@@ -91,7 +91,7 @@ const submit = async (
   console.log(payloadSignature);
   console.log(`Payload Signature: ${payloadSignature}`);
 
-  const user_pubkey = recoverPublicKey(payloadHash, payloadSignature);
+  const user_pubkey = recoverPublicKey(payloadHash, payloadSignature.result);
   console.log(`Recovered public key: ${user_pubkey}`);
   console.log(`Verify this matches the user address: ${computeAddress(user_pubkey)}`);
 
@@ -140,6 +140,8 @@ const submit = async (
   const txHash = await provider.send("eth_sendTransaction", tx_params);
 
   console.log(txHash);
+
+  return txHash;
 };
 
 export { submit };
