@@ -178,3 +178,15 @@ p {
   border-radius: 0;
 }
 
+.round-card figure {
+  min-height: 150px;
+}
+
+.donate {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 30vh;
+}

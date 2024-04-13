@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import Link from "next/link";
 import { Round } from "~~/components/rounds-and-votes/IRound";
 
 interface RoundCardProps {
@@ -8,18 +7,16 @@ interface RoundCardProps {
 
 function RoundCard({ round }: RoundCardProps): JSX.Element {
   return (
-    <Link href="/vote">
-      <div className={`round-card card image-full rounded-none my-6 ${round.status}`}>
-        <figure>
-          <img src={round.imgSrc} alt={round.title} className="rounded-none" />
-        </figure>
-        <div className="card-body p-0 justify-end items-center">
-          <h6 className="text-center bg-black px-5 py-1">
-            {round.title} - {round.status}
-          </h6>
-        </div>
+    <div className={`round-card card image-full rounded-none my-6 ${round.status}`}>
+      <figure>
+        <img src={round.imgSrc} alt={round.title} className="rounded-none" />
+      </figure>
+      <div className="card-body p-0 justify-end items-center">
+        <h6 className="text-center bg-black px-5 py-1">
+          {round.title} - {round.status}
+        </h6>
       </div>
-    </Link>
+    </div>
   );
 }
 

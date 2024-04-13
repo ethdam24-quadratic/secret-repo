@@ -31,7 +31,7 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
         <main className="relative flex flex-col flex-1">{children}</main>
         {/* <Footer /> */}
       </div>
-      <Toaster />
+      <Toaster position="bottom-center" />
     </>
   );
 };
