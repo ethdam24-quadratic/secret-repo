@@ -25,7 +25,7 @@ Deployed using dRPC, see [here](https://github.com/ethdam24-quadratic/secret-rep
 
 ### Trail of Bits - Slither
 
-We used Slither to find issues and vunerabilities in our smart contracts. We found a lot so we were not able to resolve most of them, but we learned that this tool is very valuable and will use it in our next projects for sure. See the Slither output [here](https://github.com/ethdam24-quadratic/secret-repo/blob/8a836b64df14884b867c4bb847eb89416977d735/packages/hardhat/slither_output.txt). This file is generated using this command:
+We used Slither to find issues and vunerabilities in our smart contracts. We found over 160 results and resolved most of them. Some simple issues like dead code were easy to fix, and some issues with possibile reentrancy attacks that we solved thanks to this tool. As of writing, there are 22 results left that we can't solve due to the hackathon time constraints. We did learn that this tool is very valuable and will use it in our next projects for sure. See the Slither output [here](https://github.com/ethdam24-quadratic/secret-repo/blob/8a836b64df14884b867c4bb847eb89416977d735/packages/hardhat/slither_output.txt). This file is generated using this command:
 
 - `slither . > output.txt 2>&1`.
 

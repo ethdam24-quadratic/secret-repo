@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0 <0.9.0;
-import "abdk-libraries-solidity/ABDKMath64x64.sol";
 import "../interfaces/IGateway.sol";
 import "./JsmnSolLib.sol";
 
@@ -42,7 +41,7 @@ contract Funding {
 	// ========================================
 
 	IGateway public gatewayContract;
-	address public gatewayAddressSepolia =
+	address public constant gatewayAddressSepolia =
 		address(0x3879E146140b627a5C858a08e507B171D9E43139);
 
 	constructor() {
@@ -158,7 +157,6 @@ contract Funding {
 
 	function closeFundingRound(
 		uint256 roundId,
-		bool sendToSecret,
 		bytes32 payloadHash,
 		string calldata routingInfo,
 		IGateway.ExecutionInfo calldata info
@@ -166,23 +164,19 @@ contract Funding {
 		require(fundingRounds[roundId].isOpen, "Round closed");
 		fundingRounds[roundId].isOpen = false;
 
-		string memory json = ""; // todo update this from secret
-		if (sendToSecret) {
-			gatewayContract.send{ value: msg.value }(
-				payloadHash,
-				msg.sender,
-				routingInfo,
-				info
-			);
-		} else {
-			// Different function to retrieve results
-		}
-		distributeFunds(json, roundId);
+		gatewayContract.send{ value: msg.value }(
+			payloadHash,
+			msg.sender,
+			routingInfo,
+			info
+		);
+
 		emit RoundClosed(roundId);
 	}
 
 	// callback function for secret
-	function closedFundingRound(uint256 roundId) public {
+	function closedFundingRound(string memory json, uint256 roundId) public {
+		distributeFunds(json, roundId);
 		emit RoundClosedInSecret(roundId);
 	}
 
@@ -237,20 +231,6 @@ contract Funding {
 
 	function validRound(uint256 roundId) private view returns (bool) {
 		return fundingRounds[roundId].isOpen && fundingRounds[roundId].id != 0;
-	}
-
-	function processContributions(
-		uint256 roundId,
-		uint256[] memory projectIds,
-		uint256[] memory amounts
-	) private view returns (uint256 totalContributed) {
-		for (uint256 i = 0; i < amounts.length; i++) {
-			Project storage project = fundingRounds[roundId].projects[
-				projectIds[i]
-			];
-			require(project.id != 0, "Project not found");
-			totalContributed += amounts[i];
-		}
 	}
 
 	function distributeFunds(string memory json, uint256 roundId) public {
