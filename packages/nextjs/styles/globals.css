@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Sen:wght@400;700;800&display=swap');
+
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
@@ -34,4 +36,27 @@ p {
 .input:focus, .input:focus-within, .textarea:focus, .textarea:focus-within {
   outline-width: 1px !important;
   outline-offset: 1px !important;
+}
+
+.quadratic-header a {
+  font-family: "Sen", sans-serif !important;
+  font-size: 1rem;
+}
+
+.quadratic-header a.header-active {
+  color: #94FEBE;
+}
+
+.quadratic-header a:hover {
+  color: #94FEBE;
+  transition: transform 0.3s ease;
+  transform: scale(1.1);
+}
+
+.quadratic-header label {
+  color: #94FEBE;
+}
+
+.quadratic-header menu .dropdown-content {
+  height: 100vh;
 }
