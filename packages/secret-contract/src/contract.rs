@@ -3,7 +3,7 @@ use crate::{
         ExecuteMsg, GatewayMsg, ResponseCreateVoteMsg, InstantiateMsg, QueryMsg,
         QueryResponse, ResponseVoteMsg, ResponseCloseVotingMsg, OpenFundingRoundMsg, 
         VotesMsg, CloseFundingRoundMsg, VoteItem,
-        TriggerPayoutMsg
+        TriggerPayoutMsg, FundingResult, ResponseTriggerPayoutMsg
     },
     state::{State, CONFIG, FOUNDING_ROUND_MAP, VOTES_MAP, VOTERS_OF_FUNDING_ROUND_MAP, FundingRoundItem, VoteAssociation},
 };
@@ -296,9 +296,14 @@ fn trigger_payout(
         .unwrap_or_default();
 
     let funding_results = calculate_curve_funding(deps, input.funding_round_id, founding_round.funding_curve)
+        .map_err(|e| {
+            // Log the error or handle it differently here
+            StdError::generic_err("Tally calculation failed")
+        })?;
     
-    let data = ResponseVoteMsg {
-        message: funding_results,
+    let data = ResponseTriggerPayoutMsg {
+        message: "Calculated Tally successfully".to_string(),
+        tally: funding_results
     };
 
     // Serialize the struct to a JSON string
@@ -341,8 +346,8 @@ fn calculate_curve_funding(deps: DepsMut, funding_round_id: String, curve: Strin
 
         if let Some(votes_map) = VOTES_MAP.get(deps.storage, &vote_association) {
             for vote_item in votes_map {
-                let contribution_sqrt = integer_sqrt(vote_item.vote_amount as u128);
-                *project_contributions.entry(vote_item.project_id.clone()).or_insert(0) += contribution_sqrt;
+                let contribution = apply_inverse_math_operation(&curve, vote_item.vote_amount as u128);
+                *project_contributions.entry(vote_item.project_id.clone()).or_insert(0) += contribution;
                 total_votes += vote_item.vote_amount as u128;  // Summing up all vote amounts to get total budget
             }
         }
@@ -350,7 +355,7 @@ fn calculate_curve_funding(deps: DepsMut, funding_round_id: String, curve: Strin
 
     // Calculate the square of the sums of square roots for each project
     let total_funding = project_contributions.values()
-        .map(|&sum_sqrt| sum_sqrt * sum_sqrt)
+        .map(|&sum| apply_math_operation(&curve, sum))
         .sum::<u128>();
 
     // Calculate percentages based on total budget
@@ -365,8 +370,31 @@ fn calculate_curve_funding(deps: DepsMut, funding_round_id: String, curve: Strin
 
     Ok(results)
 }
+fn apply_math_operation(operation: &str, value: u128) -> u128 {
+    match operation {
+        "x" => value, // No operation, return value as is
+        "x^2" => value.pow(2), // Square the value
+        "x^3" => value.pow(3), // Cube the value
+        "x^4" => value.pow(4), // Fourth power of the value
+        "exp" => 2u128.pow(value as u32), // 2 raised to the power of `value`
+        _ => panic!("Unsupported operation"), // Handle unsupported operations
+    }
+}
 
-fn integer_sqrt(value: u128) -> u128 {
+fn apply_inverse_math_operation(operation: &str, value: u128) -> u128 {
+    match operation {
+        "x" => value, //linear, classical voting
+        "x^2" => integer_square_root(value),
+        "x^3" => integer_cube_root(value),
+        "x^4" => integer_fourth_root(value),
+        "exp" => {
+            integer_log(value, 2)
+        },
+        _ => panic!("Unsupported operation"),
+    }
+}
+
+fn integer_square_root(value: u128) -> u128 {
     let mut x = value;
     let mut y = (x + 1) / 2;
     while y < x {
@@ -374,4 +402,32 @@ fn integer_sqrt(value: u128) -> u128 {
         y = (x + value / x) / 2;
     }
     x
+}
+fn integer_cube_root(value: u128) -> u128 {
+    let mut x = value;
+    let mut y = (x + 1) / 3;
+    while y < x {
+        x = y;
+        y = (2 * x + value / (x * x)) / 3;
+    }
+    x
+}
+fn integer_fourth_root(value: u128) -> u128 {
+    let mut x = value;
+    let mut y = (x + 1) / 4;
+    while y < x {
+        x = y;
+        y = (3 * x + value / (x * x * x)) / 4;
+    }
+    x
+}
+fn integer_log(value: u128, base: u128) -> u128 {
+    let mut count = 0;
+    let mut product = 1;
+
+    while product <= value / base {
+        product *= base;
+        count += 1;
+    }
+    count
 }

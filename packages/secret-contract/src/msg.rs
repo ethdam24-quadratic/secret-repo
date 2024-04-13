@@ -107,6 +107,20 @@ pub struct ResponseCloseVotingMsg {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+pub struct FundingResult {
+    pub project_id: String,
+    pub funding_percentage: u128,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+pub struct ResponseTriggerPayoutMsg {
+    // response message
+    pub message: String,
+    // response message
+    pub tally: Vec<FundingResult>
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum QueryMsg {
     RetrieveValue { key: String, viewing_key: String },
