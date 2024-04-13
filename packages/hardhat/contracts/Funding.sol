@@ -145,7 +145,7 @@ contract Funding {
 			routingInfo,
 			info
 		);
-		emit ContributionReceived(msg.sender);
+		emit ContributionReceived(userAddress);
 	}
 
 	// callback function for secret
@@ -156,6 +156,7 @@ contract Funding {
 	function closeFundingRound(
 		uint256 roundId,
 		bool sendToSecret,
+		address userAddress,
 		bytes32 payloadHash,
 		string calldata routingInfo,
 		IGateway.ExecutionInfo calldata info
@@ -166,7 +167,7 @@ contract Funding {
 		if (sendToSecret) {
 			gatewayContract.send{ value: msg.value }(
 				payloadHash,
-				msg.sender,
+				userAddress,
 				routingInfo,
 				info
 			);
@@ -182,6 +183,7 @@ contract Funding {
 
 	function distributeFunding(
 		uint256 roundId,
+		address userAddress,
 		bytes32 payloadHash,
 		string calldata routingInfo,
 		IGateway.ExecutionInfo calldata info
@@ -189,7 +191,7 @@ contract Funding {
 		require(!fundingRounds[roundId].isOpen, "Round is not closed");
 		gatewayContract.send{ value: msg.value }(
 			payloadHash,
-			msg.sender,
+			userAddress,
 			routingInfo,
 			info
 		);
