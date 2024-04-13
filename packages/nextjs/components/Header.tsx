@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Bars3Icon } from "@heroicons/react/24/outline";
-// import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 
 type HeaderMenuLink = {
@@ -51,8 +50,8 @@ export const HeaderMenuLinks: React.FC<HeaderMenuLinksProps> = ({ noLogo }) => {
         if (href === "/" && noLogo) return null;
         if (href === "/")
           return (
-            <Link href={href}>
-              <Image src="/logo.png" width={100} height={100} alt="Home" />
+            <Link key={href} href={href}>
+              <Image src="/logo.png" width={120} height={120} alt="Home" />
             </Link>
           );
         return (
@@ -105,23 +104,10 @@ export const Header = () => {
             </ul>
           )}
         </div>
-        {/* <Link href="/" passHref className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
-          <div className="flex relative w-10 h-10">
-            <Image alt="SE2 logo" className="cursor-pointer" fill src="/logo.svg" />
-          </div>
-          <div className="flex flex-col">
-            <span className="font-bold leading-tight">Scaffold-ETH</span>
-            <span className="text-xs">Ethereum dev stack</span>
-          </div>
-        </Link> */}
         <ul className="hidden items-center w-full lg:flex lg:flex-nowrap justify-evenly menu menu-horizontal px-1 gap-2">
           <HeaderMenuLinks noLogo={false} />
         </ul>
       </div>
-      {/* <div className="navbar-end flex-grow mr-4">
-        <RainbowKitCustomConnectButton />
-        <FaucetButton />
-      </div> */}
     </div>
   );
 };
