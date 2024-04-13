@@ -1,31 +1,16 @@
-//SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0 <0.9.0;
 import "abdk-libraries-solidity/ABDKMath64x64.sol";
-import "hardhat/console.sol";
 import "../interfaces/IGateway.sol";
 
 /**
- * A smart contract for cross-chain quadratic voting.
- * Built during EthDam 24
+ * A smart contract for cross-chain quadratic voting developed during EthDam 24.
+ * This contract supports various types of funding curves and ensures privacy and security through integration with the Secret Network.
  * @author arjanjohan
  */
-
 contract Funding {
 	// ========================================
-	//     CONSTRUCTOR AND VALUES
-	// ========================================
-
-	IGateway public gatewayContract;
-	address gatewayAddressSepolia =
-		address(0x3879E146140b627a5C858a08e507B171D9E43139);
-	// address gatewayAddressAurora = address();
-
-	constructor() {
-		gatewayContract = IGateway(gatewayAddressSepolia);
-	}
-
-	// ========================================
-	//     ENUM, STRUCTS AND MAPPIGNS
+	//     ENUM, STRUCTS AND MAPPINGS
 	// ========================================
 
 	enum FundingCurveType {
@@ -33,7 +18,6 @@ contract Funding {
 		Linear,
 		Exponential
 	}
-
 	struct Project {
 		uint256 id;
 		string name;
@@ -58,18 +42,31 @@ contract Funding {
 	uint256[] public roundIds;
 
 	// ========================================
-	//     EVENTS
+	//     CONSTRUCTOR AND VALUES
 	// ========================================
 
-	event RoundCreated(uint256 roundId, string name, uint256[] projects);
+	IGateway public gatewayContract;
+	address public gatewayAddressSepolia =
+		address(0x3879E146140b627a5C858a08e507B171D9E43139);
 
+	constructor() {
+		gatewayContract = IGateway(gatewayAddressSepolia);
+	}
+
+	// ========================================
+	//     EVENTS
+	// ========================================
+	event RoundCreated(
+		uint256 indexed roundId,
+		string name,
+		uint256[] projectIds
+	);
 	event ContributionReceived(
-		address contributor,
-		uint256 roundId,
+		address indexed contributor,
+		uint256 indexed roundId,
 		uint256 amount
 	);
-
-	event RoundClosed(uint256 roundId);
+	event RoundClosed(uint256 indexed roundId);
 
 	// ========================================
 	//     CORE FUNCTIONS
@@ -88,15 +85,13 @@ contract Funding {
 		string calldata routingInfo,
 		IGateway.ExecutionInfo calldata info
 	) public payable {
-		require(
-			projectIds.length == projectNames.length &&
-				projectNames.length == projectDescriptions.length,
-			"Project arrays must have the same length"
+		validateProjectParameters(
+			projectIds,
+			projectNames,
+			projectDescriptions,
+			projectAddresses
 		);
-		require(
-			fundingRounds[id].id == 0 && id != 0,
-			"Funding round ID already exists"
-		);
+		require(fundingRounds[id].id == 0, "Round ID exists");
 
 		gatewayContract.send{ value: msg.value }(
 			payloadHash,
@@ -105,35 +100,19 @@ contract Funding {
 			info
 		);
 
-		// Add new round to storage
 		FundingRound storage round = fundingRounds[id];
-		round.id = id;
-		round.name = name;
-		round.description = description;
-		round.curveType = curveType;
-		round.isOpen = true;
-
-		for (uint256 i = 0; i < projectIds.length; i++) {
-			uint256 projectId = projectIds[i];
-
-			require(
-				round.projects[projectId].id == 0 && projectId != 0,
-				"Project ID already exists"
-			);
-
-			round.projects[projectId] = Project({
-				id: projectId,
-				name: projectNames[i],
-				description: projectDescriptions[i],
-				projectAddress: projectAddresses[i],
-				totalContributions: 0,
-				totalSquareRoots: 0
-			});
-			round.projectIds.push(projectId);
-		}
-
+		setupFundingRound(
+			round,
+			id,
+			name,
+			description,
+			curveType,
+			projectIds,
+			projectNames,
+			projectDescriptions,
+			projectAddresses
+		);
 		roundIds.push(id);
-
 		emit RoundCreated(id, name, projectIds);
 	}
 
@@ -145,30 +124,92 @@ contract Funding {
 		string calldata routingInfo,
 		IGateway.ExecutionInfo calldata info
 	) public payable {
-		require(
-			fundingRounds[roundId].id != 0 && roundId != 0,
-			"Funding round does not exist"
+		require(validRound(roundId), "Invalid round");
+		uint256 totalContributed = processContributions(
+			roundId,
+			projectIds,
+			amounts
 		);
-		require(
-			fundingRounds[roundId].isOpen,
-			"This funding round is already closed"
+		require(msg.value >= totalContributed, "Insufficient funds");
+		finalizeContribution(
+			roundId,
+			msg.value - totalContributed,
+			payloadHash,
+			routingInfo,
+			info
 		);
+	}
 
-		uint256 gateway_payable = msg.value;
+	function closeFundingRound(uint256 roundId) public {
+		require(fundingRounds[roundId].isOpen, "Round closed");
+		fundingRounds[roundId].isOpen = false;
+		distributeFunds(roundId);
+		emit RoundClosed(roundId);
+	}
 
+	// ========================================
+	//     HELPER FUNCTIONS
+	// ========================================
+
+	function validateProjectParameters(
+		uint256[] memory projectIds,
+		string[] memory projectNames,
+		string[] memory projectDescriptions,
+		address payable[] memory projectAddresses
+	) private pure {
+		require(
+			projectIds.length == projectNames.length &&
+				projectNames.length == projectDescriptions.length &&
+				projectDescriptions.length == projectAddresses.length,
+			"Mismatched input arrays"
+		);
+	}
+
+	function setupFundingRound(
+		FundingRound storage round,
+		uint256 id,
+		string memory name,
+		string memory description,
+		FundingCurveType curveType,
+		uint256[] memory projectIds,
+		string[] memory projectNames,
+		string[] memory projectDescriptions,
+		address payable[] memory projectAddresses
+	) private {
+		round.id = id;
+		round.name = name;
+		round.description = description;
+		round.curveType = curveType;
+		round.isOpen = true;
+
+		for (uint256 i = 0; i < projectIds.length; i++) {
+			require(round.projects[projectIds[i]].id == 0, "Project ID exists");
+			round.projects[projectIds[i]] = Project({
+				id: projectIds[i],
+				name: projectNames[i],
+				description: projectDescriptions[i],
+				projectAddress: projectAddresses[i],
+				totalContributions: 0,
+				totalSquareRoots: 0
+			});
+			round.projectIds.push(projectIds[i]);
+		}
+	}
+
+	function validRound(uint256 roundId) private view returns (bool) {
+		return fundingRounds[roundId].isOpen && fundingRounds[roundId].id != 0;
+	}
+
+	function processContributions(
+		uint256 roundId,
+		uint256[] memory projectIds,
+		uint256[] memory amounts
+	) private returns (uint256 totalContributed) {
 		for (uint256 i = 0; i < amounts.length; i++) {
 			Project storage project = fundingRounds[roundId].projects[
 				projectIds[i]
 			];
-			require(
-				project.id != 0 && projectIds[i] != 0,
-				"Project does not exist"
-			);
-			require(
-				gateway_payable >= amounts[i],
-				"Insufficient funds for contributions"
-			);
-
+			require(project.id != 0, "Project not found");
 			if (
 				fundingRounds[roundId].curveType == FundingCurveType.Quadratic
 			) {
@@ -182,67 +223,52 @@ contract Funding {
 			) {
 				project.totalSquareRoots += exp(amounts[i]);
 			}
-			fundingRounds[roundId].totalContributions += amounts[i];
-
-			gateway_payable -= amounts[i];
+			totalContributed += amounts[i];
 		}
-		gatewayContract.send{ value: gateway_payable }(
+	}
+
+	function finalizeContribution(
+		uint256 roundId,
+		uint256 remainingFunds,
+		bytes32 payloadHash,
+		string calldata routingInfo,
+		IGateway.ExecutionInfo calldata info
+	) private {
+		gatewayContract.send{ value: remainingFunds }(
 			payloadHash,
 			msg.sender,
 			routingInfo,
 			info
 		);
-
-		emit ContributionReceived(
-			msg.sender,
-			roundId,
-			msg.value - gateway_payable
-		);
+		emit ContributionReceived(msg.sender, roundId, remainingFunds);
 	}
 
-	function closeFundingRound(uint256 roundId) public {
-		FundingRound storage round = fundingRounds[roundId];
-		require(round.isOpen, "This funding round is already closed");
-		fundingRounds[roundId].isOpen = false;
-
+	function distributeFunds(uint256 roundId) private {
 		uint256 totalFunds = fundingRounds[roundId].totalContributions;
-
-		for (uint256 i = 0; i < round.projectIds.length; i++) {
-			Project storage project = round.projects[round.projectIds[i]];
-
-			uint256 payout = calculatePayout(round.curveType, project);
-			totalFunds -= payout;
-
+		for (uint256 i = 0; i < fundingRounds[roundId].projectIds.length; i++) {
+			Project storage project = fundingRounds[roundId].projects[
+				fundingRounds[roundId].projectIds[i]
+			];
+			uint256 payout = calculatePayout(
+				fundingRounds[roundId].curveType,
+				project
+			);
 			project.projectAddress.transfer(payout);
-			// payable(address(project)).transfer(payout); // Make sure each project has a valid withdrawal address
+			totalFunds -= payout;
 		}
-
-		// require(
-		// 	totalFunds < 1,
-		// 	"Calculation error, sum of payouts does not match totalContributions"
-		// );
-
-		emit RoundClosed(roundId);
 	}
-
-	// ========================================
-	//     HELPER FUNCTIONS
-	// ========================================
 
 	function calculatePayout(
 		FundingCurveType curveType,
 		Project memory project
 	) private pure returns (uint256) {
-		uint256 payout = 0;
-
 		if (curveType == FundingCurveType.Quadratic) {
-			payout = project.totalSquareRoots * project.totalSquareRoots;
+			return project.totalSquareRoots * project.totalSquareRoots;
 		} else if (curveType == FundingCurveType.Linear) {
-			payout = project.totalContributions; // Directly use the contributed amount
+			return project.totalContributions;
 		} else if (curveType == FundingCurveType.Exponential) {
-			payout = (exp(project.totalSquareRoots) - 1); // Example exponential calculation
+			return (exp(project.totalSquareRoots) - 1);
 		}
-		return payout;
 	}
 
 	function sqrt(uint256 x) private pure returns (uint256 y) {
