@@ -64,11 +64,7 @@ contract Funding {
 		uint256[] projectIds
 	);
 
-	event ContributionReceived(
-		address indexed contributor,
-		uint256 indexed roundId,
-		uint256 amount
-	);
+	event ContributionReceived(address indexed contributor);
 
 	event ContributionReceivedInSecret(
 		address indexed contributor,
@@ -140,28 +136,17 @@ contract Funding {
 	}
 
 	function contribute(
-		uint256 roundId,
-		uint256[] memory projectIds,
-		uint256[] memory amounts,
 		bytes32 payloadHash,
 		string calldata routingInfo,
 		IGateway.ExecutionInfo calldata info
 	) public payable {
-		require(validRound(roundId), "Invalid round");
-		uint256 totalContributed = processContributions(
-			roundId,
-			projectIds,
-			amounts
-		);
-		require(msg.value >= totalContributed, "Insufficient funds");
-
-		gatewayContract.send{ value: msg.value - totalContributed }(
+		gatewayContract.send{ value: msg.value }( // todo change this value
 			payloadHash,
 			msg.sender,
 			routingInfo,
 			info
 		);
-		emit ContributionReceived(msg.sender, roundId, totalContributed);
+		emit ContributionReceived(msg.sender);
 	}
 
 	// callback function for secret

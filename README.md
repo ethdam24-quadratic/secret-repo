@@ -32,7 +32,7 @@ We used Slither to find issues and vunerabilities in our smart contracts. We fou
 - [Video demo](todo)
 - [Presentation slides](todo)
 - [Vercel deployment](https://secret-repo-nextjs.vercel.app/)
-- [Smart contract on Sepolia](https://sepolia.etherscan.io/address/0xf87d0ca6a6B121CAB4Bc51bf7Cd3eaFF491e28c5#code)
+- [Smart contract on Sepolia](https://sepolia.etherscan.io/address/0xd15dbaB3A09aEFfDD179AC645f375658F0B11B01#code)
 - [Smart contract on Aurora testnet](https://explorer.testnet.aurora.dev/address/0x072117443CEb3920d9D95d2F005b23FeC9E761aD)
 
 ## Team
