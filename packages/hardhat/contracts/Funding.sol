@@ -62,22 +62,19 @@ contract Funding {
 		uint256[] projectIds
 	);
 
-	event RoundCreatedInSecret(
-		uint256 indexed roundId,
-		string name,
-		uint256[] projectIds
-	);
+	event RoundCreatedInSecret(uint256 indexed roundId);
 
 	event ContributionReceived(address indexed contributor);
 
-	event ContributionReceivedInSecret(
-		address indexed contributor,
-		uint256 indexed roundId
-	);
+	event ContributionReceivedInSecret(uint256 indexed roundId);
 
 	event RoundClosed(uint256 indexed roundId);
 
 	event RoundClosedInSecret(uint256 indexed roundId);
+
+	event DistributedTokens(uint256 indexed roundId);
+
+	event DistributedTokensInSecret(uint256 indexed roundId);
 
 	// ========================================
 	//     CORE FUNCTIONS
@@ -132,12 +129,8 @@ contract Funding {
 	}
 
 	// callback function for secret
-	function createdFundingRound(
-		uint256 id,
-		string memory name,
-		uint256[] memory projectIds
-	) public {
-		emit RoundCreatedInSecret(id, name, projectIds);
+	function createdFundingRound(uint256 roundId, bytes memory json) public {
+		emit RoundCreatedInSecret(roundId);
 	}
 
 	function contribute(
@@ -156,12 +149,13 @@ contract Funding {
 	}
 
 	// callback function for secret
-	function contributed(uint256 roundId) public {
-		emit ContributionReceivedInSecret(msg.sender, roundId);
+	function contributed(uint256 roundId, bytes memory json) public {
+		emit ContributionReceivedInSecret(roundId);
 	}
 
 	function closeFundingRound(
 		uint256 roundId,
+		bool sendToSecret,
 		bytes32 payloadHash,
 		string calldata routingInfo,
 		IGateway.ExecutionInfo calldata info
@@ -169,6 +163,30 @@ contract Funding {
 		require(fundingRounds[roundId].isOpen, "Round closed");
 		fundingRounds[roundId].isOpen = false;
 
+		if (sendToSecret) {
+			gatewayContract.send{ value: msg.value }(
+				payloadHash,
+				msg.sender,
+				routingInfo,
+				info
+			);
+		}
+
+		emit RoundClosed(roundId);
+	}
+
+	// callback function for secret
+	function closedFundingRound(uint256 roundId, bytes memory json) public {
+		emit RoundClosedInSecret(roundId);
+	}
+
+	function distributeFunding(
+		uint256 roundId,
+		bytes32 payloadHash,
+		string calldata routingInfo,
+		IGateway.ExecutionInfo calldata info
+	) public payable {
+		require(!fundingRounds[roundId].isOpen, "Round is not closed");
 		gatewayContract.send{ value: msg.value }(
 			payloadHash,
 			msg.sender,
@@ -180,8 +198,10 @@ contract Funding {
 	}
 
 	// callback function for secret
-	function closedFundingRound(uint256 roundId, bytes memory json) public {
-		ProjectFundingData[] memory fundingData = parseFundingData(string(json));
+	function distributedFunding(uint256 roundId, bytes memory json) public {
+		ProjectFundingData[] memory fundingData = parseFundingData(
+			string(json)
+		);
 		processFundingRound(fundingData, roundId);
 		emit RoundClosedInSecret(roundId);
 	}

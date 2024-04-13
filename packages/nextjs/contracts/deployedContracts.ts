@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   11155111: {
     Funding: {
-      address: "0xeb4d4A578Da1A6589F72f87B5E664CC387412826",
+      address: "0xEFE2c9908e1fad32dfbcFdB040bE2E862516bc3E",
       abi: [
         {
           inputs: [],
@@ -32,10 +32,17 @@ const deployedContracts = {
           inputs: [
             {
               indexed: true,
-              internalType: "address",
-              name: "contributor",
-              type: "address",
+              internalType: "uint256",
+              name: "roundId",
+              type: "uint256",
             },
+          ],
+          name: "ContributionReceivedInSecret",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
             {
               indexed: true,
               internalType: "uint256",
@@ -43,7 +50,20 @@ const deployedContracts = {
               type: "uint256",
             },
           ],
-          name: "ContributionReceivedInSecret",
+          name: "DistributedTokens",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "roundId",
+              type: "uint256",
+            },
+          ],
+          name: "DistributedTokensInSecret",
           type: "event",
         },
         {
@@ -105,18 +125,6 @@ const deployedContracts = {
               internalType: "uint256",
               name: "roundId",
               type: "uint256",
-            },
-            {
-              indexed: false,
-              internalType: "string",
-              name: "name",
-              type: "string",
-            },
-            {
-              indexed: false,
-              internalType: "uint256[]",
-              name: "projectIds",
-              type: "uint256[]",
             },
           ],
           name: "RoundCreatedInSecret",
@@ -209,6 +217,11 @@ const deployedContracts = {
               name: "roundId",
               type: "uint256",
             },
+            {
+              internalType: "bytes",
+              name: "json",
+              type: "bytes",
+            },
           ],
           name: "closedFundingRound",
           outputs: [],
@@ -297,8 +310,13 @@ const deployedContracts = {
               name: "roundId",
               type: "uint256",
             },
+            {
+              internalType: "bytes",
+              name: "json",
+              type: "bytes",
+            },
           ],
-          name: "contribute",
+          name: "contributed",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -427,18 +445,13 @@ const deployedContracts = {
           inputs: [
             {
               internalType: "uint256",
-              name: "id",
+              name: "roundId",
               type: "uint256",
             },
             {
-              internalType: "string",
-              name: "name",
-              type: "string",
-            },
-            {
-              internalType: "uint256[]",
-              name: "projectIds",
-              type: "uint256[]",
+              internalType: "bytes",
+              name: "json",
+              type: "bytes",
             },
           ],
           name: "createdFundingRound",
@@ -449,17 +462,92 @@ const deployedContracts = {
         {
           inputs: [
             {
+              internalType: "uint256",
+              name: "roundId",
+              type: "uint256",
+            },
+            {
+              internalType: "bytes32",
+              name: "payloadHash",
+              type: "bytes32",
+            },
+            {
               internalType: "string",
-              name: "json",
+              name: "routingInfo",
               type: "string",
             },
+            {
+              components: [
+                {
+                  internalType: "bytes",
+                  name: "user_key",
+                  type: "bytes",
+                },
+                {
+                  internalType: "bytes",
+                  name: "user_pubkey",
+                  type: "bytes",
+                },
+                {
+                  internalType: "string",
+                  name: "routing_code_hash",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "task_destination_network",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "handle",
+                  type: "string",
+                },
+                {
+                  internalType: "bytes12",
+                  name: "nonce",
+                  type: "bytes12",
+                },
+                {
+                  internalType: "uint32",
+                  name: "callback_gas_limit",
+                  type: "uint32",
+                },
+                {
+                  internalType: "bytes",
+                  name: "payload",
+                  type: "bytes",
+                },
+                {
+                  internalType: "bytes",
+                  name: "payload_signature",
+                  type: "bytes",
+                },
+              ],
+              internalType: "struct IGateway.ExecutionInfo",
+              name: "info",
+              type: "tuple",
+            },
+          ],
+          name: "distributeFunding",
+          outputs: [],
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [
             {
               internalType: "uint256",
               name: "roundId",
               type: "uint256",
             },
+            {
+              internalType: "bytes",
+              name: "json",
+              type: "bytes",
+            },
           ],
-          name: "distributeFunds",
+          name: "distributedFunding",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
