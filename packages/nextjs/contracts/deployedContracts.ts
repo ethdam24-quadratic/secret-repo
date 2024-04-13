@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   11155111: {
     Funding: {
-      address: "0xd2afe636a676aDF5Fd5CC414C95d3d45baF85954",
+      address: "0xA849cFd98E7a993332753b317ad7bDA9E30A5308",
       abi: [
         {
           inputs: [],
@@ -18,28 +18,22 @@ const deployedContracts = {
           anonymous: false,
           inputs: [
             {
-              indexed: false,
+              indexed: true,
               internalType: "address",
               name: "contributor",
               type: "address",
             },
             {
-              indexed: false,
+              indexed: true,
               internalType: "uint256",
               name: "roundId",
               type: "uint256",
             },
             {
               indexed: false,
-              internalType: "uint256[]",
-              name: "projectIds",
-              type: "uint256[]",
-            },
-            {
-              indexed: false,
-              internalType: "uint256[]",
-              name: "amounts",
-              type: "uint256[]",
+              internalType: "uint256",
+              name: "amount",
+              type: "uint256",
             },
           ],
           name: "ContributionReceived",
@@ -49,7 +43,7 @@ const deployedContracts = {
           anonymous: false,
           inputs: [
             {
-              indexed: false,
+              indexed: true,
               internalType: "uint256",
               name: "roundId",
               type: "uint256",
@@ -62,7 +56,7 @@ const deployedContracts = {
           anonymous: false,
           inputs: [
             {
-              indexed: false,
+              indexed: true,
               internalType: "uint256",
               name: "roundId",
               type: "uint256",
@@ -76,7 +70,7 @@ const deployedContracts = {
             {
               indexed: false,
               internalType: "uint256[]",
-              name: "projects",
+              name: "projectIds",
               type: "uint256[]",
             },
           ],
@@ -199,6 +193,11 @@ const deployedContracts = {
               type: "string",
             },
             {
+              internalType: "enum Funding.FundingCurveType",
+              name: "curveType",
+              type: "uint8",
+            },
+            {
               internalType: "uint256[]",
               name: "projectIds",
               type: "uint256[]",
@@ -212,6 +211,11 @@ const deployedContracts = {
               internalType: "string[]",
               name: "projectDescriptions",
               type: "string[]",
+            },
+            {
+              internalType: "address payable[]",
+              name: "projectAddresses",
+              type: "address[]",
             },
             {
               internalType: "bytes32",
@@ -285,6 +289,25 @@ const deployedContracts = {
           inputs: [
             {
               internalType: "uint256",
+              name: "x",
+              type: "uint256",
+            },
+          ],
+          name: "exp",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "pure",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
               name: "",
               type: "uint256",
             },
@@ -307,9 +330,32 @@ const deployedContracts = {
               type: "string",
             },
             {
+              internalType: "enum Funding.FundingCurveType",
+              name: "curveType",
+              type: "uint8",
+            },
+            {
+              internalType: "uint256",
+              name: "totalContributions",
+              type: "uint256",
+            },
+            {
               internalType: "bool",
               name: "isOpen",
               type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "gatewayAddressSepolia",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
             },
           ],
           stateMutability: "view",

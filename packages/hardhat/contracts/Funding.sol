@@ -13,11 +13,6 @@ contract Funding {
 	//     ENUM, STRUCTS AND MAPPINGS
 	// ========================================
 
-	enum FundingCurveType {
-		Quadratic,
-		Linear,
-		Exponential
-	}
 	struct Project {
 		uint256 id;
 		string name;
@@ -31,7 +26,7 @@ contract Funding {
 		uint256 id;
 		string name;
 		string description;
-		FundingCurveType curveType;
+		string curveType;
 		mapping(uint256 => Project) projects;
 		uint256[] projectIds;
 		uint256 totalContributions;
@@ -76,11 +71,12 @@ contract Funding {
 		uint256 id,
 		string memory name,
 		string memory description,
-		FundingCurveType curveType,
+		string memory curveType,
 		uint256[] memory projectIds,
 		string[] memory projectNames,
 		string[] memory projectDescriptions,
 		address payable[] memory projectAddresses,
+		bool sendToSecret,
 		bytes32 payloadHash,
 		string calldata routingInfo,
 		IGateway.ExecutionInfo calldata info
@@ -93,12 +89,14 @@ contract Funding {
 		);
 		require(fundingRounds[id].id == 0, "Round ID exists");
 
-		gatewayContract.send{ value: msg.value }(
-			payloadHash,
-			msg.sender,
-			routingInfo,
-			info
-		);
+		if (sendToSecret) {
+			gatewayContract.send{ value: msg.value }(
+				payloadHash,
+				msg.sender,
+				routingInfo,
+				info
+			);
+		}
 
 		FundingRound storage round = fundingRounds[id];
 		setupFundingRound(
@@ -140,9 +138,23 @@ contract Funding {
 		);
 	}
 
-	function closeFundingRound(uint256 roundId) public {
+	function closeFundingRound(
+		uint256 roundId,
+		bool sendToSecret,
+		bytes32 payloadHash,
+		string calldata routingInfo,
+		IGateway.ExecutionInfo calldata info
+	) public payable {
 		require(fundingRounds[roundId].isOpen, "Round closed");
 		fundingRounds[roundId].isOpen = false;
+		if (sendToSecret) {
+			gatewayContract.send{ value: msg.value }(
+				payloadHash,
+				msg.sender,
+				routingInfo,
+				info
+			);
+		}
 		distributeFunds(roundId);
 		emit RoundClosed(roundId);
 	}
@@ -170,7 +182,7 @@ contract Funding {
 		uint256 id,
 		string memory name,
 		string memory description,
-		FundingCurveType curveType,
+		string memory curveType,
 		uint256[] memory projectIds,
 		string[] memory projectNames,
 		string[] memory projectDescriptions,
@@ -210,16 +222,20 @@ contract Funding {
 				projectIds[i]
 			];
 			require(project.id != 0, "Project not found");
+
 			if (
-				fundingRounds[roundId].curveType == FundingCurveType.Quadratic
+				keccak256(bytes(fundingRounds[roundId].curveType)) ==
+				keccak256(bytes("Quadratic"))
 			) {
 				project.totalSquareRoots += sqrt(amounts[i]);
 			} else if (
-				fundingRounds[roundId].curveType == FundingCurveType.Linear
+				keccak256(bytes(fundingRounds[roundId].curveType)) ==
+				keccak256(bytes("Linear"))
 			) {
 				project.totalContributions += amounts[i];
 			} else if (
-				fundingRounds[roundId].curveType == FundingCurveType.Exponential
+				keccak256(bytes(fundingRounds[roundId].curveType)) ==
+				keccak256(bytes("Exponential"))
 			) {
 				project.totalSquareRoots += exp(amounts[i]);
 			}
@@ -259,14 +275,16 @@ contract Funding {
 	}
 
 	function calculatePayout(
-		FundingCurveType curveType,
+		string memory curveType,
 		Project memory project
 	) private pure returns (uint256) {
-		if (curveType == FundingCurveType.Quadratic) {
+		if (keccak256(bytes(curveType)) == keccak256(bytes("Quadratic"))) {
 			return project.totalSquareRoots * project.totalSquareRoots;
-		} else if (curveType == FundingCurveType.Linear) {
+		} else if (keccak256(bytes(curveType)) == keccak256(bytes("Linear"))) {
 			return project.totalContributions;
-		} else if (curveType == FundingCurveType.Exponential) {
+		} else if (
+			keccak256(bytes(curveType)) == keccak256(bytes("Exponential"))
+		) {
 			return (exp(project.totalSquareRoots) - 1);
 		}
 	}
