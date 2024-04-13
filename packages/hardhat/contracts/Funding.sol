@@ -236,7 +236,6 @@ contract Funding {
 		// Parse the JSON input
 		uint256 numTokens;
 		JsmnSolLib.Token[] memory tokens;
-		JsmnSolLib.Parser memory parser;
 		(, tokens, numTokens) = JsmnSolLib.parse(json, 20);
 
 		// Ensure JSON parsing succeeded
