@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { Project } from "~~/components/rounds-and-votes/IProject";
+import { VoteItem, VotesMsg } from "~~/components/rounds-and-votes/IVoteItem";
 import ProjectCard from "~~/components/rounds-and-votes/ProjectCard";
 import RoundCard from "~~/components/rounds-and-votes/RoundCard";
 import { projects } from "~~/utils/quadratic/projects";
@@ -43,9 +44,11 @@ const Vote: NextPage = () => {
     console.log("handlefund 2");
     const functionArguments = {
       funding_round_id: 3, // todo hardcoded? should we change it?
-      voter_address: projectVotes.map(p => p.address),
-      votes: projectVotes.map(p => p.value),
-    };
+      voter_address: address,
+      votes: projectVotes.map(project => ({
+        projectId: project.id,
+        voteAmount: project.value || 0  // Default to 0 if value is undefined
+    }))};
 
     console.log("handlefund 3");
     await submitVote(
