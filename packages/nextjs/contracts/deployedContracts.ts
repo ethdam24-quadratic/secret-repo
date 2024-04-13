@@ -450,6 +450,451 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
   },
+  1313161555: {
+    Funding: {
+      address: "0x072117443CEb3920d9D95d2F005b23FeC9E761aD",
+      abi: [
+        {
+          inputs: [],
+          stateMutability: "nonpayable",
+          type: "constructor",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "contributor",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "roundId",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "amount",
+              type: "uint256",
+            },
+          ],
+          name: "ContributionReceived",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "roundId",
+              type: "uint256",
+            },
+          ],
+          name: "RoundClosed",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "roundId",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "name",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "uint256[]",
+              name: "projectIds",
+              type: "uint256[]",
+            },
+          ],
+          name: "RoundCreated",
+          type: "event",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "roundId",
+              type: "uint256",
+            },
+            {
+              internalType: "bool",
+              name: "sendToSecret",
+              type: "bool",
+            },
+            {
+              internalType: "bytes32",
+              name: "payloadHash",
+              type: "bytes32",
+            },
+            {
+              internalType: "string",
+              name: "routingInfo",
+              type: "string",
+            },
+            {
+              components: [
+                {
+                  internalType: "bytes",
+                  name: "user_key",
+                  type: "bytes",
+                },
+                {
+                  internalType: "bytes",
+                  name: "user_pubkey",
+                  type: "bytes",
+                },
+                {
+                  internalType: "string",
+                  name: "routing_code_hash",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "task_destination_network",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "handle",
+                  type: "string",
+                },
+                {
+                  internalType: "bytes12",
+                  name: "nonce",
+                  type: "bytes12",
+                },
+                {
+                  internalType: "uint32",
+                  name: "callback_gas_limit",
+                  type: "uint32",
+                },
+                {
+                  internalType: "bytes",
+                  name: "payload",
+                  type: "bytes",
+                },
+                {
+                  internalType: "bytes",
+                  name: "payload_signature",
+                  type: "bytes",
+                },
+              ],
+              internalType: "struct IGateway.ExecutionInfo",
+              name: "info",
+              type: "tuple",
+            },
+          ],
+          name: "closeFundingRound",
+          outputs: [],
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "roundId",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256[]",
+              name: "projectIds",
+              type: "uint256[]",
+            },
+            {
+              internalType: "uint256[]",
+              name: "amounts",
+              type: "uint256[]",
+            },
+            {
+              internalType: "bytes32",
+              name: "payloadHash",
+              type: "bytes32",
+            },
+            {
+              internalType: "string",
+              name: "routingInfo",
+              type: "string",
+            },
+            {
+              components: [
+                {
+                  internalType: "bytes",
+                  name: "user_key",
+                  type: "bytes",
+                },
+                {
+                  internalType: "bytes",
+                  name: "user_pubkey",
+                  type: "bytes",
+                },
+                {
+                  internalType: "string",
+                  name: "routing_code_hash",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "task_destination_network",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "handle",
+                  type: "string",
+                },
+                {
+                  internalType: "bytes12",
+                  name: "nonce",
+                  type: "bytes12",
+                },
+                {
+                  internalType: "uint32",
+                  name: "callback_gas_limit",
+                  type: "uint32",
+                },
+                {
+                  internalType: "bytes",
+                  name: "payload",
+                  type: "bytes",
+                },
+                {
+                  internalType: "bytes",
+                  name: "payload_signature",
+                  type: "bytes",
+                },
+              ],
+              internalType: "struct IGateway.ExecutionInfo",
+              name: "info",
+              type: "tuple",
+            },
+          ],
+          name: "contribute",
+          outputs: [],
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "id",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "name",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "description",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "curveType",
+              type: "string",
+            },
+            {
+              internalType: "uint256[]",
+              name: "projectIds",
+              type: "uint256[]",
+            },
+            {
+              internalType: "string[]",
+              name: "projectNames",
+              type: "string[]",
+            },
+            {
+              internalType: "string[]",
+              name: "projectDescriptions",
+              type: "string[]",
+            },
+            {
+              internalType: "address payable[]",
+              name: "projectAddresses",
+              type: "address[]",
+            },
+            {
+              internalType: "bool",
+              name: "sendToSecret",
+              type: "bool",
+            },
+            {
+              internalType: "bytes32",
+              name: "payloadHash",
+              type: "bytes32",
+            },
+            {
+              internalType: "string",
+              name: "routingInfo",
+              type: "string",
+            },
+            {
+              components: [
+                {
+                  internalType: "bytes",
+                  name: "user_key",
+                  type: "bytes",
+                },
+                {
+                  internalType: "bytes",
+                  name: "user_pubkey",
+                  type: "bytes",
+                },
+                {
+                  internalType: "string",
+                  name: "routing_code_hash",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "task_destination_network",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "handle",
+                  type: "string",
+                },
+                {
+                  internalType: "bytes12",
+                  name: "nonce",
+                  type: "bytes12",
+                },
+                {
+                  internalType: "uint32",
+                  name: "callback_gas_limit",
+                  type: "uint32",
+                },
+                {
+                  internalType: "bytes",
+                  name: "payload",
+                  type: "bytes",
+                },
+                {
+                  internalType: "bytes",
+                  name: "payload_signature",
+                  type: "bytes",
+                },
+              ],
+              internalType: "struct IGateway.ExecutionInfo",
+              name: "info",
+              type: "tuple",
+            },
+          ],
+          name: "createFundingRound",
+          outputs: [],
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "fundingRounds",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "id",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "name",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "description",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "curveType",
+              type: "string",
+            },
+            {
+              internalType: "uint256",
+              name: "totalContributions",
+              type: "uint256",
+            },
+            {
+              internalType: "bool",
+              name: "isOpen",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "gatewayAddressSepolia",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "gatewayContract",
+          outputs: [
+            {
+              internalType: "contract IGateway",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "roundIds",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {},
+    },
+  },
 } as const;
 
 export default deployedContracts satisfies GenericContractsDeclaration;

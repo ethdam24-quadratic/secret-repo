@@ -1,0 +1,690 @@
+{
+  "address": "0x072117443CEb3920d9D95d2F005b23FeC9E761aD",
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "contributor",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "roundId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "ContributionReceived",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "roundId",
+          "type": "uint256"
+        }
+      ],
+      "name": "RoundClosed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "roundId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256[]",
+          "name": "projectIds",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "RoundCreated",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "roundId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "sendToSecret",
+          "type": "bool"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "payloadHash",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "string",
+          "name": "routingInfo",
+          "type": "string"
+        },
+        {
+          "components": [
+            {
+              "internalType": "bytes",
+              "name": "user_key",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "user_pubkey",
+              "type": "bytes"
+            },
+            {
+              "internalType": "string",
+              "name": "routing_code_hash",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "task_destination_network",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "handle",
+              "type": "string"
+            },
+            {
+              "internalType": "bytes12",
+              "name": "nonce",
+              "type": "bytes12"
+            },
+            {
+              "internalType": "uint32",
+              "name": "callback_gas_limit",
+              "type": "uint32"
+            },
+            {
+              "internalType": "bytes",
+              "name": "payload",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "payload_signature",
+              "type": "bytes"
+            }
+          ],
+          "internalType": "struct IGateway.ExecutionInfo",
+          "name": "info",
+          "type": "tuple"
+        }
+      ],
+      "name": "closeFundingRound",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "roundId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "projectIds",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "amounts",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "payloadHash",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "string",
+          "name": "routingInfo",
+          "type": "string"
+        },
+        {
+          "components": [
+            {
+              "internalType": "bytes",
+              "name": "user_key",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "user_pubkey",
+              "type": "bytes"
+            },
+            {
+              "internalType": "string",
+              "name": "routing_code_hash",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "task_destination_network",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "handle",
+              "type": "string"
+            },
+            {
+              "internalType": "bytes12",
+              "name": "nonce",
+              "type": "bytes12"
+            },
+            {
+              "internalType": "uint32",
+              "name": "callback_gas_limit",
+              "type": "uint32"
+            },
+            {
+              "internalType": "bytes",
+              "name": "payload",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "payload_signature",
+              "type": "bytes"
+            }
+          ],
+          "internalType": "struct IGateway.ExecutionInfo",
+          "name": "info",
+          "type": "tuple"
+        }
+      ],
+      "name": "contribute",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "curveType",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "projectIds",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "string[]",
+          "name": "projectNames",
+          "type": "string[]"
+        },
+        {
+          "internalType": "string[]",
+          "name": "projectDescriptions",
+          "type": "string[]"
+        },
+        {
+          "internalType": "address payable[]",
+          "name": "projectAddresses",
+          "type": "address[]"
+        },
+        {
+          "internalType": "bool",
+          "name": "sendToSecret",
+          "type": "bool"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "payloadHash",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "string",
+          "name": "routingInfo",
+          "type": "string"
+        },
+        {
+          "components": [
+            {
+              "internalType": "bytes",
+              "name": "user_key",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "user_pubkey",
+              "type": "bytes"
+            },
+            {
+              "internalType": "string",
+              "name": "routing_code_hash",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "task_destination_network",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "handle",
+              "type": "string"
+            },
+            {
+              "internalType": "bytes12",
+              "name": "nonce",
+              "type": "bytes12"
+            },
+            {
+              "internalType": "uint32",
+              "name": "callback_gas_limit",
+              "type": "uint32"
+            },
+            {
+              "internalType": "bytes",
+              "name": "payload",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "payload_signature",
+              "type": "bytes"
+            }
+          ],
+          "internalType": "struct IGateway.ExecutionInfo",
+          "name": "info",
+          "type": "tuple"
+        }
+      ],
+      "name": "createFundingRound",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "fundingRounds",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "curveType",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "totalContributions",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "isOpen",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "gatewayAddressSepolia",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "gatewayContract",
+      "outputs": [
+        {
+          "internalType": "contract IGateway",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "roundIds",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0xff62abc4c233cbbbf86dda9b2d3e1ac1db00c22fb909146e1a918d83bce2f265",
+  "receipt": {
+    "to": null,
+    "from": "0xbb1DF1ab33786Ac6B91d9D16b445c7b66825979e",
+    "contractAddress": "0x072117443CEb3920d9D95d2F005b23FeC9E761aD",
+    "transactionIndex": 0,
+    "gasUsed": "1360776",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x7494de2d09af2fd0fd8c9bc7e71d04bb222b4fd231f4164c8b95acd27ea29cdd",
+    "transactionHash": "0xff62abc4c233cbbbf86dda9b2d3e1ac1db00c22fb909146e1a918d83bce2f265",
+    "logs": [],
+    "blockNumber": 161290821,
+    "cumulativeGasUsed": "0",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "5a28a1e4221ea3a88774c3537417507f",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"contributor\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"roundId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"ContributionReceived\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"roundId\",\"type\":\"uint256\"}],\"name\":\"RoundClosed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"roundId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256[]\",\"name\":\"projectIds\",\"type\":\"uint256[]\"}],\"name\":\"RoundCreated\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"roundId\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"sendToSecret\",\"type\":\"bool\"},{\"internalType\":\"bytes32\",\"name\":\"payloadHash\",\"type\":\"bytes32\"},{\"internalType\":\"string\",\"name\":\"routingInfo\",\"type\":\"string\"},{\"components\":[{\"internalType\":\"bytes\",\"name\":\"user_key\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"user_pubkey\",\"type\":\"bytes\"},{\"internalType\":\"string\",\"name\":\"routing_code_hash\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"task_destination_network\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"handle\",\"type\":\"string\"},{\"internalType\":\"bytes12\",\"name\":\"nonce\",\"type\":\"bytes12\"},{\"internalType\":\"uint32\",\"name\":\"callback_gas_limit\",\"type\":\"uint32\"},{\"internalType\":\"bytes\",\"name\":\"payload\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"payload_signature\",\"type\":\"bytes\"}],\"internalType\":\"struct IGateway.ExecutionInfo\",\"name\":\"info\",\"type\":\"tuple\"}],\"name\":\"closeFundingRound\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"roundId\",\"type\":\"uint256\"},{\"internalType\":\"uint256[]\",\"name\":\"projectIds\",\"type\":\"uint256[]\"},{\"internalType\":\"uint256[]\",\"name\":\"amounts\",\"type\":\"uint256[]\"},{\"internalType\":\"bytes32\",\"name\":\"payloadHash\",\"type\":\"bytes32\"},{\"internalType\":\"string\",\"name\":\"routingInfo\",\"type\":\"string\"},{\"components\":[{\"internalType\":\"bytes\",\"name\":\"user_key\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"user_pubkey\",\"type\":\"bytes\"},{\"internalType\":\"string\",\"name\":\"routing_code_hash\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"task_destination_network\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"handle\",\"type\":\"string\"},{\"internalType\":\"bytes12\",\"name\":\"nonce\",\"type\":\"bytes12\"},{\"internalType\":\"uint32\",\"name\":\"callback_gas_limit\",\"type\":\"uint32\"},{\"internalType\":\"bytes\",\"name\":\"payload\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"payload_signature\",\"type\":\"bytes\"}],\"internalType\":\"struct IGateway.ExecutionInfo\",\"name\":\"info\",\"type\":\"tuple\"}],\"name\":\"contribute\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"id\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"description\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"curveType\",\"type\":\"string\"},{\"internalType\":\"uint256[]\",\"name\":\"projectIds\",\"type\":\"uint256[]\"},{\"internalType\":\"string[]\",\"name\":\"projectNames\",\"type\":\"string[]\"},{\"internalType\":\"string[]\",\"name\":\"projectDescriptions\",\"type\":\"string[]\"},{\"internalType\":\"address payable[]\",\"name\":\"projectAddresses\",\"type\":\"address[]\"},{\"internalType\":\"bool\",\"name\":\"sendToSecret\",\"type\":\"bool\"},{\"internalType\":\"bytes32\",\"name\":\"payloadHash\",\"type\":\"bytes32\"},{\"internalType\":\"string\",\"name\":\"routingInfo\",\"type\":\"string\"},{\"components\":[{\"internalType\":\"bytes\",\"name\":\"user_key\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"user_pubkey\",\"type\":\"bytes\"},{\"internalType\":\"string\",\"name\":\"routing_code_hash\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"task_destination_network\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"handle\",\"type\":\"string\"},{\"internalType\":\"bytes12\",\"name\":\"nonce\",\"type\":\"bytes12\"},{\"internalType\":\"uint32\",\"name\":\"callback_gas_limit\",\"type\":\"uint32\"},{\"internalType\":\"bytes\",\"name\":\"payload\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"payload_signature\",\"type\":\"bytes\"}],\"internalType\":\"struct IGateway.ExecutionInfo\",\"name\":\"info\",\"type\":\"tuple\"}],\"name\":\"createFundingRound\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"fundingRounds\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"id\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"description\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"curveType\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"totalContributions\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"isOpen\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"gatewayAddressSepolia\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"gatewayContract\",\"outputs\":[{\"internalType\":\"contract IGateway\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"roundIds\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"arjanjohan\",\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"A smart contract for cross-chain quadratic voting developed during EthDam 24. This contract supports various types of funding curves and ensures privacy and security through integration with the Secret Network.\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/Funding.sol\":\"Funding\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[],\"viaIR\":true},\"sources\":{\"abdk-libraries-solidity/ABDKMath64x64.sol\":{\"content\":\"// SPDX-License-Identifier: BSD-4-Clause\\n/*\\n * ABDK Math 64.64 Smart Contract Library.  Copyright \\u00a9 2019 by ABDK Consulting.\\n * Author: Mikhail Vladimirov <mikhail.vladimirov@gmail.com>\\n */\\npragma solidity ^0.8.0;\\n\\n/**\\n * Smart contract library of mathematical functions operating with signed\\n * 64.64-bit fixed point numbers.  Signed 64.64-bit fixed point number is\\n * basically a simple fraction whose numerator is signed 128-bit integer and\\n * denominator is 2^64.  As long as denominator is always the same, there is no\\n * need to store it, thus in Solidity signed 64.64-bit fixed point numbers are\\n * represented by int128 type holding only the numerator.\\n */\\nlibrary ABDKMath64x64 {\\n  /*\\n   * Minimum value signed 64.64-bit fixed point number may have. \\n   */\\n  int128 private constant MIN_64x64 = -0x80000000000000000000000000000000;\\n\\n  /*\\n   * Maximum value signed 64.64-bit fixed point number may have. \\n   */\\n  int128 private constant MAX_64x64 = 0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF;\\n\\n  /**\\n   * Convert signed 256-bit integer number into signed 64.64-bit fixed point\\n   * number.  Revert on overflow.\\n   *\\n   * @param x signed 256-bit integer number\\n   * @return signed 64.64-bit fixed point number\\n   */\\n  function fromInt (int256 x) internal pure returns (int128) {\\n    unchecked {\\n      require (x >= -0x8000000000000000 && x <= 0x7FFFFFFFFFFFFFFF);\\n      return int128 (x << 64);\\n    }\\n  }\\n\\n  /**\\n   * Convert signed 64.64 fixed point number into signed 64-bit integer number\\n   * rounding down.\\n   *\\n   * @param x signed 64.64-bit fixed point number\\n   * @return signed 64-bit integer number\\n   */\\n  function toInt (int128 x) internal pure returns (int64) {\\n    unchecked {\\n      return int64 (x >> 64);\\n    }\\n  }\\n\\n  /**\\n   * Convert unsigned 256-bit integer number into signed 64.64-bit fixed point\\n   * number.  Revert on overflow.\\n   *\\n   * @param x unsigned 256-bit integer number\\n   * @return signed 64.64-bit fixed point number\\n   */\\n  function fromUInt (uint256 x) internal pure returns (int128) {\\n    unchecked {\\n      require (x <= 0x7FFFFFFFFFFFFFFF);\\n      return int128 (int256 (x << 64));\\n    }\\n  }\\n\\n  /**\\n   * Convert signed 64.64 fixed point number into unsigned 64-bit integer\\n   * number rounding down.  Revert on underflow.\\n   *\\n   * @param x signed 64.64-bit fixed point number\\n   * @return unsigned 64-bit integer number\\n   */\\n  function toUInt (int128 x) internal pure returns (uint64) {\\n    unchecked {\\n      require (x >= 0);\\n      return uint64 (uint128 (x >> 64));\\n    }\\n  }\\n\\n  /**\\n   * Convert signed 128.128 fixed point number into signed 64.64-bit fixed point\\n   * number rounding down.  Revert on overflow.\\n   *\\n   * @param x signed 128.128-bin fixed point number\\n   * @return signed 64.64-bit fixed point number\\n   */\\n  function from128x128 (int256 x) internal pure returns (int128) {\\n    unchecked {\\n      int256 result = x >> 64;\\n      require (result >= MIN_64x64 && result <= MAX_64x64);\\n      return int128 (result);\\n    }\\n  }\\n\\n  /**\\n   * Convert signed 64.64 fixed point number into signed 128.128 fixed point\\n   * number.\\n   *\\n   * @param x signed 64.64-bit fixed point number\\n   * @return signed 128.128 fixed point number\\n   */\\n  function to128x128 (int128 x) internal pure returns (int256) {\\n    unchecked {\\n      return int256 (x) << 64;\\n    }\\n  }\\n\\n  /**\\n   * Calculate x + y.  Revert on overflow.\\n   *\\n   * @param x signed 64.64-bit fixed point number\\n   * @param y signed 64.64-bit fixed point number\\n   * @return signed 64.64-bit fixed point number\\n   */\\n  function add (int128 x, int128 y) internal pure returns (int128) {\\n    unchecked {\\n      int256 result = int256(x) + y;\\n      require (result >= MIN_64x64 && result <= MAX_64x64);\\n      return int128 (result);\\n    }\\n  }\\n\\n  /**\\n   * Calculate x - y.  Revert on overflow.\\n   *\\n   * @param x signed 64.64-bit fixed point number\\n   * @param y signed 64.64-bit fixed point number\\n   * @return signed 64.64-bit fixed point number\\n   */\\n  function sub (int128 x, int128 y) internal pure returns (int128) {\\n    unchecked {\\n      int256 result = int256(x) - y;\\n      require (result >= MIN_64x64 && result <= MAX_64x64);\\n      return int128 (result);\\n    }\\n  }\\n\\n  /**\\n   * Calculate x * y rounding down.  Revert on overflow.\\n   *\\n   * @param x signed 64.64-bit fixed point number\\n   * @param y signed 64.64-bit fixed point number\\n   * @return signed 64.64-bit fixed point number\\n   */\\n  function mul (int128 x, int128 y) internal pure returns (int128) {\\n    unchecked {\\n      int256 result = int256(x) * y >> 64;\\n      require (result >= MIN_64x64 && result <= MAX_64x64);\\n      return int128 (result);\\n    }\\n  }\\n\\n  /**\\n   * Calculate x * y rounding towards zero, where x is signed 64.64 fixed point\\n   * number and y is signed 256-bit integer number.  Revert on overflow.\\n   *\\n   * @param x signed 64.64 fixed point number\\n   * @param y signed 256-bit integer number\\n   * @return signed 256-bit integer number\\n   */\\n  function muli (int128 x, int256 y) internal pure returns (int256) {\\n    unchecked {\\n      if (x == MIN_64x64) {\\n        require (y >= -0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF &&\\n          y <= 0x1000000000000000000000000000000000000000000000000);\\n        return -y << 63;\\n      } else {\\n        bool negativeResult = false;\\n        if (x < 0) {\\n          x = -x;\\n          negativeResult = true;\\n        }\\n        if (y < 0) {\\n          y = -y; // We rely on overflow behavior here\\n          negativeResult = !negativeResult;\\n        }\\n        uint256 absoluteResult = mulu (x, uint256 (y));\\n        if (negativeResult) {\\n          require (absoluteResult <=\\n            0x8000000000000000000000000000000000000000000000000000000000000000);\\n          return -int256 (absoluteResult); // We rely on overflow behavior here\\n        } else {\\n          require (absoluteResult <=\\n            0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF);\\n          return int256 (absoluteResult);\\n        }\\n      }\\n    }\\n  }\\n\\n  /**\\n   * Calculate x * y rounding down, where x is signed 64.64 fixed point number\\n   * and y is unsigned 256-bit integer number.  Revert on overflow.\\n   *\\n   * @param x signed 64.64 fixed point number\\n   * @param y unsigned 256-bit integer number\\n   * @return unsigned 256-bit integer number\\n   */\\n  function mulu (int128 x, uint256 y) internal pure returns (uint256) {\\n    unchecked {\\n      if (y == 0) return 0;\\n\\n      require (x >= 0);\\n\\n      uint256 lo = (uint256 (int256 (x)) * (y & 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF)) >> 64;\\n      uint256 hi = uint256 (int256 (x)) * (y >> 128);\\n\\n      require (hi <= 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF);\\n      hi <<= 64;\\n\\n      require (hi <=\\n        0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF - lo);\\n      return hi + lo;\\n    }\\n  }\\n\\n  /**\\n   * Calculate x / y rounding towards zero.  Revert on overflow or when y is\\n   * zero.\\n   *\\n   * @param x signed 64.64-bit fixed point number\\n   * @param y signed 64.64-bit fixed point number\\n   * @return signed 64.64-bit fixed point number\\n   */\\n  function div (int128 x, int128 y) internal pure returns (int128) {\\n    unchecked {\\n      require (y != 0);\\n      int256 result = (int256 (x) << 64) / y;\\n      require (result >= MIN_64x64 && result <= MAX_64x64);\\n      return int128 (result);\\n    }\\n  }\\n\\n  /**\\n   * Calculate x / y rounding towards zero, where x and y are signed 256-bit\\n   * integer numbers.  Revert on overflow or when y is zero.\\n   *\\n   * @param x signed 256-bit integer number\\n   * @param y signed 256-bit integer number\\n   * @return signed 64.64-bit fixed point number\\n   */\\n  function divi (int256 x, int256 y) internal pure returns (int128) {\\n    unchecked {\\n      require (y != 0);\\n\\n      bool negativeResult = false;\\n      if (x < 0) {\\n        x = -x; // We rely on overflow behavior here\\n        negativeResult = true;\\n      }\\n      if (y < 0) {\\n        y = -y; // We rely on overflow behavior here\\n        negativeResult = !negativeResult;\\n      }\\n      uint128 absoluteResult = divuu (uint256 (x), uint256 (y));\\n      if (negativeResult) {\\n        require (absoluteResult <= 0x80000000000000000000000000000000);\\n        return -int128 (absoluteResult); // We rely on overflow behavior here\\n      } else {\\n        require (absoluteResult <= 0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF);\\n        return int128 (absoluteResult); // We rely on overflow behavior here\\n      }\\n    }\\n  }\\n\\n  /**\\n   * Calculate x / y rounding towards zero, where x and y are unsigned 256-bit\\n   * integer numbers.  Revert on overflow or when y is zero.\\n   *\\n   * @param x unsigned 256-bit integer number\\n   * @param y unsigned 256-bit integer number\\n   * @return signed 64.64-bit fixed point number\\n   */\\n  function divu (uint256 x, uint256 y) internal pure returns (int128) {\\n    unchecked {\\n      require (y != 0);\\n      uint128 result = divuu (x, y);\\n      require (result <= uint128 (MAX_64x64));\\n      return int128 (result);\\n    }\\n  }\\n\\n  /**\\n   * Calculate -x.  Revert on overflow.\\n   *\\n   * @param x signed 64.64-bit fixed point number\\n   * @return signed 64.64-bit fixed point number\\n   */\\n  function neg (int128 x) internal pure returns (int128) {\\n    unchecked {\\n      require (x != MIN_64x64);\\n      return -x;\\n    }\\n  }\\n\\n  /**\\n   * Calculate |x|.  Revert on overflow.\\n   *\\n   * @param x signed 64.64-bit fixed point number\\n   * @return signed 64.64-bit fixed point number\\n   */\\n  function abs (int128 x) internal pure returns (int128) {\\n    unchecked {\\n      require (x != MIN_64x64);\\n      return x < 0 ? -x : x;\\n    }\\n  }\\n\\n  /**\\n   * Calculate 1 / x rounding towards zero.  Revert on overflow or when x is\\n   * zero.\\n   *\\n   * @param x signed 64.64-bit fixed point number\\n   * @return signed 64.64-bit fixed point number\\n   */\\n  function inv (int128 x) internal pure returns (int128) {\\n    unchecked {\\n      require (x != 0);\\n      int256 result = int256 (0x100000000000000000000000000000000) / x;\\n      require (result >= MIN_64x64 && result <= MAX_64x64);\\n      return int128 (result);\\n    }\\n  }\\n\\n  /**\\n   * Calculate arithmetics average of x and y, i.e. (x + y) / 2 rounding down.\\n   *\\n   * @param x signed 64.64-bit fixed point number\\n   * @param y signed 64.64-bit fixed point number\\n   * @return signed 64.64-bit fixed point number\\n   */\\n  function avg (int128 x, int128 y) internal pure returns (int128) {\\n    unchecked {\\n      return int128 ((int256 (x) + int256 (y)) >> 1);\\n    }\\n  }\\n\\n  /**\\n   * Calculate geometric average of x and y, i.e. sqrt (x * y) rounding down.\\n   * Revert on overflow or in case x * y is negative.\\n   *\\n   * @param x signed 64.64-bit fixed point number\\n   * @param y signed 64.64-bit fixed point number\\n   * @return signed 64.64-bit fixed point number\\n   */\\n  function gavg (int128 x, int128 y) internal pure returns (int128) {\\n    unchecked {\\n      int256 m = int256 (x) * int256 (y);\\n      require (m >= 0);\\n      require (m <\\n          0x4000000000000000000000000000000000000000000000000000000000000000);\\n      return int128 (sqrtu (uint256 (m)));\\n    }\\n  }\\n\\n  /**\\n   * Calculate x^y assuming 0^0 is 1, where x is signed 64.64 fixed point number\\n   * and y is unsigned 256-bit integer number.  Revert on overflow.\\n   *\\n   * @param x signed 64.64-bit fixed point number\\n   * @param y uint256 value\\n   * @return signed 64.64-bit fixed point number\\n   */\\n  function pow (int128 x, uint256 y) internal pure returns (int128) {\\n    unchecked {\\n      bool negative = x < 0 && y & 1 == 1;\\n\\n      uint256 absX = uint128 (x < 0 ? -x : x);\\n      uint256 absResult;\\n      absResult = 0x100000000000000000000000000000000;\\n\\n      if (absX <= 0x10000000000000000) {\\n        absX <<= 63;\\n        while (y != 0) {\\n          if (y & 0x1 != 0) {\\n            absResult = absResult * absX >> 127;\\n          }\\n          absX = absX * absX >> 127;\\n\\n          if (y & 0x2 != 0) {\\n            absResult = absResult * absX >> 127;\\n          }\\n          absX = absX * absX >> 127;\\n\\n          if (y & 0x4 != 0) {\\n            absResult = absResult * absX >> 127;\\n          }\\n          absX = absX * absX >> 127;\\n\\n          if (y & 0x8 != 0) {\\n            absResult = absResult * absX >> 127;\\n          }\\n          absX = absX * absX >> 127;\\n\\n          y >>= 4;\\n        }\\n\\n        absResult >>= 64;\\n      } else {\\n        uint256 absXShift = 63;\\n        if (absX < 0x1000000000000000000000000) { absX <<= 32; absXShift -= 32; }\\n        if (absX < 0x10000000000000000000000000000) { absX <<= 16; absXShift -= 16; }\\n        if (absX < 0x1000000000000000000000000000000) { absX <<= 8; absXShift -= 8; }\\n        if (absX < 0x10000000000000000000000000000000) { absX <<= 4; absXShift -= 4; }\\n        if (absX < 0x40000000000000000000000000000000) { absX <<= 2; absXShift -= 2; }\\n        if (absX < 0x80000000000000000000000000000000) { absX <<= 1; absXShift -= 1; }\\n\\n        uint256 resultShift = 0;\\n        while (y != 0) {\\n          require (absXShift < 64);\\n\\n          if (y & 0x1 != 0) {\\n            absResult = absResult * absX >> 127;\\n            resultShift += absXShift;\\n            if (absResult > 0x100000000000000000000000000000000) {\\n              absResult >>= 1;\\n              resultShift += 1;\\n            }\\n          }\\n          absX = absX * absX >> 127;\\n          absXShift <<= 1;\\n          if (absX >= 0x100000000000000000000000000000000) {\\n              absX >>= 1;\\n              absXShift += 1;\\n          }\\n\\n          y >>= 1;\\n        }\\n\\n        require (resultShift < 64);\\n        absResult >>= 64 - resultShift;\\n      }\\n      int256 result = negative ? -int256 (absResult) : int256 (absResult);\\n      require (result >= MIN_64x64 && result <= MAX_64x64);\\n      return int128 (result);\\n    }\\n  }\\n\\n  /**\\n   * Calculate sqrt (x) rounding down.  Revert if x < 0.\\n   *\\n   * @param x signed 64.64-bit fixed point number\\n   * @return signed 64.64-bit fixed point number\\n   */\\n  function sqrt (int128 x) internal pure returns (int128) {\\n    unchecked {\\n      require (x >= 0);\\n      return int128 (sqrtu (uint256 (int256 (x)) << 64));\\n    }\\n  }\\n\\n  /**\\n   * Calculate binary logarithm of x.  Revert if x <= 0.\\n   *\\n   * @param x signed 64.64-bit fixed point number\\n   * @return signed 64.64-bit fixed point number\\n   */\\n  function log_2 (int128 x) internal pure returns (int128) {\\n    unchecked {\\n      require (x > 0);\\n\\n      int256 msb = 0;\\n      int256 xc = x;\\n      if (xc >= 0x10000000000000000) { xc >>= 64; msb += 64; }\\n      if (xc >= 0x100000000) { xc >>= 32; msb += 32; }\\n      if (xc >= 0x10000) { xc >>= 16; msb += 16; }\\n      if (xc >= 0x100) { xc >>= 8; msb += 8; }\\n      if (xc >= 0x10) { xc >>= 4; msb += 4; }\\n      if (xc >= 0x4) { xc >>= 2; msb += 2; }\\n      if (xc >= 0x2) msb += 1;  // No need to shift xc anymore\\n\\n      int256 result = msb - 64 << 64;\\n      uint256 ux = uint256 (int256 (x)) << uint256 (127 - msb);\\n      for (int256 bit = 0x8000000000000000; bit > 0; bit >>= 1) {\\n        ux *= ux;\\n        uint256 b = ux >> 255;\\n        ux >>= 127 + b;\\n        result += bit * int256 (b);\\n      }\\n\\n      return int128 (result);\\n    }\\n  }\\n\\n  /**\\n   * Calculate natural logarithm of x.  Revert if x <= 0.\\n   *\\n   * @param x signed 64.64-bit fixed point number\\n   * @return signed 64.64-bit fixed point number\\n   */\\n  function ln (int128 x) internal pure returns (int128) {\\n    unchecked {\\n      require (x > 0);\\n\\n      return int128 (int256 (\\n          uint256 (int256 (log_2 (x))) * 0xB17217F7D1CF79ABC9E3B39803F2F6AF >> 128));\\n    }\\n  }\\n\\n  /**\\n   * Calculate binary exponent of x.  Revert on overflow.\\n   *\\n   * @param x signed 64.64-bit fixed point number\\n   * @return signed 64.64-bit fixed point number\\n   */\\n  function exp_2 (int128 x) internal pure returns (int128) {\\n    unchecked {\\n      require (x < 0x400000000000000000); // Overflow\\n\\n      if (x < -0x400000000000000000) return 0; // Underflow\\n\\n      uint256 result = 0x80000000000000000000000000000000;\\n\\n      if (x & 0x8000000000000000 > 0)\\n        result = result * 0x16A09E667F3BCC908B2FB1366EA957D3E >> 128;\\n      if (x & 0x4000000000000000 > 0)\\n        result = result * 0x1306FE0A31B7152DE8D5A46305C85EDEC >> 128;\\n      if (x & 0x2000000000000000 > 0)\\n        result = result * 0x1172B83C7D517ADCDF7C8C50EB14A791F >> 128;\\n      if (x & 0x1000000000000000 > 0)\\n        result = result * 0x10B5586CF9890F6298B92B71842A98363 >> 128;\\n      if (x & 0x800000000000000 > 0)\\n        result = result * 0x1059B0D31585743AE7C548EB68CA417FD >> 128;\\n      if (x & 0x400000000000000 > 0)\\n        result = result * 0x102C9A3E778060EE6F7CACA4F7A29BDE8 >> 128;\\n      if (x & 0x200000000000000 > 0)\\n        result = result * 0x10163DA9FB33356D84A66AE336DCDFA3F >> 128;\\n      if (x & 0x100000000000000 > 0)\\n        result = result * 0x100B1AFA5ABCBED6129AB13EC11DC9543 >> 128;\\n      if (x & 0x80000000000000 > 0)\\n        result = result * 0x10058C86DA1C09EA1FF19D294CF2F679B >> 128;\\n      if (x & 0x40000000000000 > 0)\\n        result = result * 0x1002C605E2E8CEC506D21BFC89A23A00F >> 128;\\n      if (x & 0x20000000000000 > 0)\\n        result = result * 0x100162F3904051FA128BCA9C55C31E5DF >> 128;\\n      if (x & 0x10000000000000 > 0)\\n        result = result * 0x1000B175EFFDC76BA38E31671CA939725 >> 128;\\n      if (x & 0x8000000000000 > 0)\\n        result = result * 0x100058BA01FB9F96D6CACD4B180917C3D >> 128;\\n      if (x & 0x4000000000000 > 0)\\n        result = result * 0x10002C5CC37DA9491D0985C348C68E7B3 >> 128;\\n      if (x & 0x2000000000000 > 0)\\n        result = result * 0x1000162E525EE054754457D5995292026 >> 128;\\n      if (x & 0x1000000000000 > 0)\\n        result = result * 0x10000B17255775C040618BF4A4ADE83FC >> 128;\\n      if (x & 0x800000000000 > 0)\\n        result = result * 0x1000058B91B5BC9AE2EED81E9B7D4CFAB >> 128;\\n      if (x & 0x400000000000 > 0)\\n        result = result * 0x100002C5C89D5EC6CA4D7C8ACC017B7C9 >> 128;\\n      if (x & 0x200000000000 > 0)\\n        result = result * 0x10000162E43F4F831060E02D839A9D16D >> 128;\\n      if (x & 0x100000000000 > 0)\\n        result = result * 0x100000B1721BCFC99D9F890EA06911763 >> 128;\\n      if (x & 0x80000000000 > 0)\\n        result = result * 0x10000058B90CF1E6D97F9CA14DBCC1628 >> 128;\\n      if (x & 0x40000000000 > 0)\\n        result = result * 0x1000002C5C863B73F016468F6BAC5CA2B >> 128;\\n      if (x & 0x20000000000 > 0)\\n        result = result * 0x100000162E430E5A18F6119E3C02282A5 >> 128;\\n      if (x & 0x10000000000 > 0)\\n        result = result * 0x1000000B1721835514B86E6D96EFD1BFE >> 128;\\n      if (x & 0x8000000000 > 0)\\n        result = result * 0x100000058B90C0B48C6BE5DF846C5B2EF >> 128;\\n      if (x & 0x4000000000 > 0)\\n        result = result * 0x10000002C5C8601CC6B9E94213C72737A >> 128;\\n      if (x & 0x2000000000 > 0)\\n        result = result * 0x1000000162E42FFF037DF38AA2B219F06 >> 128;\\n      if (x & 0x1000000000 > 0)\\n        result = result * 0x10000000B17217FBA9C739AA5819F44F9 >> 128;\\n      if (x & 0x800000000 > 0)\\n        result = result * 0x1000000058B90BFCDEE5ACD3C1CEDC823 >> 128;\\n      if (x & 0x400000000 > 0)\\n        result = result * 0x100000002C5C85FE31F35A6A30DA1BE50 >> 128;\\n      if (x & 0x200000000 > 0)\\n        result = result * 0x10000000162E42FF0999CE3541B9FFFCF >> 128;\\n      if (x & 0x100000000 > 0)\\n        result = result * 0x100000000B17217F80F4EF5AADDA45554 >> 128;\\n      if (x & 0x80000000 > 0)\\n        result = result * 0x10000000058B90BFBF8479BD5A81B51AD >> 128;\\n      if (x & 0x40000000 > 0)\\n        result = result * 0x1000000002C5C85FDF84BD62AE30A74CC >> 128;\\n      if (x & 0x20000000 > 0)\\n        result = result * 0x100000000162E42FEFB2FED257559BDAA >> 128;\\n      if (x & 0x10000000 > 0)\\n        result = result * 0x1000000000B17217F7D5A7716BBA4A9AE >> 128;\\n      if (x & 0x8000000 > 0)\\n        result = result * 0x100000000058B90BFBE9DDBAC5E109CCE >> 128;\\n      if (x & 0x4000000 > 0)\\n        result = result * 0x10000000002C5C85FDF4B15DE6F17EB0D >> 128;\\n      if (x & 0x2000000 > 0)\\n        result = result * 0x1000000000162E42FEFA494F1478FDE05 >> 128;\\n      if (x & 0x1000000 > 0)\\n        result = result * 0x10000000000B17217F7D20CF927C8E94C >> 128;\\n      if (x & 0x800000 > 0)\\n        result = result * 0x1000000000058B90BFBE8F71CB4E4B33D >> 128;\\n      if (x & 0x400000 > 0)\\n        result = result * 0x100000000002C5C85FDF477B662B26945 >> 128;\\n      if (x & 0x200000 > 0)\\n        result = result * 0x10000000000162E42FEFA3AE53369388C >> 128;\\n      if (x & 0x100000 > 0)\\n        result = result * 0x100000000000B17217F7D1D351A389D40 >> 128;\\n      if (x & 0x80000 > 0)\\n        result = result * 0x10000000000058B90BFBE8E8B2D3D4EDE >> 128;\\n      if (x & 0x40000 > 0)\\n        result = result * 0x1000000000002C5C85FDF4741BEA6E77E >> 128;\\n      if (x & 0x20000 > 0)\\n        result = result * 0x100000000000162E42FEFA39FE95583C2 >> 128;\\n      if (x & 0x10000 > 0)\\n        result = result * 0x1000000000000B17217F7D1CFB72B45E1 >> 128;\\n      if (x & 0x8000 > 0)\\n        result = result * 0x100000000000058B90BFBE8E7CC35C3F0 >> 128;\\n      if (x & 0x4000 > 0)\\n        result = result * 0x10000000000002C5C85FDF473E242EA38 >> 128;\\n      if (x & 0x2000 > 0)\\n        result = result * 0x1000000000000162E42FEFA39F02B772C >> 128;\\n      if (x & 0x1000 > 0)\\n        result = result * 0x10000000000000B17217F7D1CF7D83C1A >> 128;\\n      if (x & 0x800 > 0)\\n        result = result * 0x1000000000000058B90BFBE8E7BDCBE2E >> 128;\\n      if (x & 0x400 > 0)\\n        result = result * 0x100000000000002C5C85FDF473DEA871F >> 128;\\n      if (x & 0x200 > 0)\\n        result = result * 0x10000000000000162E42FEFA39EF44D91 >> 128;\\n      if (x & 0x100 > 0)\\n        result = result * 0x100000000000000B17217F7D1CF79E949 >> 128;\\n      if (x & 0x80 > 0)\\n        result = result * 0x10000000000000058B90BFBE8E7BCE544 >> 128;\\n      if (x & 0x40 > 0)\\n        result = result * 0x1000000000000002C5C85FDF473DE6ECA >> 128;\\n      if (x & 0x20 > 0)\\n        result = result * 0x100000000000000162E42FEFA39EF366F >> 128;\\n      if (x & 0x10 > 0)\\n        result = result * 0x1000000000000000B17217F7D1CF79AFA >> 128;\\n      if (x & 0x8 > 0)\\n        result = result * 0x100000000000000058B90BFBE8E7BCD6D >> 128;\\n      if (x & 0x4 > 0)\\n        result = result * 0x10000000000000002C5C85FDF473DE6B2 >> 128;\\n      if (x & 0x2 > 0)\\n        result = result * 0x1000000000000000162E42FEFA39EF358 >> 128;\\n      if (x & 0x1 > 0)\\n        result = result * 0x10000000000000000B17217F7D1CF79AB >> 128;\\n\\n      result >>= uint256 (int256 (63 - (x >> 64)));\\n      require (result <= uint256 (int256 (MAX_64x64)));\\n\\n      return int128 (int256 (result));\\n    }\\n  }\\n\\n  /**\\n   * Calculate natural exponent of x.  Revert on overflow.\\n   *\\n   * @param x signed 64.64-bit fixed point number\\n   * @return signed 64.64-bit fixed point number\\n   */\\n  function exp (int128 x) internal pure returns (int128) {\\n    unchecked {\\n      require (x < 0x400000000000000000); // Overflow\\n\\n      if (x < -0x400000000000000000) return 0; // Underflow\\n\\n      return exp_2 (\\n          int128 (int256 (x) * 0x171547652B82FE1777D0FFDA0D23A7D12 >> 128));\\n    }\\n  }\\n\\n  /**\\n   * Calculate x / y rounding towards zero, where x and y are unsigned 256-bit\\n   * integer numbers.  Revert on overflow or when y is zero.\\n   *\\n   * @param x unsigned 256-bit integer number\\n   * @param y unsigned 256-bit integer number\\n   * @return unsigned 64.64-bit fixed point number\\n   */\\n  function divuu (uint256 x, uint256 y) private pure returns (uint128) {\\n    unchecked {\\n      require (y != 0);\\n\\n      uint256 result;\\n\\n      if (x <= 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF)\\n        result = (x << 64) / y;\\n      else {\\n        uint256 msb = 192;\\n        uint256 xc = x >> 192;\\n        if (xc >= 0x100000000) { xc >>= 32; msb += 32; }\\n        if (xc >= 0x10000) { xc >>= 16; msb += 16; }\\n        if (xc >= 0x100) { xc >>= 8; msb += 8; }\\n        if (xc >= 0x10) { xc >>= 4; msb += 4; }\\n        if (xc >= 0x4) { xc >>= 2; msb += 2; }\\n        if (xc >= 0x2) msb += 1;  // No need to shift xc anymore\\n\\n        result = (x << 255 - msb) / ((y - 1 >> msb - 191) + 1);\\n        require (result <= 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF);\\n\\n        uint256 hi = result * (y >> 128);\\n        uint256 lo = result * (y & 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF);\\n\\n        uint256 xh = x >> 192;\\n        uint256 xl = x << 64;\\n\\n        if (xl < lo) xh -= 1;\\n        xl -= lo; // We rely on overflow behavior here\\n        lo = hi << 128;\\n        if (xl < lo) xh -= 1;\\n        xl -= lo; // We rely on overflow behavior here\\n\\n        result += xh == hi >> 128 ? xl / y : 1;\\n      }\\n\\n      require (result <= 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF);\\n      return uint128 (result);\\n    }\\n  }\\n\\n  /**\\n   * Calculate sqrt (x) rounding down, where x is unsigned 256-bit integer\\n   * number.\\n   *\\n   * @param x unsigned 256-bit integer number\\n   * @return unsigned 128-bit integer number\\n   */\\n  function sqrtu (uint256 x) private pure returns (uint128) {\\n    unchecked {\\n      if (x == 0) return 0;\\n      else {\\n        uint256 xx = x;\\n        uint256 r = 1;\\n        if (xx >= 0x100000000000000000000000000000000) { xx >>= 128; r <<= 64; }\\n        if (xx >= 0x10000000000000000) { xx >>= 64; r <<= 32; }\\n        if (xx >= 0x100000000) { xx >>= 32; r <<= 16; }\\n        if (xx >= 0x10000) { xx >>= 16; r <<= 8; }\\n        if (xx >= 0x100) { xx >>= 8; r <<= 4; }\\n        if (xx >= 0x10) { xx >>= 4; r <<= 2; }\\n        if (xx >= 0x4) { r <<= 1; }\\n        r = (r + x / r) >> 1;\\n        r = (r + x / r) >> 1;\\n        r = (r + x / r) >> 1;\\n        r = (r + x / r) >> 1;\\n        r = (r + x / r) >> 1;\\n        r = (r + x / r) >> 1;\\n        r = (r + x / r) >> 1; // Seven iterations should be enough\\n        uint256 r1 = x / r;\\n        return uint128 (r < r1 ? r : r1);\\n      }\\n    }\\n  }\\n}\\n\",\"keccak256\":\"0x1364fdc24192b982f647c7fc68dcb2f6fc1b5e201843e773144bd23a76cb3b97\",\"license\":\"BSD-4-Clause\"},\"contracts/Funding.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity >=0.8.0 <0.9.0;\\nimport \\\"abdk-libraries-solidity/ABDKMath64x64.sol\\\";\\nimport \\\"../interfaces/IGateway.sol\\\";\\n\\n/**\\n * A smart contract for cross-chain quadratic voting developed during EthDam 24.\\n * This contract supports various types of funding curves and ensures privacy and security through integration with the Secret Network.\\n * @author arjanjohan\\n */\\ncontract Funding {\\n\\t// ========================================\\n\\t//     ENUM, STRUCTS AND MAPPINGS\\n\\t// ========================================\\n\\n\\tstruct Project {\\n\\t\\tuint256 id;\\n\\t\\tstring name;\\n\\t\\tstring description;\\n\\t\\taddress payable projectAddress;\\n\\t\\tuint256 totalContributions;\\n\\t\\tuint256 totalSquareRoots;\\n\\t}\\n\\n\\tstruct FundingRound {\\n\\t\\tuint256 id;\\n\\t\\tstring name;\\n\\t\\tstring description;\\n\\t\\tstring curveType;\\n\\t\\tmapping(uint256 => Project) projects;\\n\\t\\tuint256[] projectIds;\\n\\t\\tuint256 totalContributions;\\n\\t\\tbool isOpen;\\n\\t}\\n\\n\\tmapping(uint256 => FundingRound) public fundingRounds;\\n\\tuint256[] public roundIds;\\n\\n\\t// ========================================\\n\\t//     CONSTRUCTOR AND VALUES\\n\\t// ========================================\\n\\n\\tIGateway public gatewayContract;\\n\\taddress public gatewayAddressSepolia =\\n\\t\\taddress(0x3879E146140b627a5C858a08e507B171D9E43139);\\n\\n\\tconstructor() {\\n\\t\\tgatewayContract = IGateway(gatewayAddressSepolia);\\n\\t}\\n\\n\\t// ========================================\\n\\t//     EVENTS\\n\\t// ========================================\\n\\tevent RoundCreated(\\n\\t\\tuint256 indexed roundId,\\n\\t\\tstring name,\\n\\t\\tuint256[] projectIds\\n\\t);\\n\\tevent ContributionReceived(\\n\\t\\taddress indexed contributor,\\n\\t\\tuint256 indexed roundId,\\n\\t\\tuint256 amount\\n\\t);\\n\\tevent RoundClosed(uint256 indexed roundId);\\n\\n\\t// ========================================\\n\\t//     CORE FUNCTIONS\\n\\t// ========================================\\n\\n\\tfunction createFundingRound(\\n\\t\\tuint256 id,\\n\\t\\tstring memory name,\\n\\t\\tstring memory description,\\n\\t\\tstring memory curveType,\\n\\t\\tuint256[] memory projectIds,\\n\\t\\tstring[] memory projectNames,\\n\\t\\tstring[] memory projectDescriptions,\\n\\t\\taddress payable[] memory projectAddresses,\\n\\t\\tbool sendToSecret,\\n\\t\\tbytes32 payloadHash,\\n\\t\\tstring calldata routingInfo,\\n\\t\\tIGateway.ExecutionInfo calldata info\\n\\t) public payable {\\n\\t\\tvalidateProjectParameters(\\n\\t\\t\\tprojectIds,\\n\\t\\t\\tprojectNames,\\n\\t\\t\\tprojectDescriptions,\\n\\t\\t\\tprojectAddresses\\n\\t\\t);\\n\\t\\trequire(fundingRounds[id].id == 0, \\\"Round ID exists\\\");\\n\\n\\t\\tif (sendToSecret) {\\n\\t\\t\\tgatewayContract.send{ value: msg.value }(\\n\\t\\t\\t\\tpayloadHash,\\n\\t\\t\\t\\tmsg.sender,\\n\\t\\t\\t\\troutingInfo,\\n\\t\\t\\t\\tinfo\\n\\t\\t\\t);\\n\\t\\t}\\n\\n\\t\\tFundingRound storage round = fundingRounds[id];\\n\\t\\tsetupFundingRound(\\n\\t\\t\\tround,\\n\\t\\t\\tid,\\n\\t\\t\\tname,\\n\\t\\t\\tdescription,\\n\\t\\t\\tcurveType,\\n\\t\\t\\tprojectIds,\\n\\t\\t\\tprojectNames,\\n\\t\\t\\tprojectDescriptions,\\n\\t\\t\\tprojectAddresses\\n\\t\\t);\\n\\t\\troundIds.push(id);\\n\\t\\temit RoundCreated(id, name, projectIds);\\n\\t}\\n\\n\\tfunction contribute(\\n\\t\\tuint256 roundId,\\n\\t\\tuint256[] memory projectIds,\\n\\t\\tuint256[] memory amounts,\\n\\t\\tbytes32 payloadHash,\\n\\t\\tstring calldata routingInfo,\\n\\t\\tIGateway.ExecutionInfo calldata info\\n\\t) public payable {\\n\\t\\trequire(validRound(roundId), \\\"Invalid round\\\");\\n\\t\\tuint256 totalContributed = processContributions(\\n\\t\\t\\troundId,\\n\\t\\t\\tprojectIds,\\n\\t\\t\\tamounts\\n\\t\\t);\\n\\t\\trequire(msg.value >= totalContributed, \\\"Insufficient funds\\\");\\n\\n\\t\\tgatewayContract.send{ value: msg.value - totalContributed }(\\n\\t\\t\\tpayloadHash,\\n\\t\\t\\tmsg.sender,\\n\\t\\t\\troutingInfo,\\n\\t\\t\\tinfo\\n\\t\\t);\\n\\t\\temit ContributionReceived(msg.sender, roundId, totalContributed);\\n\\t}\\n\\n\\tfunction closeFundingRound(\\n\\t\\tuint256 roundId,\\n\\t\\tbool sendToSecret,\\n\\t\\tbytes32 payloadHash,\\n\\t\\tstring calldata routingInfo,\\n\\t\\tIGateway.ExecutionInfo calldata info\\n\\t) public payable {\\n\\t\\trequire(fundingRounds[roundId].isOpen, \\\"Round closed\\\");\\n\\t\\tfundingRounds[roundId].isOpen = false;\\n\\n\\t\\tif (sendToSecret) {\\n\\t\\t\\tgatewayContract.send{ value: msg.value }(\\n\\t\\t\\t\\tpayloadHash,\\n\\t\\t\\t\\tmsg.sender,\\n\\t\\t\\t\\troutingInfo,\\n\\t\\t\\t\\tinfo\\n\\t\\t\\t);\\n\\t\\t} else {\\n\\t\\t\\t// Different function to retrieve results\\n\\t\\t}\\n\\t\\tdistributeFunds(roundId); // todo add results from secret here\\n\\t\\temit RoundClosed(roundId);\\n\\t}\\n\\n\\t// ========================================\\n\\t//     HELPER FUNCTIONS\\n\\t// ========================================\\n\\n\\tfunction validateProjectParameters(\\n\\t\\tuint256[] memory projectIds,\\n\\t\\tstring[] memory projectNames,\\n\\t\\tstring[] memory projectDescriptions,\\n\\t\\taddress payable[] memory projectAddresses\\n\\t) private pure {\\n\\t\\trequire(\\n\\t\\t\\tprojectIds.length == projectNames.length &&\\n\\t\\t\\t\\tprojectNames.length == projectDescriptions.length &&\\n\\t\\t\\t\\tprojectDescriptions.length == projectAddresses.length,\\n\\t\\t\\t\\\"Mismatched input arrays\\\"\\n\\t\\t);\\n\\t}\\n\\n\\tfunction setupFundingRound(\\n\\t\\tFundingRound storage round,\\n\\t\\tuint256 id,\\n\\t\\tstring memory name,\\n\\t\\tstring memory description,\\n\\t\\tstring memory curveType,\\n\\t\\tuint256[] memory projectIds,\\n\\t\\tstring[] memory projectNames,\\n\\t\\tstring[] memory projectDescriptions,\\n\\t\\taddress payable[] memory projectAddresses\\n\\t) private {\\n\\t\\tround.id = id;\\n\\t\\tround.name = name;\\n\\t\\tround.description = description;\\n\\t\\tround.curveType = curveType;\\n\\t\\tround.isOpen = true;\\n\\n\\t\\tfor (uint256 i = 0; i < projectIds.length; i++) {\\n\\t\\t\\trequire(round.projects[projectIds[i]].id == 0, \\\"Project ID exists\\\");\\n\\t\\t\\tround.projects[projectIds[i]] = Project({\\n\\t\\t\\t\\tid: projectIds[i],\\n\\t\\t\\t\\tname: projectNames[i],\\n\\t\\t\\t\\tdescription: projectDescriptions[i],\\n\\t\\t\\t\\tprojectAddress: projectAddresses[i],\\n\\t\\t\\t\\ttotalContributions: 0,\\n\\t\\t\\t\\ttotalSquareRoots: 0\\n\\t\\t\\t});\\n\\t\\t\\tround.projectIds.push(projectIds[i]);\\n\\t\\t}\\n\\t}\\n\\n\\tfunction validRound(uint256 roundId) private view returns (bool) {\\n\\t\\treturn fundingRounds[roundId].isOpen && fundingRounds[roundId].id != 0;\\n\\t}\\n\\n\\tfunction processContributions(\\n\\t\\tuint256 roundId,\\n\\t\\tuint256[] memory projectIds,\\n\\t\\tuint256[] memory amounts\\n\\t) private view returns (uint256 totalContributed) {\\n\\t\\tfor (uint256 i = 0; i < amounts.length; i++) {\\n\\t\\t\\tProject storage project = fundingRounds[roundId].projects[\\n\\t\\t\\t\\tprojectIds[i]\\n\\t\\t\\t];\\n\\t\\t\\trequire(project.id != 0, \\\"Project not found\\\");\\n\\t\\t\\ttotalContributed += amounts[i];\\n\\t\\t}\\n\\t}\\n\\n\\tfunction distributeFunds(uint256 roundId) private {\\n\\t\\tuint256 totalFunds = fundingRounds[roundId].totalContributions;\\n\\t\\tfor (uint256 i = 0; i < fundingRounds[roundId].projectIds.length; i++) {\\n\\t\\t\\tProject storage project = fundingRounds[roundId].projects[\\n\\t\\t\\t\\tfundingRounds[roundId].projectIds[i]\\n\\t\\t\\t];\\n\\t\\t\\tuint256 payout = 0; // TODO: use data from secret to do payout\\n\\t\\t\\tproject.projectAddress.transfer(payout);\\n\\t\\t\\ttotalFunds -= payout;\\n\\t\\t}\\n\\t}\\n}\\n\",\"keccak256\":\"0xa4730f10cb974d514be0781234a300349ac3c1a79b34048a5982b4309a7aa0c4\",\"license\":\"MIT\"},\"interfaces/IGateway.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity >=0.8.0 <0.9.0;\\n\\ninterface IGateway {\\n\\tstruct ExecutionInfo {\\n\\t\\tbytes user_key;\\n\\t\\tbytes user_pubkey;\\n\\t\\tstring routing_code_hash;\\n\\t\\tstring task_destination_network;\\n\\t\\tstring handle;\\n\\t\\tbytes12 nonce;\\n\\t\\tuint32 callback_gas_limit;\\n\\t\\tbytes payload;\\n\\t\\tbytes payload_signature;\\n\\t}\\n\\n\\tfunction send(\\n\\t\\tbytes32 _payloadHash,\\n\\t\\taddress _userAddress,\\n\\t\\tstring calldata _routingInfo,\\n\\t\\tExecutionInfo calldata _info\\n\\t) external payable;\\n}\\n\",\"keccak256\":\"0x0a9d680f18372c00a8e706f4656647edc7a3973a1d1974bf2a59fe319a3150ba\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x6080806040523461004557733879e146140b627a5c858a08e507b171d9e4313960018060a01b03198181600354161760035560025416176002556116d1908161004b8239f35b600080fdfe6080604052600436101561001257600080fd5b6000803560e01c80630f79a09014610f3b5780636a15c788146103bd57806390a4cb9b1461036b578063c06d5ba914610161578063c428a278146100be578063c9640c09146100955763eb0cde1d1461006a57600080fd5b346100925780600319360112610092576002546040516001600160a01b039091168152602090f35b80fd5b50346100925780600319360112610092576003546040516001600160a01b039091168152602090f35b5034610092576020366003190112610092576040906004358152806020522080546100eb600183016113e1565b916100f8600282016113e1565b610150610107600384016113e1565b61014260ff600760068701549601541693610134604051988998895260c060208a015260c0890190611487565b908782036040890152611487565b908582036060870152611487565b916080840152151560a08301520390f35b5060031960a03682011261036757600435906024928335918215158303610362576001600160401b0360643581811161035e576101a290369060040161128c565b909260843592831161031f5761012090833603011261035e5785845260209484865260ff6007604087200154161561032b5786855284865260408520600701805460ff1916905515610323576002546001600160a01b031691823b1561031f579161022f93918593604051958694859384936339624a6b60e21b8552600401913360443560048701611519565b039134905af180156102d75790829161030b575b50505b82815280825260066040822001549181925b8483528282526005806040852001548510156102e25783808080809461028a8a6004604085200192604085200161138f565b9054600391821b1c83529088526040822001546001600160a01b03166108fcf1156102d757826102c4576102be9093611662565b92610258565b634e487b7160e01b835260116004528583fd5b6040513d84823e3d90fd5b83867fe9f7d7fd0b133404f0ccff737d6f3594748e04bc5507adfaed35835ef98937118280a280f35b610314906111e3565b610092578038610243565b8480fd5b505050610246565b60405162461bcd60e51b815260048101879052600c818a01526b149bdd5b990818db1bdcd95960a21b6044820152606490fd5b8380fd5b600080fd5b5080fd5b5034610092576020366003190112610092576004356001548110156103675760209060016000527fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf60154604051908152f35b50610180366003190112610092576024356001600160401b038111610367576103ea9036906004016112b9565b6044356001600160401b038111610f37576104099036906004016112b9565b906064356001600160401b03811161035e576104299036906004016112b9565b926084356001600160401b0381116103675761044990369060040161122e565b60a4356001600160401b038111610f375761046890369060040161130f565b9460c4356001600160401b03811161035e5761048890369060040161130f565b906001600160401b0360e4351161035e5736602360e43501121561035e576104b560e43560040135611217565b906104c360405192836111f6565b60e4356004013582526020820136602460e4356004013560051b60e435010111610f1157602460e43501905b602460e4356004013560051b60e43501018210610f15575050610104351515610104350361036257610144356001600160401b038111610f115761053790369060040161128c565b6001600160401b036101643511610f0d576101206101643536036003190112610f0d5785518a518091149081610f02575b5080610ef7575b15610eb2576004358752866020526040872054610e7b5761010435610e00575b50506004358552846020526040852096600435885586516001600160401b038111610d31576105c160018a01546113a7565b601f8111610dbb575b50806020601f8211600114610d50578891610d45575b508160011b916000199060031b1c19161760018901555b8051906001600160401b038211610d3157819061061760028b01546113a7565b601f8111610ce0575b50602090601f8311600114610c71578892610c66575b50508160011b916000199060031b1c19161760028801555b8051906001600160401b038211610c5257819061066e60038a01546113a7565b601f8111610c01575b50602090601f8311600114610b92578792610b87575b50508160011b916000199060031b1c19161760038701555b60078601805460ff19166001179055835b8351811015610aaa576106c98185611687565b518552600487016020526040852054610a71576106e68185611687565b516106f1828a611687565b51906106fd8386611687565b516001600160a01b036107108587611687565b511690604051928360c08101106001600160401b0360c0860111176108ba5760c08401604052835260208301938452604083015260608201528660808201528660a082015261075f8387611687565b51875260048901602052604087209181518355518051906001600160401b03821161099257819061079360018601546113a7565b601f8111610a20575b50602090601f83116001146109b1578a926109a6575b50508160011b916000199060031b1c19161760018301555b60408101518051906001600160401b038211610992576107ed60028501546113a7565b601f811161094d575b50602090601f83116001146108db5791806005949260a0948c926108d0575b50508160011b916000199060031b1c19161760028501555b60038401600180841b036060830151166bffffffffffffffffffffffff841b82541617905560808101516004850155015191015561086b8185611687565b5190600588015491600160401b8310156108ba576108988360016108b5950160058c015560058b0161138f565b819291549060031b600019811b9283911b16911916179055611662565b6106b6565b634e487b7160e01b600052604160045260246000fd5b015190503880610815565b90600285018a5260208a20918a5b601f19851681106109355750926005949260019260a09583601f1981161061091c575b505050811b01600285015561082d565b015160001960f88460031b161c1916905538808061090c565b919260206001819286850151815501940192016108e9565b600285018a5260208a20601f840160051c81016020851061098b575b601f830160051c8201811061097f5750506107f6565b60008155600101610969565b5080610969565b634e487b7160e01b89526041600452602489fd5b0151905038806107b2565b9250600185018a5260208a20908a935b601f1984168510610a05576001945083601f198116106109ec575b505050811b0160018301556107ca565b015160001960f88460031b161c191690553880806109dc565b818101518355602094850194600190930192909101906109c1565b909150600185018a5260208a20601f840160051c810160208510610a6a575b90849392915b601f830160051c82018110610a5b57505061079c565b60008155859450600101610a45565b5080610a3f565b60405162461bcd60e51b815260206004820152601160248201527050726f6a6563742049442065786973747360781b6044820152606490fd5b50505082600154600160401b8110156108ba576001810180600155811015610b71576001600052600435907fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf60155610b0d60405191604083526040830190611487565b818103602083015260208084519283815201930190845b818110610b5b57505050807f2fceaf42a6664f3294222799a359650844542179732d12b26b6926bd338479a591600435930390a280f35b8251855260209485019490920191600101610b24565b634e487b7160e01b600052603260045260246000fd5b01519050388061068d565b9250600389018752602087209087935b601f1984168510610be6576001945083601f19811610610bcd575b505050811b0160038701556106a5565b015160001960f88460031b161c19169055388080610bbd565b81810151835560209485019460019093019290910190610ba2565b90915060038901875260208720601f840160051c810160208510610c4b575b90849392915b601f830160051c82018110610c3c575050610677565b60008155859450600101610c26565b5080610c20565b634e487b7160e01b86526041600452602486fd5b015190503880610636565b925060028a018852602088209088935b601f1984168510610cc5576001945083601f19811610610cac575b505050811b01600288015561064e565b015160001960f88460031b161c19169055388080610c9c565b81810151835560209485019460019093019290910190610c81565b90915060028a01885260208820601f840160051c810160208510610d2a575b90849392915b601f830160051c82018110610d1b575050610620565b60008155859450600101610d05565b5080610cff565b634e487b7160e01b87526041600452602487fd5b9050880151386105e0565b915060018a0188526020882088925b8a601f1984168510610da457506001935082601f19811610610d8b575b5050811b0160018901556105f7565b8a015160001960f88460031b161c191690553880610d7c565b810151825560209384019360019092019101610d5f565b60018a01885260208820601f830160051c810160208410610df9575b601f830160051c82018110610ded5750506105ca565b60008155600101610dd7565b5080610dd7565b6002546001600160a01b031690813b15610e7757918791610e44936040518095819482936339624a6b60e21b84526101643560040191336101243560048701611519565b039134905af18015610e6c579086911561058f57610e61906111e3565b61031f57843861058f565b6040513d88823e3d90fd5b8780fd5b60405162461bcd60e51b815260206004820152600f60248201526e526f756e642049442065786973747360881b6044820152606490fd5b60405162461bcd60e51b815260206004820152601760248201527f4d69736d61746368656420696e707574206172726179730000000000000000006044820152606490fd5b50845184511461056f565b905085511438610568565b8680fd5b8580fd5b81356001600160a01b0381169003610f0d5781358152602091820191016104ef565b8280fd5b5060031960c036820112610367576004359060249283356001600160401b0390818111610f3757610f7090369060040161122e565b906044803582811161031f57610f8a90369060040161122e565b92608435838111610f1157610fa390369060040161128c565b97909660a435948511610f0d57610120908536030112610f115780865260209386855260ff600760408920015416806111d6575b156111a357869787985b87518a101561107f57838952888752600460408a20016110018b87611687565b518a5287526040892054156110475761101a8a89611687565b5181018091116110345761102e9099611662565b98610fe1565b634e487b7160e01b895260116004528b89fd5b5060405162461bcd60e51b8152600481018790526011818d015270141c9bda9958dd081b9bdd08199bdd5b99607a1b81870152606490fd5b93508a8a8997949686341061116c57506002546001600160a01b031691348781039190821161115a57509082918994933b1561031f576110de95604051968795869485936339624a6b60e21b8552600401913360643560048701611519565b03925af1801561114f5761111c575b507fd2dff949d20e874cc6ba1dcefb840fb8cf6000a4197bfb69accfea5a32443ff5906040519283523392a380f35b936111487fd2dff949d20e874cc6ba1dcefb840fb8cf6000a4197bfb69accfea5a32443ff592956111e3565b93906110ed565b6040513d87823e3d90fd5b634e487b7160e01b8a52601160045289fd5b8571496e73756666696369656e742066756e647360701b6064926012866040519462461bcd60e51b86526004860152840152820152fd5b60405162461bcd60e51b815260048101869052600d818c01526c125b9d985b1a59081c9bdd5b99609a1b81860152606490fd5b5060408720541515610fd7565b6001600160401b0381116108ba57604052565b90601f801991011681019081106001600160401b038211176108ba57604052565b6001600160401b0381116108ba5760051b60200190565b81601f820112156103625780359161124583611217565b9261125360405194856111f6565b808452602092838086019260051b820101928311610362578301905b82821061127d575050505090565b8135815290830190830161126f565b9181601f84011215610362578235916001600160401b038311610362576020838186019501011161036257565b81601f82011215610362578035906001600160401b0382116108ba57604051926112ed601f8401601f1916602001856111f6565b8284526020838301011161036257816000926020809301838601378301015290565b9080601f830112156103625781359061132782611217565b9261133560405194856111f6565b828452602092838086019160051b8301019280841161036257848301915b8483106113635750505050505090565b82356001600160401b038111610362578691611384848480948901016112b9565b815201920191611353565b8054821015610b715760005260206000200190600090565b90600182811c921680156113d7575b60208310146113c157565b634e487b7160e01b600052602260045260246000fd5b91607f16916113b6565b90604051918260008254926113f5846113a7565b9081845260019485811690816000146114645750600114611421575b505061141f925003836111f6565b565b9093915060005260209081600020936000915b81831061144c57505061141f93508201013880611411565b85548884018501529485019487945091830191611434565b91505061141f94506020925060ff191682840152151560051b8201013880611411565b919082519283825260005b8481106114b3575050826000602080949584010152601f8019910116010190565b602081830181015184830182015201611492565b908060209392818452848401376000828201840152601f01601f1916010190565b9035601e19823603018112156103625701602081359101916001600160401b03821161036257813603831361036257565b9081526001600160a01b03909116602082015260806040820181905290939261154592918501916114c7565b9160608184039101526115e16115c66115ab61159061157561156786806114e8565b610120808a528901916114c7565b61158260208701876114e8565b9088830360208a01526114c7565b61159d60408601866114e8565b9087830360408901526114c7565b6115b860608501856114e8565b9086830360608801526114c7565b6115d360808401846114e8565b9085830360808701526114c7565b9160a08201356bffffffffffffffffffffffff60a01b81168091036103625760a082015260c082013563ffffffff81168091036103625761165f936116409160c084015261163260e08501856114e8565b9084830360e08601526114c7565b9161165161010091828101906114e8565b9290918185039101526114c7565b90565b60001981146116715760010190565b634e487b7160e01b600052601160045260246000fd5b8051821015610b715760209160051b01019056fea2646970667358221220fb3f947b193bb5131e88475dcdd352e7d19bd2abbac1c196a2cc58f4e4841fbe64736f6c63430008110033",
+  "deployedBytecode": "0x6080604052600436101561001257600080fd5b6000803560e01c80630f79a09014610f3b5780636a15c788146103bd57806390a4cb9b1461036b578063c06d5ba914610161578063c428a278146100be578063c9640c09146100955763eb0cde1d1461006a57600080fd5b346100925780600319360112610092576002546040516001600160a01b039091168152602090f35b80fd5b50346100925780600319360112610092576003546040516001600160a01b039091168152602090f35b5034610092576020366003190112610092576040906004358152806020522080546100eb600183016113e1565b916100f8600282016113e1565b610150610107600384016113e1565b61014260ff600760068701549601541693610134604051988998895260c060208a015260c0890190611487565b908782036040890152611487565b908582036060870152611487565b916080840152151560a08301520390f35b5060031960a03682011261036757600435906024928335918215158303610362576001600160401b0360643581811161035e576101a290369060040161128c565b909260843592831161031f5761012090833603011261035e5785845260209484865260ff6007604087200154161561032b5786855284865260408520600701805460ff1916905515610323576002546001600160a01b031691823b1561031f579161022f93918593604051958694859384936339624a6b60e21b8552600401913360443560048701611519565b039134905af180156102d75790829161030b575b50505b82815280825260066040822001549181925b8483528282526005806040852001548510156102e25783808080809461028a8a6004604085200192604085200161138f565b9054600391821b1c83529088526040822001546001600160a01b03166108fcf1156102d757826102c4576102be9093611662565b92610258565b634e487b7160e01b835260116004528583fd5b6040513d84823e3d90fd5b83867fe9f7d7fd0b133404f0ccff737d6f3594748e04bc5507adfaed35835ef98937118280a280f35b610314906111e3565b610092578038610243565b8480fd5b505050610246565b60405162461bcd60e51b815260048101879052600c818a01526b149bdd5b990818db1bdcd95960a21b6044820152606490fd5b8380fd5b600080fd5b5080fd5b5034610092576020366003190112610092576004356001548110156103675760209060016000527fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf60154604051908152f35b50610180366003190112610092576024356001600160401b038111610367576103ea9036906004016112b9565b6044356001600160401b038111610f37576104099036906004016112b9565b906064356001600160401b03811161035e576104299036906004016112b9565b926084356001600160401b0381116103675761044990369060040161122e565b60a4356001600160401b038111610f375761046890369060040161130f565b9460c4356001600160401b03811161035e5761048890369060040161130f565b906001600160401b0360e4351161035e5736602360e43501121561035e576104b560e43560040135611217565b906104c360405192836111f6565b60e4356004013582526020820136602460e4356004013560051b60e435010111610f1157602460e43501905b602460e4356004013560051b60e43501018210610f15575050610104351515610104350361036257610144356001600160401b038111610f115761053790369060040161128c565b6001600160401b036101643511610f0d576101206101643536036003190112610f0d5785518a518091149081610f02575b5080610ef7575b15610eb2576004358752866020526040872054610e7b5761010435610e00575b50506004358552846020526040852096600435885586516001600160401b038111610d31576105c160018a01546113a7565b601f8111610dbb575b50806020601f8211600114610d50578891610d45575b508160011b916000199060031b1c19161760018901555b8051906001600160401b038211610d3157819061061760028b01546113a7565b601f8111610ce0575b50602090601f8311600114610c71578892610c66575b50508160011b916000199060031b1c19161760028801555b8051906001600160401b038211610c5257819061066e60038a01546113a7565b601f8111610c01575b50602090601f8311600114610b92578792610b87575b50508160011b916000199060031b1c19161760038701555b60078601805460ff19166001179055835b8351811015610aaa576106c98185611687565b518552600487016020526040852054610a71576106e68185611687565b516106f1828a611687565b51906106fd8386611687565b516001600160a01b036107108587611687565b511690604051928360c08101106001600160401b0360c0860111176108ba5760c08401604052835260208301938452604083015260608201528660808201528660a082015261075f8387611687565b51875260048901602052604087209181518355518051906001600160401b03821161099257819061079360018601546113a7565b601f8111610a20575b50602090601f83116001146109b1578a926109a6575b50508160011b916000199060031b1c19161760018301555b60408101518051906001600160401b038211610992576107ed60028501546113a7565b601f811161094d575b50602090601f83116001146108db5791806005949260a0948c926108d0575b50508160011b916000199060031b1c19161760028501555b60038401600180841b036060830151166bffffffffffffffffffffffff841b82541617905560808101516004850155015191015561086b8185611687565b5190600588015491600160401b8310156108ba576108988360016108b5950160058c015560058b0161138f565b819291549060031b600019811b9283911b16911916179055611662565b6106b6565b634e487b7160e01b600052604160045260246000fd5b015190503880610815565b90600285018a5260208a20918a5b601f19851681106109355750926005949260019260a09583601f1981161061091c575b505050811b01600285015561082d565b015160001960f88460031b161c1916905538808061090c565b919260206001819286850151815501940192016108e9565b600285018a5260208a20601f840160051c81016020851061098b575b601f830160051c8201811061097f5750506107f6565b60008155600101610969565b5080610969565b634e487b7160e01b89526041600452602489fd5b0151905038806107b2565b9250600185018a5260208a20908a935b601f1984168510610a05576001945083601f198116106109ec575b505050811b0160018301556107ca565b015160001960f88460031b161c191690553880806109dc565b818101518355602094850194600190930192909101906109c1565b909150600185018a5260208a20601f840160051c810160208510610a6a575b90849392915b601f830160051c82018110610a5b57505061079c565b60008155859450600101610a45565b5080610a3f565b60405162461bcd60e51b815260206004820152601160248201527050726f6a6563742049442065786973747360781b6044820152606490fd5b50505082600154600160401b8110156108ba576001810180600155811015610b71576001600052600435907fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf60155610b0d60405191604083526040830190611487565b818103602083015260208084519283815201930190845b818110610b5b57505050807f2fceaf42a6664f3294222799a359650844542179732d12b26b6926bd338479a591600435930390a280f35b8251855260209485019490920191600101610b24565b634e487b7160e01b600052603260045260246000fd5b01519050388061068d565b9250600389018752602087209087935b601f1984168510610be6576001945083601f19811610610bcd575b505050811b0160038701556106a5565b015160001960f88460031b161c19169055388080610bbd565b81810151835560209485019460019093019290910190610ba2565b90915060038901875260208720601f840160051c810160208510610c4b575b90849392915b601f830160051c82018110610c3c575050610677565b60008155859450600101610c26565b5080610c20565b634e487b7160e01b86526041600452602486fd5b015190503880610636565b925060028a018852602088209088935b601f1984168510610cc5576001945083601f19811610610cac575b505050811b01600288015561064e565b015160001960f88460031b161c19169055388080610c9c565b81810151835560209485019460019093019290910190610c81565b90915060028a01885260208820601f840160051c810160208510610d2a575b90849392915b601f830160051c82018110610d1b575050610620565b60008155859450600101610d05565b5080610cff565b634e487b7160e01b87526041600452602487fd5b9050880151386105e0565b915060018a0188526020882088925b8a601f1984168510610da457506001935082601f19811610610d8b575b5050811b0160018901556105f7565b8a015160001960f88460031b161c191690553880610d7c565b810151825560209384019360019092019101610d5f565b60018a01885260208820601f830160051c810160208410610df9575b601f830160051c82018110610ded5750506105ca565b60008155600101610dd7565b5080610dd7565b6002546001600160a01b031690813b15610e7757918791610e44936040518095819482936339624a6b60e21b84526101643560040191336101243560048701611519565b039134905af18015610e6c579086911561058f57610e61906111e3565b61031f57843861058f565b6040513d88823e3d90fd5b8780fd5b60405162461bcd60e51b815260206004820152600f60248201526e526f756e642049442065786973747360881b6044820152606490fd5b60405162461bcd60e51b815260206004820152601760248201527f4d69736d61746368656420696e707574206172726179730000000000000000006044820152606490fd5b50845184511461056f565b905085511438610568565b8680fd5b8580fd5b81356001600160a01b0381169003610f0d5781358152602091820191016104ef565b8280fd5b5060031960c036820112610367576004359060249283356001600160401b0390818111610f3757610f7090369060040161122e565b906044803582811161031f57610f8a90369060040161122e565b92608435838111610f1157610fa390369060040161128c565b97909660a435948511610f0d57610120908536030112610f115780865260209386855260ff600760408920015416806111d6575b156111a357869787985b87518a101561107f57838952888752600460408a20016110018b87611687565b518a5287526040892054156110475761101a8a89611687565b5181018091116110345761102e9099611662565b98610fe1565b634e487b7160e01b895260116004528b89fd5b5060405162461bcd60e51b8152600481018790526011818d015270141c9bda9958dd081b9bdd08199bdd5b99607a1b81870152606490fd5b93508a8a8997949686341061116c57506002546001600160a01b031691348781039190821161115a57509082918994933b1561031f576110de95604051968795869485936339624a6b60e21b8552600401913360643560048701611519565b03925af1801561114f5761111c575b507fd2dff949d20e874cc6ba1dcefb840fb8cf6000a4197bfb69accfea5a32443ff5906040519283523392a380f35b936111487fd2dff949d20e874cc6ba1dcefb840fb8cf6000a4197bfb69accfea5a32443ff592956111e3565b93906110ed565b6040513d87823e3d90fd5b634e487b7160e01b8a52601160045289fd5b8571496e73756666696369656e742066756e647360701b6064926012866040519462461bcd60e51b86526004860152840152820152fd5b60405162461bcd60e51b815260048101869052600d818c01526c125b9d985b1a59081c9bdd5b99609a1b81860152606490fd5b5060408720541515610fd7565b6001600160401b0381116108ba57604052565b90601f801991011681019081106001600160401b038211176108ba57604052565b6001600160401b0381116108ba5760051b60200190565b81601f820112156103625780359161124583611217565b9261125360405194856111f6565b808452602092838086019260051b820101928311610362578301905b82821061127d575050505090565b8135815290830190830161126f565b9181601f84011215610362578235916001600160401b038311610362576020838186019501011161036257565b81601f82011215610362578035906001600160401b0382116108ba57604051926112ed601f8401601f1916602001856111f6565b8284526020838301011161036257816000926020809301838601378301015290565b9080601f830112156103625781359061132782611217565b9261133560405194856111f6565b828452602092838086019160051b8301019280841161036257848301915b8483106113635750505050505090565b82356001600160401b038111610362578691611384848480948901016112b9565b815201920191611353565b8054821015610b715760005260206000200190600090565b90600182811c921680156113d7575b60208310146113c157565b634e487b7160e01b600052602260045260246000fd5b91607f16916113b6565b90604051918260008254926113f5846113a7565b9081845260019485811690816000146114645750600114611421575b505061141f925003836111f6565b565b9093915060005260209081600020936000915b81831061144c57505061141f93508201013880611411565b85548884018501529485019487945091830191611434565b91505061141f94506020925060ff191682840152151560051b8201013880611411565b919082519283825260005b8481106114b3575050826000602080949584010152601f8019910116010190565b602081830181015184830182015201611492565b908060209392818452848401376000828201840152601f01601f1916010190565b9035601e19823603018112156103625701602081359101916001600160401b03821161036257813603831361036257565b9081526001600160a01b03909116602082015260806040820181905290939261154592918501916114c7565b9160608184039101526115e16115c66115ab61159061157561156786806114e8565b610120808a528901916114c7565b61158260208701876114e8565b9088830360208a01526114c7565b61159d60408601866114e8565b9087830360408901526114c7565b6115b860608501856114e8565b9086830360608801526114c7565b6115d360808401846114e8565b9085830360808701526114c7565b9160a08201356bffffffffffffffffffffffff60a01b81168091036103625760a082015260c082013563ffffffff81168091036103625761165f936116409160c084015261163260e08501856114e8565b9084830360e08601526114c7565b9161165161010091828101906114e8565b9290918185039101526114c7565b90565b60001981146116715760010190565b634e487b7160e01b600052601160045260246000fd5b8051821015610b715760209160051b01019056fea2646970667358221220fb3f947b193bb5131e88475dcdd352e7d19bd2abbac1c196a2cc58f4e4841fbe64736f6c63430008110033",
+  "devdoc": {
+    "author": "arjanjohan",
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "notice": "A smart contract for cross-chain quadratic voting developed during EthDam 24. This contract supports various types of funding curves and ensures privacy and security through integration with the Secret Network.",
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 2856,
+        "contract": "contracts/Funding.sol:Funding",
+        "label": "fundingRounds",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_mapping(t_uint256,t_struct(FundingRound)2851_storage)"
+      },
+      {
+        "astId": 2859,
+        "contract": "contracts/Funding.sol:Funding",
+        "label": "roundIds",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_array(t_uint256)dyn_storage"
+      },
+      {
+        "astId": 2862,
+        "contract": "contracts/Funding.sol:Funding",
+        "label": "gatewayContract",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_contract(IGateway)3438"
+      },
+      {
+        "astId": 2868,
+        "contract": "contracts/Funding.sol:Funding",
+        "label": "gatewayAddressSepolia",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_address"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_address_payable": {
+        "encoding": "inplace",
+        "label": "address payable",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_uint256)dyn_storage": {
+        "base": "t_uint256",
+        "encoding": "dynamic_array",
+        "label": "uint256[]",
+        "numberOfBytes": "32"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_contract(IGateway)3438": {
+        "encoding": "inplace",
+        "label": "contract IGateway",
+        "numberOfBytes": "20"
+      },
+      "t_mapping(t_uint256,t_struct(FundingRound)2851_storage)": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => struct Funding.FundingRound)",
+        "numberOfBytes": "32",
+        "value": "t_struct(FundingRound)2851_storage"
+      },
+      "t_mapping(t_uint256,t_struct(Project)2830_storage)": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => struct Funding.Project)",
+        "numberOfBytes": "32",
+        "value": "t_struct(Project)2830_storage"
+      },
+      "t_string_storage": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      },
+      "t_struct(FundingRound)2851_storage": {
+        "encoding": "inplace",
+        "label": "struct Funding.FundingRound",
+        "members": [
+          {
+            "astId": 2832,
+            "contract": "contracts/Funding.sol:Funding",
+            "label": "id",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 2834,
+            "contract": "contracts/Funding.sol:Funding",
+            "label": "name",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 2836,
+            "contract": "contracts/Funding.sol:Funding",
+            "label": "description",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 2838,
+            "contract": "contracts/Funding.sol:Funding",
+            "label": "curveType",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 2843,
+            "contract": "contracts/Funding.sol:Funding",
+            "label": "projects",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_mapping(t_uint256,t_struct(Project)2830_storage)"
+          },
+          {
+            "astId": 2846,
+            "contract": "contracts/Funding.sol:Funding",
+            "label": "projectIds",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_array(t_uint256)dyn_storage"
+          },
+          {
+            "astId": 2848,
+            "contract": "contracts/Funding.sol:Funding",
+            "label": "totalContributions",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 2850,
+            "contract": "contracts/Funding.sol:Funding",
+            "label": "isOpen",
+            "offset": 0,
+            "slot": "7",
+            "type": "t_bool"
+          }
+        ],
+        "numberOfBytes": "256"
+      },
+      "t_struct(Project)2830_storage": {
+        "encoding": "inplace",
+        "label": "struct Funding.Project",
+        "members": [
+          {
+            "astId": 2819,
+            "contract": "contracts/Funding.sol:Funding",
+            "label": "id",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 2821,
+            "contract": "contracts/Funding.sol:Funding",
+            "label": "name",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 2823,
+            "contract": "contracts/Funding.sol:Funding",
+            "label": "description",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 2825,
+            "contract": "contracts/Funding.sol:Funding",
+            "label": "projectAddress",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_address_payable"
+          },
+          {
+            "astId": 2827,
+            "contract": "contracts/Funding.sol:Funding",
+            "label": "totalContributions",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 2829,
+            "contract": "contracts/Funding.sol:Funding",
+            "label": "totalSquareRoots",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_uint256"
+          }
+        ],
+        "numberOfBytes": "192"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}

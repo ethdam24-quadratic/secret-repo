@@ -71,7 +71,7 @@ We plan to add ... TODO
 
 ### NEAR
 
-Deployed our smart contract on Aurora testnet, see [here](todo).
+Deployed our smart contract on Aurora testnet, see [here](https://explorer.testnet.aurora.dev/address/0x072117443CEb3920d9D95d2F005b23FeC9E761aD).
 
 ### dRPC
 
@@ -83,7 +83,7 @@ Deployed using dRPC, see [here](https://github.com/ethdam24-quadratic/secret-rep
 - [Presentation slides](todo)
 - [Vercel deployment](https://secret-repo-nextjs-git-contracts-ilge-ustuns-projects.vercel.app/)
 - [Smart contract on Sepolia](https://sepolia.etherscan.io/address/0xf87d0ca6a6B121CAB4Bc51bf7Cd3eaFF491e28c5#code)
-- [Smart contract on Aurora testnet](todo)
+- [Smart contract on Aurora testnet](https://explorer.testnet.aurora.dev/address/0x072117443CEb3920d9D95d2F005b23FeC9E761aD)
 
 ## Team
 
