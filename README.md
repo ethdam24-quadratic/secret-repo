@@ -35,7 +35,7 @@ We used Slither to find issues and vunerabilities in our smart contracts. We fou
 
 [Video demo](todo)
 
-[Presentation slides](todo)
+[Presentation slides](https://github.com/ethdam24-quadratic/secret-repo/blob/main/SLIDES.md)
 
 [Vercel deployment](https://secret-repo-nextjs.vercel.app/)
 
