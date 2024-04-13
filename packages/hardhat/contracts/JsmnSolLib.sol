@@ -249,7 +249,7 @@ library JsmnSolLib {
 				if (i == 0) {
 					token = tokens[i];
 					if (token.startSet && !token.endSet) {
-						parser.toksuper = uint128(i);
+						parser.toksuper = int(i);
 					}
 				}
 				continue;
@@ -372,7 +372,7 @@ library JsmnSolLib {
 					else _b--;
 				}
 				mint *= 10;
-				mint += uint8(bresult[i]) - 48;
+				mint += int(uint256(uint8(bresult[i]))) - 48;
 			} else if (uint8(bresult[i]) == 46) decimals = true;
 		}
 		if (_b > 0) mint *= int(10 ** _b);

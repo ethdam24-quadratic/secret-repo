@@ -2,6 +2,7 @@
 pragma solidity >=0.8.0 <0.9.0;
 import "abdk-libraries-solidity/ABDKMath64x64.sol";
 import "../interfaces/IGateway.sol";
+import "./JsmnSolLib.sol";
 
 /**
  * A smart contract for cross-chain quadratic voting developed during EthDam 24.
@@ -149,6 +150,7 @@ contract Funding {
 		require(fundingRounds[roundId].isOpen, "Round closed");
 		fundingRounds[roundId].isOpen = false;
 
+		string memory json = ""; // todo update this from secret
 		if (sendToSecret) {
 			gatewayContract.send{ value: msg.value }(
 				payloadHash,
@@ -159,7 +161,7 @@ contract Funding {
 		} else {
 			// Different function to retrieve results
 		}
-		distributeFunds(roundId); // todo add results from secret here
+		distributeFunds(json, roundId); // todo add results from secret here
 		emit RoundClosed(roundId);
 	}
 
@@ -230,13 +232,54 @@ contract Funding {
 		}
 	}
 
-	function distributeFunds(uint256 roundId) private {
+	function distributeFunds(string memory json, uint256 roundId) public {
+		// Parse the JSON input
+		uint256 numTokens;
+		JsmnSolLib.Token[] memory tokens;
+		JsmnSolLib.Parser memory parser;
+		(, tokens, numTokens) = JsmnSolLib.parse(json, 20);
+
+		// Ensure JSON parsing succeeded
+		require(numTokens > 0, "JSON parsing failed or no data found");
+
 		uint256 totalFunds = fundingRounds[roundId].totalContributions;
+
+		// Iterate over each project in the round
 		for (uint256 i = 0; i < fundingRounds[roundId].projectIds.length; i++) {
 			Project storage project = fundingRounds[roundId].projects[
 				fundingRounds[roundId].projectIds[i]
 			];
-			uint256 payout = 0; // TODO: use data from secret to do payout
+
+			// Find matching project ID in JSON and calculate the payout
+			uint256 payout = 0;
+			for (uint256 j = 1; j < numTokens - 1; j += 3) {
+				// Using getBytes to extract the project id from json
+				string memory projectId = JsmnSolLib.getBytes(
+					json,
+					tokens[j].start,
+					tokens[j].end
+				);
+				if (
+					keccak256(bytes(projectId)) ==
+					keccak256(bytes(project.name))
+				) {
+					// Calculate payout based on the funding percentage extracted using getBytes
+					string memory fundingStr = JsmnSolLib.getBytes(
+						json,
+						tokens[j + 1].start,
+						tokens[j + 1].end
+					);
+					uint256 fundingPercentage = uint256(
+						JsmnSolLib.parseInt(fundingStr)
+					);
+					payout =
+						(project.totalContributions * fundingPercentage) /
+						100;
+					break;
+				}
+			}
+
+			// Transfer payout to project address and decrement total funds
 			project.projectAddress.transfer(payout);
 			totalFunds -= payout;
 		}
