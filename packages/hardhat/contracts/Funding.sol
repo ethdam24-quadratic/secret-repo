@@ -102,7 +102,7 @@ contract Funding {
 			projectDescriptions,
 			projectAddresses
 		);
-		require(fundingRounds[id].id == 0, "Round ID exists");
+		// require(fundingRounds[id].id == 0, "Round ID exists");
 
 		if (sendToSecret) {
 			gatewayContract.send{ value: msg.value }(
@@ -220,12 +220,12 @@ contract Funding {
 		string[] memory projectDescriptions,
 		address payable[] memory projectAddresses
 	) private pure {
-		require(
-			projectIds.length == projectNames.length &&
-				projectNames.length == projectDescriptions.length &&
-				projectDescriptions.length == projectAddresses.length,
-			"Mismatched input arrays"
-		);
+		// require(
+		// 	projectIds.length == projectNames.length &&
+		// 		projectNames.length == projectDescriptions.length &&
+		// 		projectDescriptions.length == projectAddresses.length,
+		// 	"Mismatched input arrays"
+		// );
 	}
 
 	function setupFundingRound(
@@ -246,7 +246,7 @@ contract Funding {
 		round.isOpen = true;
 
 		for (uint256 i = 0; i < projectIds.length; i++) {
-			require(round.projects[projectIds[i]].id == 0, "Project ID exists");
+			// require(round.projects[projectIds[i]].id == 0, "Project ID exists");
 			round.projects[projectIds[i]] = Project({
 				id: projectIds[i],
 				name: projectNames[i],
@@ -270,7 +270,7 @@ contract Funding {
 		uint256 numTokens;
 		JsmnSolLib.Token[] memory tokens;
 		(, tokens, numTokens) = JsmnSolLib.parse(json, 20);
-		require(numTokens > 0, "JSON parsing failed or no data found");
+		// require(numTokens > 0, "JSON parsing failed or no data found");
 
 		ProjectFundingData[] memory results = new ProjectFundingData[](
 			(numTokens - 1) / 3
