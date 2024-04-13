@@ -5,7 +5,15 @@ import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { Project } from "~~/components/rounds-and-votes/IProject";
 import ProjectCard from "~~/components/rounds-and-votes/ProjectCard";
+import RoundCard from "~~/components/rounds-and-votes/RoundCard";
 import { projects } from "~~/utils/quadratic/projects";
+
+const round = {
+  id: "3",
+  title: "R3",
+  status: "active",
+  imgSrc: "/rounds/round1.png",
+};
 
 const Vote: NextPage = () => {
   const [projectVotes, setProjectVotes] = useState<Project[]>(
@@ -34,7 +42,8 @@ const Vote: NextPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center md:px-12 sm:px-4">
+      <RoundCard round={round} />
       <div className="container mx-auto my-10 grid md:grid-cols-2 md:grid-cols-1 gap-4">
         {projectVotes.map(item => (
           <ProjectCard key={item.id} project={item} handleInputChange={handleInputChange} />

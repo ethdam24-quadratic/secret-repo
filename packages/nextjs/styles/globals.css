@@ -162,3 +162,19 @@ p {
 .fund-button {
   color: white;
 }
+
+/* ROUND CARD */
+.round-card  {
+  font-family: "Sen", sans-serif !important;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.round-card.active h6 {
+  color: #94FEBE !important;
+}
+
+.round-card.card.image-full:before {
+  border-radius: 0;
+}
+
