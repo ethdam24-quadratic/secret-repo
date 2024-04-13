@@ -156,7 +156,7 @@ contract Funding {
 	}
 
 	// callback function for secret
-	function contribute(uint256 roundId) public {
+	function contributed(uint256 roundId) public {
 		emit ContributionReceivedInSecret(msg.sender, roundId);
 	}
 
