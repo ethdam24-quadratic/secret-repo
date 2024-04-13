@@ -2,6 +2,7 @@
 pragma solidity >=0.8.0 <0.9.0;
 import "abdk-libraries-solidity/ABDKMath64x64.sol";
 import "../interfaces/IGateway.sol";
+import "./JsmnSolLib.sol";
 
 /**
  * A smart contract for cross-chain quadratic voting developed during EthDam 24.
@@ -56,12 +57,23 @@ contract Funding {
 		string name,
 		uint256[] projectIds
 	);
-	event ContributionReceived(
-		address indexed contributor,
+
+	event RoundCreatedInSecret(
 		uint256 indexed roundId,
-		uint256 amount
+		string name,
+		uint256[] projectIds
 	);
+
+	event ContributionReceived(address indexed contributor);
+
+	event ContributionReceivedInSecret(
+		address indexed contributor,
+		uint256 indexed roundId
+	);
+
 	event RoundClosed(uint256 indexed roundId);
+
+	event RoundClosedInSecret(uint256 indexed roundId);
 
 	// ========================================
 	//     CORE FUNCTIONS
@@ -114,29 +126,32 @@ contract Funding {
 		emit RoundCreated(id, name, projectIds);
 	}
 
+	// callback function for secret
+	function createdFundingRound(
+		uint256 id,
+		string memory name,
+		uint256[] memory projectIds
+	) public {
+		emit RoundCreatedInSecret(id, name, projectIds);
+	}
+
 	function contribute(
-		uint256 roundId,
-		uint256[] memory projectIds,
-		uint256[] memory amounts,
 		bytes32 payloadHash,
 		string calldata routingInfo,
 		IGateway.ExecutionInfo calldata info
 	) public payable {
-		require(validRound(roundId), "Invalid round");
-		uint256 totalContributed = processContributions(
-			roundId,
-			projectIds,
-			amounts
-		);
-		require(msg.value >= totalContributed, "Insufficient funds");
-
-		gatewayContract.send{ value: msg.value - totalContributed }(
+		gatewayContract.send{ value: msg.value }( // todo change this value
 			payloadHash,
 			msg.sender,
 			routingInfo,
 			info
 		);
-		emit ContributionReceived(msg.sender, roundId, totalContributed);
+		emit ContributionReceived(msg.sender);
+	}
+
+	// callback function for secret
+	function contribute(uint256 roundId) public {
+		emit ContributionReceivedInSecret(msg.sender, roundId);
 	}
 
 	function closeFundingRound(
@@ -149,6 +164,7 @@ contract Funding {
 		require(fundingRounds[roundId].isOpen, "Round closed");
 		fundingRounds[roundId].isOpen = false;
 
+		string memory json = ""; // todo update this from secret
 		if (sendToSecret) {
 			gatewayContract.send{ value: msg.value }(
 				payloadHash,
@@ -159,8 +175,13 @@ contract Funding {
 		} else {
 			// Different function to retrieve results
 		}
-		distributeFunds(roundId); // todo add results from secret here
+		distributeFunds(json, roundId);
 		emit RoundClosed(roundId);
+	}
+
+	// callback function for secret
+	function closedFundingRound(uint256 roundId) public {
+		emit RoundClosedInSecret(roundId);
 	}
 
 	// ========================================
@@ -230,13 +251,53 @@ contract Funding {
 		}
 	}
 
-	function distributeFunds(uint256 roundId) private {
+	function distributeFunds(string memory json, uint256 roundId) public {
+		// Parse the JSON input
+		uint256 numTokens;
+		JsmnSolLib.Token[] memory tokens;
+		(, tokens, numTokens) = JsmnSolLib.parse(json, 20);
+
+		// Ensure JSON parsing succeeded
+		require(numTokens > 0, "JSON parsing failed or no data found");
+
 		uint256 totalFunds = fundingRounds[roundId].totalContributions;
+
+		// Iterate over each project in the round
 		for (uint256 i = 0; i < fundingRounds[roundId].projectIds.length; i++) {
 			Project storage project = fundingRounds[roundId].projects[
 				fundingRounds[roundId].projectIds[i]
 			];
-			uint256 payout = 0; // TODO: use data from secret to do payout
+
+			// Find matching project ID in JSON and calculate the payout
+			uint256 payout = 0;
+			for (uint256 j = 1; j < numTokens - 1; j += 3) {
+				// Using getBytes to extract the project id from json
+				string memory projectId = JsmnSolLib.getBytes(
+					json,
+					tokens[j].start,
+					tokens[j].end
+				);
+				if (
+					keccak256(bytes(projectId)) ==
+					keccak256(bytes(project.name))
+				) {
+					// Calculate payout based on the funding percentage extracted using getBytes
+					string memory fundingStr = JsmnSolLib.getBytes(
+						json,
+						tokens[j + 1].start,
+						tokens[j + 1].end
+					);
+					uint256 fundingPercentage = uint256(
+						JsmnSolLib.parseInt(fundingStr)
+					);
+					payout =
+						(project.totalContributions * fundingPercentage) /
+						100;
+					break;
+				}
+			}
+
+			// Transfer payout to project address and decrement total funds
 			project.projectAddress.transfer(payout);
 			totalFunds -= payout;
 		}
