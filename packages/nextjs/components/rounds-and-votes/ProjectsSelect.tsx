@@ -9,15 +9,13 @@ interface ProjectSelectProps {
 }
 
 const formatOptionLabel = ({ name }: Project) => {
-  return <div>{name}</div>;
+  return <div className="body-text">{name}</div>;
 };
 
 const getOptionValue = (option: Project) => option.id;
 
 function ProjectsSelect({ projects, setChoosenProjects }: ProjectSelectProps): JSX.Element {
   const handleChange = (newValue: MultiValue<Project>) => {
-    // const handleChange = (newValue: MultiValue<Project>, actionMeta: ActionMeta<Project>) => {
-    // console.log(actionMeta); // Optionally log the actionMeta to see what action triggered the change
     setChoosenProjects(newValue.map(item => item)); // Convert the readonly MultiValue array to a regular array if needed
   };
   return (
@@ -28,9 +26,6 @@ function ProjectsSelect({ projects, setChoosenProjects }: ProjectSelectProps): J
       getOptionValue={getOptionValue}
       onChange={handleChange}
       styles={customStyles}
-      classNames={{
-        control: state => (state.isFocused ? "border-red-600" : "border-grey-300"),
-      }}
     />
   );
 }
@@ -38,7 +33,6 @@ function ProjectsSelect({ projects, setChoosenProjects }: ProjectSelectProps): J
 export default ProjectsSelect;
 
 const customStyles: StylesConfig<Project, true> = {
-  // control: (baseStyles, state) => {
   control: baseStyles => {
     return {
       ...baseStyles,
@@ -47,31 +41,12 @@ const customStyles: StylesConfig<Project, true> = {
       // borderColor: state.isFocused ? "grey" : "red",
       outline: "none",
       borderColor: "var(--fallback-bc,oklch(var(--bc)/0.2))",
+      backgroundColor: "rgba(255, 255, 255, 0.12);",
+      fontFamily: `"Sen", sans-serif !important`,
+      letterSpacing: "1.5px",
     };
   },
   multiValue: base => {
     return { ...base };
   },
 };
-
-// const customStyles: StylesConfig<Project, false> = {
-//   control: provided => ({
-//     ...provided,
-//     height: "56px",
-//     width: windowWidth > 520 ? "303px" : "auto",
-//     border: "none",
-//   }),
-// };
-
-// const customStyles: StylesConfig<Project, true> = {
-//   control: provided => ({
-//     ...provided,
-//     // height: "56px",
-//     borderRadius: "0px",
-//     outlineWidth: state.isFocused ? "1px" : "",
-//     outlineOffset: "1px",
-//   }),
-//   multiValue: base => {
-//     return { ...base };
-//   },
-// };

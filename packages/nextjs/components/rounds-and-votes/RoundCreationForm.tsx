@@ -1,41 +1,26 @@
 import React, { useState } from "react";
 // import contractAbi from "../../abi/Funding.json";
+import FunctionSelect from "./FunctionSelect";
 import { Project } from "./IProject";
 import ProjectsSelect from "./ProjectsSelect";
+import { toast } from "react-hot-toast";
 import { useAccount } from "wagmi";
+import { projects } from "~~/utils/quadratic/projects";
 import { submitOpenFundingRound } from "~~/utils/quadratic/submit";
 
-const projects = [
-  {
-    id: "0",
-    name: "it's the first one",
-    description: "new project",
-    address: "0x0000"
-  },
-  {
-    id: "1",
-    name: "it's the second one",
-    description: "not new project",
-    address: "0x0000"
-  },
-  {
-    id: "2",
-    name: "one more project",
-    description: "very old project",
-    address: "0x0000"
-  },
-];
-
 const RoundCreationForm: React.FC = () => {
-
   const [roundTitle, setRoundTitle] = useState<string>("");
   const [roundId, setRoundId] = useState<string>("");
   const [roundDescription, setRoundDescription] = useState<string>("");
   const [chosenProjects, setChosenProjects] = useState<Project[]>([]);
+  const [curve, setCurve] = useState<string>("x");
 
   const { address, connector } = useAccount();
 
   const handleSubmit = async (event: React.FormEvent) => {
+    if (!address) {
+      toast.error("Not logged in");
+    }
     console.log("GM");
     event.preventDefault();
 
@@ -51,22 +36,19 @@ const RoundCreationForm: React.FC = () => {
       projectNames: chosenProjects.map(project => project.name),
       projectDescriptions: chosenProjects.map(project => project.description),
       projectAddresses: chosenProjects.map(project => project.address),
-      projects: chosenProjects
+      projects: chosenProjects,
     };
 
     console.log("AVH functionArguments: " + functionArguments);
-    await submitOpenFundingRound(
-      address,
-      provider,
-      functionArguments,
-    );
+    await submitOpenFundingRound(address, provider, functionArguments);
   };
   console.log(chosenProjects);
+  console.log(curve);
 
   return (
-    <form className="flex flex-col w-full px-2" onSubmit={handleSubmit}>
+    <form className="create-round flex flex-col w-full px-2" onSubmit={handleSubmit}>
       <label className="form-control w-full my-1">
-        <span className="label-text-alt">Round title</span>
+        <span className="">Round title</span>
         <input
           type="text"
           value={roundTitle}
@@ -78,7 +60,7 @@ const RoundCreationForm: React.FC = () => {
       </label>
 
       <label className="form-control w-full my-1">
-        <span className="label-text-alt">ID</span>
+        <span className="">ID</span>
         <input
           type="text"
           value={roundId}
@@ -90,7 +72,12 @@ const RoundCreationForm: React.FC = () => {
       </label>
 
       <label className="form-control w-full my-1">
-        <span className="label-text-alt">Description</span>
+        <span className="">Funding curve</span>
+        <FunctionSelect setCurve={setCurve} />
+      </label>
+
+      <label className="form-control w-full my-1">
+        <span className="">Description</span>
         <textarea
           className="textarea textarea-bordered h-24 rounded-none"
           placeholder="Description"
@@ -101,12 +88,18 @@ const RoundCreationForm: React.FC = () => {
       </label>
 
       <label className="form-control w-full my-1">
-        <span className="label-text-alt">Projects</span>
+        <span className="">Projects</span>
         <ProjectsSelect projects={projects} setChoosenProjects={setChosenProjects} />
       </label>
 
-      <button type="submit" className="btn rounded-none my-4">
-        Submit
+      <button
+        type="submit"
+        style={{
+          maxWidth: "fit-content",
+        }}
+        className="fund-button q-shadow border-2 border-white p-2 my-5 mt-10 px-6 self-center"
+      >
+        SUBMIT
       </button>
     </form>
   );
