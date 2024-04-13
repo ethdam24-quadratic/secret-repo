@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 use crate::msg::{ProjectItem, VoteItem};
 
 pub static CONFIG: Item<State> = Item::new(b"config");
-pub static FOUNDING_ROUND_MAP: Keymap<String, FundingRoundItem> = Keymap::new(b"FOUNDING_ROUND_MAP");
+pub static FUNDING_ROUND_MAP: Keymap<String, FundingRoundItem> = Keymap::new(b"FUNDING_ROUND_MAP");
 pub static VOTERS_OF_FUNDING_ROUND_MAP: Keymap<String, Vec<String>> = Keymap::new(b"VOTERS_OF_FUNDING_ROUND_MAP");
 pub static VOTES_MAP: Keymap<VoteAssociation, Vec<VoteItem>> = Keymap::new(b"VOTES_MAP");
 

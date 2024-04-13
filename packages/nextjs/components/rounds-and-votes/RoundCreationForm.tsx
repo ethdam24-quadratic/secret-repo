@@ -6,7 +6,9 @@ import ProjectsSelect from "./ProjectsSelect";
 import { toast } from "react-hot-toast";
 import { useAccount } from "wagmi";
 import { projects } from "~~/utils/quadratic/projects";
-import { submitOpenFundingRound } from "~~/utils/quadratic/submit";
+import { submitOpenFundingRound, submitCloseFundingRound } from "~~/utils/quadratic/submit";
+
+const admin_address = "0x50FcF0c327Ee4341313Dd5Cb987f0Cd289Be6D4D"
 
 const RoundCreationForm: React.FC = () => {
   const [roundTitle, setRoundTitle] = useState<string>("");
@@ -27,7 +29,7 @@ const RoundCreationForm: React.FC = () => {
       id: roundId,
       name: roundTitle,
       description: roundDescription,
-      funding_curve: "x^2",
+      funding_curve: curve,
       projectIds: chosenProjects.map(project => project.id),
       projectNames: chosenProjects.map(project => project.name),
       projectDescriptions: chosenProjects.map(project => project.description),
@@ -40,9 +42,19 @@ const RoundCreationForm: React.FC = () => {
       provider,
       functionArguments,
     );
+    
+    const functionArguments2 = {
+      id: roundId,
+      admin_address: admin_address
+    };
+
+    console.log("AVH functionArguments: " + JSON.stringify(functionArguments));
+    await submitCloseFundingRound(
+      address,
+      provider,
+      functionArguments2,
+    );
   };
-  console.log(chosenProjects);
-  console.log(curve);
 
   return (
     <form className="create-round flex flex-col w-full px-2" onSubmit={handleSubmit}>

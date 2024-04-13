@@ -15,9 +15,11 @@ Whisper redefines the traditional quadratic funding model to enhance flexibility
 
 📈 **Customizable Funding Curves**: Choose from quadratic or alternative curve structures to optimize your project’s funding potential.
 
-![tech stack (1)](https://github.com/ethdam24-quadratic/secret-repo/assets/101796507/75ea194f-1f9a-4e52-b652-099a25bcaa7e)
+![tech stack (2)](https://github.com/ethdam24-quadratic/secret-repo/assets/101796507/483e19f0-4c0e-459b-8584-4d1b665d9dd1)
 
 ## Hackathon bounties
+
+### ETHDam - Privacy Track
 
 ### NEAR
 

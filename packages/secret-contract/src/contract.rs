@@ -5,7 +5,7 @@ use crate::{
         VotesMsg, CloseFundingRoundMsg, VoteItem,
         TriggerPayoutMsg, FundingResult, ResponseTriggerPayoutMsg
     },
-    state::{State, CONFIG, FOUNDING_ROUND_MAP, VOTES_MAP, VOTERS_OF_FUNDING_ROUND_MAP, FundingRoundItem, VoteAssociation},
+    state::{State, CONFIG, FUNDING_ROUND_MAP, VOTES_MAP, VOTERS_OF_FUNDING_ROUND_MAP, FundingRoundItem, VoteAssociation},
 };
 use std::collections::HashMap;
 use cosmwasm_std::{
@@ -91,7 +91,7 @@ fn create_voting(
         .map_err(|err| StdError::generic_err(err.to_string()))?;
 
     // create a task information store
-    let founding_round_storage = FundingRoundItem {
+    let funding_round_storage = FundingRoundItem {
         name: input.name.clone(),
         id: input.id.clone(),
         description: input.description,
@@ -102,11 +102,11 @@ fn create_voting(
         admin_address: input.admin_address
     };
 
-    // map founding round id to the funding round
-    FOUNDING_ROUND_MAP.insert(deps.storage, &input.id.clone(), &founding_round_storage)?;
+    // map funding round id to the funding round
+    FUNDING_ROUND_MAP.insert(deps.storage, &input.id.clone(), &funding_round_storage)?;
 
     let data = ResponseCreateVoteMsg {
-        message: "Founding round setup successfully".to_string(),
+        message: "Funding round setup successfully".to_string(),
     };
 
     // Serialize the struct to a JSON string
@@ -144,11 +144,11 @@ fn vote(
     let mut input: VotesMsg = serde_json_wasm::from_str(&input_values)
         .map_err(|err| StdError::generic_err(err.to_string()))?;
 
-    let founding_round = FOUNDING_ROUND_MAP
+    let funding_round = FUNDING_ROUND_MAP
         .get(deps.storage, &input.funding_round_id)
-        .ok_or_else(|| StdError::generic_err("Founding round not found"))?;
+        .ok_or_else(|| StdError::generic_err("Funding round not found"))?;
     
-    if !founding_round.is_running {
+    if !funding_round.is_running {
         return Err(StdError::generic_err("Voting already ended"));
     }
 
@@ -236,17 +236,17 @@ fn close_voting(
     let input: CloseFundingRoundMsg = serde_json_wasm::from_str(&input_values)
         .map_err(|err| StdError::generic_err(err.to_string()))?;
 
-    let mut founding_round = FOUNDING_ROUND_MAP
+    let mut funding_round = FUNDING_ROUND_MAP
         .get(deps.storage, &input.id)
         .ok_or_else(|| StdError::generic_err("Value for this key not found"))?;
 
-    if founding_round.admin_address != input.admin_address {
+    if funding_round.admin_address != input.admin_address {
         return Err(StdError::generic_err("Admin Address not matching".to_string()))
     }
 
-    founding_round.is_running = false;
+    funding_round.is_running = false;
 
-    FOUNDING_ROUND_MAP.insert(deps.storage, &founding_round.id, &founding_round)?;
+    FUNDING_ROUND_MAP.insert(deps.storage, &input.id, &funding_round)?;
 
     let data = ResponseCloseVotingMsg {
         message: "Closed Voting successfully".to_string(),
@@ -287,15 +287,15 @@ fn trigger_payout(
     let input: TriggerPayoutMsg = serde_json_wasm::from_str(&input_values)
     .map_err(|err| StdError::generic_err(err.to_string()))?;
 
-    let founding_round = FOUNDING_ROUND_MAP
+    let funding_round = FUNDING_ROUND_MAP
         .get(deps.storage, &input.funding_round_id)
-        .ok_or_else(|| StdError::generic_err("Founding round not found"))?;
+        .ok_or_else(|| StdError::generic_err("Funding round not found"))?;
 
     let voters_of_funding_round_map = VOTERS_OF_FUNDING_ROUND_MAP
         .get(deps.storage, &input.funding_round_id)
         .unwrap_or_default();
 
-    let funding_results = calculate_curve_funding(deps, input.funding_round_id, founding_round.funding_curve)
+    let funding_results = calculate_curve_funding(deps, input.funding_round_id, funding_round.funding_curve)
         .map_err(|e| {
             // Log the error or handle it differently here
             StdError::generic_err("Tally calculation failed")
