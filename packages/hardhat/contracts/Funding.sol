@@ -33,6 +33,11 @@ contract Funding {
 		bool isOpen;
 	}
 
+	struct ProjectFundingData {
+		string projectId;
+		uint256 fundingPercentage;
+	}
+
 	mapping(uint256 => FundingRound) public fundingRounds;
 	uint256[] public roundIds;
 
@@ -176,7 +181,8 @@ contract Funding {
 
 	// callback function for secret
 	function closedFundingRound(string memory json, uint256 roundId) public {
-		distributeFunds(json, roundId);
+		ProjectFundingData[] memory fundingData = parseFundingData(json);
+		processFundingRound(fundingData, roundId);
 		emit RoundClosedInSecret(roundId);
 	}
 
@@ -233,55 +239,68 @@ contract Funding {
 		return fundingRounds[roundId].isOpen && fundingRounds[roundId].id != 0;
 	}
 
-	function distributeFunds(string memory json, uint256 roundId) public {
-		// Parse the JSON input
+	// Parses the JSON and extracts funding data
+	function parseFundingData(
+		string memory json
+	) internal pure returns (ProjectFundingData[] memory) {
 		uint256 numTokens;
 		JsmnSolLib.Token[] memory tokens;
 		(, tokens, numTokens) = JsmnSolLib.parse(json, 20);
-
-		// Ensure JSON parsing succeeded
 		require(numTokens > 0, "JSON parsing failed or no data found");
 
-		uint256 totalFunds = fundingRounds[roundId].totalContributions;
+		ProjectFundingData[] memory results = new ProjectFundingData[](
+			(numTokens - 1) / 3
+		);
+		for (uint256 i = 0; i < results.length; i++) {
+			string memory projectId = JsmnSolLib.getBytes(
+				json,
+				tokens[1 + 3 * i].start,
+				tokens[1 + 3 * i].end
+			);
+			string memory percentageStr = JsmnSolLib.getBytes(
+				json,
+				tokens[2 + 3 * i].start,
+				tokens[2 + 3 * i].end
+			);
+			uint256 fundingPercentage = uint256(
+				JsmnSolLib.parseInt(percentageStr)
+			);
+			results[i] = ProjectFundingData(projectId, fundingPercentage);
+		}
+		return results;
+	}
 
-		// Iterate over each project in the round
+	// Processes each project's funding based on parsed data
+	function processFundingRound(
+		ProjectFundingData[] memory fundingData,
+		uint256 roundId
+	) internal {
+		uint256 totalFunds = fundingRounds[roundId].totalContributions;
 		for (uint256 i = 0; i < fundingRounds[roundId].projectIds.length; i++) {
 			Project storage project = fundingRounds[roundId].projects[
 				fundingRounds[roundId].projectIds[i]
 			];
-
-			// Find matching project ID in JSON and calculate the payout
-			uint256 payout = 0;
-			for (uint256 j = 1; j < numTokens - 1; j += 3) {
-				// Using getBytes to extract the project id from json
-				string memory projectId = JsmnSolLib.getBytes(
-					json,
-					tokens[j].start,
-					tokens[j].end
-				);
-				if (
-					keccak256(bytes(projectId)) ==
-					keccak256(bytes(project.name))
-				) {
-					// Calculate payout based on the funding percentage extracted using getBytes
-					string memory fundingStr = JsmnSolLib.getBytes(
-						json,
-						tokens[j + 1].start,
-						tokens[j + 1].end
-					);
-					uint256 fundingPercentage = uint256(
-						JsmnSolLib.parseInt(fundingStr)
-					);
-					payout =
-						(project.totalContributions * fundingPercentage) /
-						100;
-					break;
-				}
-			}
-
-			// Transfer payout to project address and decrement total funds
+			uint256 payout = calculatePayout(project, fundingData);
 			project.projectAddress.transfer(payout);
 			totalFunds -= payout;
 		}
+	}
+
+	// Calculates the payout for a given project
+	function calculatePayout(
+		Project storage project,
+		ProjectFundingData[] memory fundingData
+	) internal view returns (uint256) {
+		for (uint256 i = 0; i < fundingData.length; i++) {
+			if (
+				keccak256(bytes(fundingData[i].projectId)) ==
+				keccak256(bytes(project.name))
+			) {
+				return
+					(project.totalContributions *
+						fundingData[i].fundingPercentage) / 100;
+			}
+		}
+		return 0;
 	}
 }
