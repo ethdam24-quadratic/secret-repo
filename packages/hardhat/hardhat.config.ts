@@ -24,6 +24,7 @@ const config: HardhatUserConfig = {
   solidity: {
     version: "0.8.17",
     settings: {
+      viaIR: true,
       optimizer: {
         enabled: true,
         // https://docs.soliditylang.org/en/latest/using-the-compiler.html#optimizer-options
@@ -119,6 +120,12 @@ const config: HardhatUserConfig = {
     pgnTestnet: {
       url: "https://sepolia.publicgoods.network",
       accounts: [deployerPrivateKey],
+    },
+    testnet_aurora: {
+      url: "https://testnet.aurora.dev",
+      accounts: [deployerPrivateKey],
+      chainId: 1313161555,
+      gasPrice: 120 * 1000000000,
     },
   },
   // configuration for harhdat-verify plugin

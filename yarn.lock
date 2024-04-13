@@ -2115,6 +2115,7 @@ __metadata:
     "@types/qrcode": ^1
     "@typescript-eslint/eslint-plugin": latest
     "@typescript-eslint/parser": latest
+    abdk-libraries-solidity: ^3.2.0
     chai: ^4.3.6
     dotenv: ^16.0.3
     envfile: ^6.18.0
@@ -4095,6 +4096,13 @@ __metadata:
   version: 1.0.9
   resolution: "abbrev@npm:1.0.9"
   checksum: 46460c897b4ce62cd9b1bd4a853cc46e771a1f1d929f5443f3945a976f8be5388891bf9e5f8a9862baa29587349e16c48596b6a621404d46d3b184fe9bd9fb26
+  languageName: node
+  linkType: hard
+
+"abdk-libraries-solidity@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "abdk-libraries-solidity@npm:3.2.0"
+  checksum: e5b8f1445cca23408a866be4769b77aae6bc6641e29f8207b4cfb8c811515bb5be87b1f1e54d00406696ef040ed2a0cfe54b6cff81ed8ef12ec4b32752839fdd
   languageName: node
   linkType: hard
 
