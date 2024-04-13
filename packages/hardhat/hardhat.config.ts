@@ -54,7 +54,6 @@ const config: HardhatUserConfig = {
     },
     sepolia: {
       url: `https://lb.drpc.org/ogrpc?network=sepolia&dkey=${dRPCApiKey}`,
-      // url: `https://eth-sepolia.g.alchemy.com/v2/${providerApiKey}`,
       accounts: [deployerPrivateKey],
     },
     arbitrum: {

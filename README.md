@@ -2,12 +2,12 @@
   <h1 align="center">💸 Private Cross-chain Quadratic Funding</h1>
   <h3>Private Cross-chain Quadratic Funding</h3>
   <img src="logo.jpg" alt="logo" /><br>
-  <b><a href="https://taikai.network/cryptocanal/hackathons/ethdam2024/projects/cluxtb3ci00qaz301yt806bvw/idea">TAIKAI</a> | <a href="https://todo.io">Deployment</a></b>
+  <b><a href="https://taikai.network/cryptocanal/hackathons/ethdam2024/projects/cluxtb3ci00qaz301yt806bvw/idea">TAIKAI</a> | <a href="https://secret-repo-nextjs-git-contracts-ilge-ustuns-projects.vercel.app/">Deployment</a></b>
 </div>
 <br>
 💰 This project redefines the traditional quadratic funding model to enhance flexibility, privacy, and cross-chain functionality. Our platform seamlessly facilitates funding across various EVM-compatible chains. Our dApp integrates with the Secret Network to encrypt contribution data, ensuring that all donations remain confidential. This integration not only protects user privacy but also enhances security for all parties involved. Unlike traditional models that are strictly quadratic, our platform provides the unique ability to customize the funding curve. Project creators can now choose from a variety of curve types to best suit their fundraising needs.
 
-⚙️ Built using NextJS, RainbowKit, Hardhat, Wagmi, Viem, and Typescript.
+⚙️ Built using Secret Network, dRPC, NextJS and Hardhat.
 
 - ⛓️ **Cross-chain funding**: Participate in funding rounds from any EVM-compatible blockchain.
 - 🔏 **Private Contributions**: All contributions are encrypted using Secret Network’s cutting-edge technology, ensuring total privacy.
@@ -71,7 +71,7 @@ We plan to add ... TODO
 
 ### NEAR
 
-todo
+Deployed our smart contract on Aurora testnet, see [here](todo).
 
 ### dRPC
 
@@ -79,11 +79,11 @@ Deployed using dRPC, see [here](https://github.com/ethdam24-quadratic/secret-rep
 
 ## Links
 
-- [Video demo]()
-- [Presentation slides]()
-- [Vercel deployment]()
+- [Video demo](todo)
+- [Presentation slides](todo)
+- [Vercel deployment](https://secret-repo-nextjs-git-contracts-ilge-ustuns-projects.vercel.app/)
 - [Smart contract on Sepolia](https://sepolia.etherscan.io/address/0xf87d0ca6a6B121CAB4Bc51bf7Cd3eaFF491e28c5#code)
-- [Smart contract on Aurora testnet]()
+- [Smart contract on Aurora testnet](todo)
 
 ## Team
 
