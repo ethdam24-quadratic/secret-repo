@@ -21,7 +21,3 @@ node_modules
 
 # cli
 dist
-
-
-# gives git errors
-packages/hardhat/deploy/01_deploy_funding_contract .ts
