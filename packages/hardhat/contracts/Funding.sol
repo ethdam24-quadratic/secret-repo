@@ -190,7 +190,7 @@ contract Funding {
 		IGateway.ExecutionInfo calldata info
 	) public payable {
 		require(!fundingRounds[roundId].isOpen, "Round is not closed");
-		require(fundingRounds[roundId].isDistributed, "Already distributed");
+		require(!fundingRounds[roundId].isDistributed, "Already distributed");
 		gatewayContract.send{ value: msg.value }(
 			payloadHash,
 			userAddress,
