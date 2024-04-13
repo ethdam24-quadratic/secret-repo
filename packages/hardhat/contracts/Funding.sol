@@ -57,12 +57,27 @@ contract Funding {
 		string name,
 		uint256[] projectIds
 	);
+
+	event RoundCreatedInSecret(
+		uint256 indexed roundId,
+		string name,
+		uint256[] projectIds
+	);
+
 	event ContributionReceived(
 		address indexed contributor,
 		uint256 indexed roundId,
 		uint256 amount
 	);
+
+	event ContributionReceivedInSecret(
+		address indexed contributor,
+		uint256 indexed roundId
+	);
+
 	event RoundClosed(uint256 indexed roundId);
+
+	event RoundClosedInSecret(uint256 indexed roundId);
 
 	// ========================================
 	//     CORE FUNCTIONS
@@ -115,6 +130,15 @@ contract Funding {
 		emit RoundCreated(id, name, projectIds);
 	}
 
+	// callback function for secret
+	function createdFundingRound(
+		uint256 id,
+		string memory name,
+		uint256[] memory projectIds
+	) public {
+		emit RoundCreatedInSecret(id, name, projectIds);
+	}
+
 	function contribute(
 		uint256 roundId,
 		uint256[] memory projectIds,
@@ -140,6 +164,11 @@ contract Funding {
 		emit ContributionReceived(msg.sender, roundId, totalContributed);
 	}
 
+	// callback function for secret
+	function contribute(uint256 roundId) public {
+		emit ContributionReceivedInSecret(msg.sender, roundId);
+	}
+
 	function closeFundingRound(
 		uint256 roundId,
 		bool sendToSecret,
@@ -161,8 +190,13 @@ contract Funding {
 		} else {
 			// Different function to retrieve results
 		}
-		distributeFunds(json, roundId); // todo add results from secret here
+		distributeFunds(json, roundId);
 		emit RoundClosed(roundId);
+	}
+
+	// callback function for secret
+	function closedFundingRound(uint256 roundId) public {
+		emit RoundClosedInSecret(roundId);
 	}
 
 	// ========================================
