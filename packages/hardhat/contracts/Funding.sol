@@ -31,6 +31,7 @@ contract Funding {
 		uint256[] projectIds;
 		uint256 totalContributions;
 		bool isOpen;
+		bool isDistributed;
 	}
 
 	struct ProjectFundingData {
@@ -62,22 +63,19 @@ contract Funding {
 		uint256[] projectIds
 	);
 
-	event RoundCreatedInSecret(
-		uint256 indexed roundId,
-		string name,
-		uint256[] projectIds
-	);
+	event RoundCreatedInSecret(uint256 indexed roundId);
 
 	event ContributionReceived(address indexed contributor);
 
-	event ContributionReceivedInSecret(
-		address indexed contributor,
-		uint256 indexed roundId
-	);
+	event ContributionReceivedInSecret(uint256 indexed roundId);
 
 	event RoundClosed(uint256 indexed roundId);
 
 	event RoundClosedInSecret(uint256 indexed roundId);
+
+	event DistributedTokens(uint256 indexed roundId);
+
+	event DistributedTokensInSecret(uint256 indexed roundId);
 
 	// ========================================
 	//     CORE FUNCTIONS
@@ -104,7 +102,7 @@ contract Funding {
 			projectDescriptions,
 			projectAddresses
 		);
-		require(fundingRounds[id].id == 0, "Round ID exists");
+		// require(fundingRounds[id].id == 0, "Round ID exists");
 
 		if (sendToSecret) {
 			gatewayContract.send{ value: msg.value }(
@@ -132,12 +130,8 @@ contract Funding {
 	}
 
 	// callback function for secret
-	function createdFundingRound(
-		uint256 id,
-		string memory name,
-		uint256[] memory projectIds
-	) public {
-		emit RoundCreatedInSecret(id, name, projectIds);
+	function createdFundingRound(uint256 roundId, bytes memory json) public {
+		emit RoundCreatedInSecret(roundId);
 	}
 
 	function contribute(
@@ -152,16 +146,18 @@ contract Funding {
 			routingInfo,
 			info
 		);
-		emit ContributionReceived(msg.sender);
+		emit ContributionReceived(userAddress);
 	}
 
 	// callback function for secret
-	function contributed(uint256 roundId) public {
-		emit ContributionReceivedInSecret(msg.sender, roundId);
+	function contributed(uint256 roundId, bytes memory json) public {
+		emit ContributionReceivedInSecret(roundId);
 	}
 
 	function closeFundingRound(
 		uint256 roundId,
+		bool sendToSecret,
+		address userAddress,
 		bytes32 payloadHash,
 		string calldata routingInfo,
 		IGateway.ExecutionInfo calldata info
@@ -169,21 +165,49 @@ contract Funding {
 		require(fundingRounds[roundId].isOpen, "Round closed");
 		fundingRounds[roundId].isOpen = false;
 
-		gatewayContract.send{ value: msg.value }(
-			payloadHash,
-			msg.sender,
-			routingInfo,
-			info
-		);
+		if (sendToSecret) {
+			gatewayContract.send{ value: msg.value }(
+				payloadHash,
+				userAddress,
+				routingInfo,
+				info
+			);
+		}
 
 		emit RoundClosed(roundId);
 	}
 
 	// callback function for secret
 	function closedFundingRound(uint256 roundId, bytes memory json) public {
-		ProjectFundingData[] memory fundingData = parseFundingData(string(json));
-		processFundingRound(fundingData, roundId);
 		emit RoundClosedInSecret(roundId);
+	}
+
+	function distributeFunding(
+		uint256 roundId,
+		address userAddress,
+		bytes32 payloadHash,
+		string calldata routingInfo,
+		IGateway.ExecutionInfo calldata info
+	) public payable {
+		require(!fundingRounds[roundId].isOpen, "Round is not closed");
+		require(!fundingRounds[roundId].isDistributed, "Already distributed");
+		gatewayContract.send{ value: msg.value }(
+			payloadHash,
+			userAddress,
+			routingInfo,
+			info
+		);
+		fundingRounds[roundId].isDistributed = true;
+		emit DistributedTokens(roundId);
+	}
+
+	// callback function for secret
+	function distributedFunding(uint256 roundId, bytes memory json) public {
+		ProjectFundingData[] memory fundingData = parseFundingData(
+			string(json)
+		);
+		processFundingRound(fundingData, roundId);
+		emit DistributedTokensInSecret(roundId);
 	}
 
 	// ========================================
@@ -196,12 +220,12 @@ contract Funding {
 		string[] memory projectDescriptions,
 		address payable[] memory projectAddresses
 	) private pure {
-		require(
-			projectIds.length == projectNames.length &&
-				projectNames.length == projectDescriptions.length &&
-				projectDescriptions.length == projectAddresses.length,
-			"Mismatched input arrays"
-		);
+		// require(
+		// 	projectIds.length == projectNames.length &&
+		// 		projectNames.length == projectDescriptions.length &&
+		// 		projectDescriptions.length == projectAddresses.length,
+		// 	"Mismatched input arrays"
+		// );
 	}
 
 	function setupFundingRound(
@@ -222,7 +246,7 @@ contract Funding {
 		round.isOpen = true;
 
 		for (uint256 i = 0; i < projectIds.length; i++) {
-			require(round.projects[projectIds[i]].id == 0, "Project ID exists");
+			// require(round.projects[projectIds[i]].id == 0, "Project ID exists");
 			round.projects[projectIds[i]] = Project({
 				id: projectIds[i],
 				name: projectNames[i],
@@ -246,7 +270,7 @@ contract Funding {
 		uint256 numTokens;
 		JsmnSolLib.Token[] memory tokens;
 		(, tokens, numTokens) = JsmnSolLib.parse(json, 20);
-		require(numTokens > 0, "JSON parsing failed or no data found");
+		// require(numTokens > 0, "JSON parsing failed or no data found");
 
 		ProjectFundingData[] memory results = new ProjectFundingData[](
 			(numTokens - 1) / 3

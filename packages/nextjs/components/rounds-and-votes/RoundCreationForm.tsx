@@ -18,10 +18,6 @@ const RoundCreationForm: React.FC = () => {
   const { address, connector } = useAccount();
 
   const handleSubmit = async (event: React.FormEvent) => {
-    if (!address) {
-      toast.error("Not logged in");
-    }
-    console.log("GM");
     event.preventDefault();
 
     if (!address || !connector) return;
@@ -38,9 +34,12 @@ const RoundCreationForm: React.FC = () => {
       projectAddresses: chosenProjects.map(project => project.address),
       projects: chosenProjects,
     };
-
-    console.log("AVH functionArguments: " + functionArguments);
-    await submitOpenFundingRound(address, provider, functionArguments);
+    console.log("AVH functionArguments: " + JSON.stringify(functionArguments));
+    await submitOpenFundingRound(
+      address,
+      provider,
+      functionArguments,
+    );
   };
   console.log(chosenProjects);
   console.log(curve);

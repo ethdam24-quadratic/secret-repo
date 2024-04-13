@@ -56,8 +56,6 @@ pub struct OpenFundingRoundMsg {
     pub projects: Vec<ProjectItem>,
     // List of addresses allowed to participate in the funding round
     pub allowlist: Vec<String>,
-    // Bool that contains if the funding round is still running
-    pub is_running: bool,
     //Admin Address
     pub admin_address: String
 }
