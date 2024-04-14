@@ -1,8 +1,7 @@
 import React from "react";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { hardhat } from "viem/chains";
-import { HeartIcon } from "@heroicons/react/24/outline";
 import { SwitchTheme } from "~~/components/SwitchTheme";
-import { BuidlGuidlLogo } from "~~/components/assets/BuidlGuidlLogo";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 
 /**
@@ -40,14 +39,19 @@ export const Footer = () => {
       </div>
       <div className="w-full">
         <ul className="menu menu-horizontal w-full">
-          <div className="flex justify-center items-center gap-2 text-sm w-full">
-            <div className="text-center">
+          <div className="flex justify-center items-center gap-2 text-sm w-full q-login-button">
+            <ConnectButton label="LOGIN" chainStatus="none" showBalance={false} />
+            {/* <div className="switch-network flex flex-col">
+              <NetworkOptions />
+            </div> */}
+            {/* <NetworkOptions /> */}
+            {/* <div className="text-center">
               <a href="https://github.com/scaffold-eth/se-2" target="_blank" rel="noreferrer" className="link">
                 Fork me
               </a>
-            </div>
-            <span>·</span>
-            <div className="flex justify-center items-center gap-2">
+            </div> */}
+            {/* <span>·</span> */}
+            {/* <div className="flex justify-center items-center gap-2">
               <p className="m-0 text-center">
                 Built with <HeartIcon className="inline-block h-4 w-4" /> at
               </p>
@@ -60,13 +64,13 @@ export const Footer = () => {
                 <BuidlGuidlLogo className="w-3 h-5 pb-1" />
                 <span className="link">BuidlGuidl</span>
               </a>
-            </div>
-            <span>·</span>
-            <div className="text-center">
+            </div> */}
+            {/* <span>·</span> */}
+            {/* <div className="text-center">
               <a href="https://t.me/joinchat/KByvmRe5wkR-8F_zz6AjpA" target="_blank" rel="noreferrer" className="link">
                 Support
               </a>
-            </div>
+            </div> */}
           </div>
         </ul>
       </div>
