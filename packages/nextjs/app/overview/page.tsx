@@ -3,8 +3,8 @@
 import Link from "next/link";
 import type { NextPage } from "next";
 import { Round } from "~~/components/rounds-and-votes/IRound";
-import RoundCard from "~~/components/rounds-and-votes/RoundCard";
 import Metrics from "~~/components/rounds-and-votes/Metrics";
+import RoundCard from "~~/components/rounds-and-votes/RoundCard";
 
 const rounds: Round[] = [
   {

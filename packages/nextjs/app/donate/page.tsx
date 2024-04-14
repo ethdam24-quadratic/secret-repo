@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { NextPage } from "next";
-import { toast } from "react-hot-toast";
 import { useAccount } from "wagmi";
 
 const Donate: NextPage = () => {
