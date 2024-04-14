@@ -44,10 +44,10 @@ function ProjectCard({ project, handleInputChange }: ProjectCardProps): JSX.Elem
             onChange={e => handleInputChange(project.id, Number(e.target.value))}
           />
           <label htmlFor="votingPower" className="border-l-2 border-white px-6 py-2 ml-4">
-            VOTE
+            gwei
           </label>
         </div>
-        <span className="text-sm text-white pl-5">gwei</span>
+        {/* <span className="text-sm text-white pl-5">gwei</span> */}
       </div>
     </div>
   );
