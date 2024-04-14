@@ -14,9 +14,9 @@ import contractAbi from "../../abi/Funding.json";
 
 // the function name of the function that is called on the private contract
 
-const contractAddress = "0x0671bDfea4eBF0286395870418E81a628a098A42";
-const routing_contract = "secret1rklt3vjvfemejvmjfufne82zyf9kzwqspwtccq"; //the contract you want to call in secret
-const routing_code_hash = "b60326499e5da0278f71200bda398236215a64d06e44f07e69029dfa7f7c494b"; //its codehash
+const contractAddress = "0x85C149bEbf45b3E0206c8283b25c1F14F73AEeCF";
+const routing_contract = "secret1xve06qf3wha2m3e0kv53e4uh5pqnktqzl50yuv"; //the contract you want to call in secret
+const routing_code_hash = "54678d9f33ca9a3ae379951756fbef43edfcb347dd34b7a5204053a01ab270ec"; //its codehash
 const admin_address = "0x50FcF0c327Ee4341313Dd5Cb987f0Cd289Be6D4D"
 
 const submitOpenFundingRound = async (

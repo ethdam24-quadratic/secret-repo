@@ -18,7 +18,7 @@ import { Round } from "~~/components/rounds-and-votes/IRound";
 const admin_address = "0x50FcF0c327Ee4341313Dd5Cb987f0Cd289Be6D4D"
 
 const round: Round = {
-  id: "654677",
+  id: "3",
   title: "R3",
   status: "active",
   imgSrc: "/rounds/round1.png",
