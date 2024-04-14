@@ -9,7 +9,6 @@ import RoundCard from "~~/components/rounds-and-votes/RoundCard";
 import { projects } from "~~/utils/quadratic/projects";
 import { submitVote } from "~~/utils/quadratic/submit";
 
-
 const round = {
   id: "3",
   title: "R3",
@@ -27,6 +26,8 @@ const Vote: NextPage = () => {
       return _item;
     }),
   );
+
+  const [roundClosed, setRoundClosed] = useState(round.status === "active" ? false : true);
 
   const { address, connector } = useAccount();
 
@@ -48,16 +49,22 @@ const Vote: NextPage = () => {
     };
 
     console.log("handlefund 3");
-    await submitVote(
-      address,
-      provider,
-      functionArguments,
-    );    
+    await submitVote(address, provider, functionArguments);
     console.log(!address, !connector);
   };
 
+  const handleManageRound = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (!roundClosed) {
+      console.log("Close round");
+      setRoundClosed(true);
+    } else {
+      console.log("Trigger payout");
+    }
+  };
+
   return (
-    <div className="flex flex-col items-center md:px-12 sm:px-4">
+    <div className="vote flex flex-col items-center md:px-12 sm:px-4 pb-12">
       <RoundCard round={round} />
       <div className="container mx-auto my-10 grid md:grid-cols-2 md:grid-cols-1 gap-4">
         {projectVotes.map(item => (
@@ -77,6 +84,11 @@ const Vote: NextPage = () => {
           FUND
         </button>
       </div>
+
+      <button onClick={handleManageRound} className="underline underline-offset-8 mb-2 text-white">
+        {!roundClosed ? "CLOSE THE ROUND" : "TRIGGER PAYOUT"}
+      </button>
+      <span className="text-sm">* Must be the round admin</span>
     </div>
   );
 };
