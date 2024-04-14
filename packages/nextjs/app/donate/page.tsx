@@ -18,7 +18,7 @@ const Donate: NextPage = () => {
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault;
     if (!address) {
-      toast.error("Please login");
+      // toast.error("Please login");
     }
     console.log("donate");
 

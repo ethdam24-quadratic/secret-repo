@@ -133,6 +133,10 @@ p {
   letter-spacing: 1.5px;
 }
 
+.vote .project-card span {
+  color: white;
+}
+
 .fund-button:hover {
   color: #94FEBE !important;
 }
@@ -227,8 +231,9 @@ button {
 }
 
 .metric-card {
-  max-width: 200px;
+  max-width: 250px;
   text-align: center;
+  background-color: #0F0F0F;
 }
 
 .metric-card h3 {

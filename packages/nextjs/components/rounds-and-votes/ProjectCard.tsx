@@ -47,6 +47,7 @@ function ProjectCard({ project, handleInputChange }: ProjectCardProps): JSX.Elem
             VOTE
           </label>
         </div>
+        <span className="text-sm text-white pl-5">gwei</span>
       </div>
     </div>
   );

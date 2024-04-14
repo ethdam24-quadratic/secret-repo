@@ -29,7 +29,7 @@ const customStyles: StylesConfig<CurveOption, true> = {
       backgroundColor: "rgba(255, 255, 255, 0.12);",
       fontFamily: `"Sen", sans-serif !important`,
       letterSpacing: "1.5px",
-      color: "white",
+      // color: "white",
     };
   },
   singleValue: styles => ({
