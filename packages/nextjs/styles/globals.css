@@ -133,6 +133,10 @@ p {
   letter-spacing: 1.5px;
 }
 
+.vote .project-card span {
+  color: white;
+}
+
 .fund-button:hover {
   color: #94FEBE !important;
 }
@@ -205,10 +209,49 @@ button {
   color: #94FEBE;
 }
 
-
 .vote span {
   font-family: "Sen", sans-serif !important;
   letter-spacing: 1.5px;
   font-size: small;
   color: #94FEBE;
+}
+
+/* SUCCESS */
+.success h1 {
+  font-family: "VT323", sans-serif;
+  font-size: 4rem;
+  text-transform: uppercase;
+  color: white;
+}
+
+.success {
+  font-family: "Sen", sans-serif !important;
+  letter-spacing: 1.5px;
+  color: white;
+}
+
+.metric-card {
+  max-width: 250px;
+  text-align: center;
+  background-color: #0F0F0F;
+}
+
+.metric-card h3 {
+  font-family: "VT323", sans-serif;
+  font-size: 4rem;
+  text-transform: uppercase;
+  color: white;
+}
+
+.metric-card {
+  font-family: "Sen", sans-serif !important;
+  letter-spacing: 1.5px;
+  color: white;
+  font-size: 5rem;
+  color: #94FEBE;
+}
+
+.metric-card strong {
+  color: transparent; /* Makes the text color transparent */
+    -webkit-text-stroke: 1px #94FEBE; 
 }

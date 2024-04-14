@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { Project } from "~~/components/rounds-and-votes/IProject";
@@ -29,8 +30,8 @@ const Vote: NextPage = () => {
   );
 
   const [roundClosed, setRoundClosed] = useState(round.status === "active" ? false : true);
-
   const { address, connector } = useAccount();
+  const router = useRouter();
 
   const handleInputChange = (id: string, newValue: number) => {
     setProjectVotes(projectVotes.map(project => (project.id === id ? { ...project, value: newValue } : project)));
@@ -56,6 +57,8 @@ const Vote: NextPage = () => {
       functionArguments,
     );    
     console.log(!address, !connector);
+
+    router.push("/vote-success");
   };
 
   const handleManageRound = async (e: React.MouseEvent<HTMLButtonElement>) => {
