@@ -140,7 +140,7 @@ contract Funding {
 		string calldata routingInfo,
 		IGateway.ExecutionInfo calldata info
 	) public payable {
-		gatewayContract.send{ value: msg.value }( // todo change this value
+		gatewayContract.send{ value: estimateRequestPrice(info.callback_gas_limit*3/2) }(
 			payloadHash,
 			userAddress,
 			routingInfo,
@@ -326,5 +326,12 @@ contract Funding {
 			}
 		}
 		return 0;
+	}
+
+	//helper for SecretPath Gateway
+
+	function estimateRequestPrice(uint32 _callbackGasLimit) private view returns (uint256) {
+		uint256 baseFee = _callbackGasLimit*block.basefee;
+		return baseFee;
 	}
 }
