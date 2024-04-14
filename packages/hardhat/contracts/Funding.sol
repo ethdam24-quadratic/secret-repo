@@ -62,6 +62,7 @@ contract Funding {
 		string name,
 		uint256[] projectIds
 	);
+	event ProjectCreated(uint256 indexed projectId, string name);
 
 	event RoundCreatedInSecret(uint256 indexed roundId);
 
@@ -260,6 +261,10 @@ contract Funding {
 				totalSquareRoots: 0
 			});
 			round.projectIds.push(projectIds[i]);
+			emit ProjectCreated(
+				round.projects[projectIds[i]].id,
+				round.projects[projectIds[i]].name
+			);
 		}
 	}
 
@@ -292,17 +297,18 @@ contract Funding {
 		ProjectFundingData[] memory fundingData,
 		uint256 roundId
 	) internal {
-		uint256 totalFunds = fundingRounds[roundId].totalContributions;
+		// uint256 totalFunds = fundingRounds[roundId].totalContributions;
 		for (uint256 i = 0; i < fundingData.length; i++) {
 			Project storage project = fundingRounds[roundId].projects[
 				fundingRounds[roundId].projectIds[i]
 			];
-			uint256 payout = (project.totalContributions *
-				fundingData[i].fundingPercentage) / 100;
-			// uint256 payout = calculatePayout(project, fundingData);
+			// uint256 payout = 100;
+			// uint256 payout = (project.totalContributions *
+			// 	fundingData[i].fundingPercentage) / 100;
+			uint256 payout = calculatePayout(project, fundingData);
 
 			project.projectAddress.transfer(payout);
-			totalFunds -= payout;
+			// totalFunds -= payout;
 		}
 	}
 

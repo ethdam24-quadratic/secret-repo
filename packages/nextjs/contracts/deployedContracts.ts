@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   84532: {
     Funding: {
-      address: "0xab2EE87906222B433AF6836b1f1588b79294f67e",
+      address: "0xc314278217Ae8D99D95BdAb3432e174A1a483Ed1",
       abi: [
         {
           inputs: [
@@ -70,6 +70,25 @@ const deployedContracts = {
             },
           ],
           name: "DistributedTokensInSecret",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "projectId",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "name",
+              type: "string",
+            },
+          ],
+          name: "ProjectCreated",
           type: "event",
         },
         {
@@ -660,6 +679,25 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "s",
+              type: "string",
+            },
+          ],
+          name: "stringToUint",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "pure",
           type: "function",
         },
       ],
@@ -668,7 +706,7 @@ const deployedContracts = {
   },
   534351: {
     Funding: {
-      address: "0x0C5f513C471Dd702Af44a7BF82602308b1D66Ac3",
+      address: "0x4CCce31adBEB0703941C25AA3146E105FE054440",
       abi: [
         {
           inputs: [
@@ -731,6 +769,25 @@ const deployedContracts = {
             },
           ],
           name: "DistributedTokensInSecret",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "projectId",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "name",
+              type: "string",
+            },
+          ],
+          name: "ProjectCreated",
           type: "event",
         },
         {
@@ -1323,13 +1380,32 @@ const deployedContracts = {
           stateMutability: "view",
           type: "function",
         },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "s",
+              type: "string",
+            },
+          ],
+          name: "stringToUint",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "pure",
+          type: "function",
+        },
       ],
       inheritedFunctions: {},
     },
   },
   11155111: {
     Funding: {
-      address: "0x2c3b48d76352c0Ea1F1d7B287b5dFeCaf43E59B9",
+      address: "0x85C149bEbf45b3E0206c8283b25c1F14F73AEeCF",
       abi: [
         {
           inputs: [
@@ -1392,6 +1468,25 @@ const deployedContracts = {
             },
           ],
           name: "DistributedTokensInSecret",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "projectId",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "name",
+              type: "string",
+            },
+          ],
+          name: "ProjectCreated",
           type: "event",
         },
         {
@@ -2009,7 +2104,7 @@ const deployedContracts = {
   },
   11155420: {
     Funding: {
-      address: "0x7d671aed0E98286525a94b2F56422375EFc79886",
+      address: "0x84449Ff21EE6a5D161fA979F06B49327EFce0854",
       abi: [
         {
           inputs: [
@@ -2072,6 +2167,25 @@ const deployedContracts = {
             },
           ],
           name: "DistributedTokensInSecret",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "projectId",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "name",
+              type: "string",
+            },
+          ],
+          name: "ProjectCreated",
           type: "event",
         },
         {
@@ -2662,6 +2776,25 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "s",
+              type: "string",
+            },
+          ],
+          name: "stringToUint",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "pure",
           type: "function",
         },
       ],
@@ -2670,7 +2803,7 @@ const deployedContracts = {
   },
   1313161555: {
     Funding: {
-      address: "0x44CbD15D584f2D7865232123146e8e20404c6952",
+      address: "0x737BE332C0c3e72e2738842a2138051dc0c01A0A",
       abi: [
         {
           inputs: [
@@ -2733,6 +2866,25 @@ const deployedContracts = {
             },
           ],
           name: "DistributedTokensInSecret",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "projectId",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "name",
+              type: "string",
+            },
+          ],
+          name: "ProjectCreated",
           type: "event",
         },
         {
@@ -3323,6 +3475,25 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "s",
+              type: "string",
+            },
+          ],
+          name: "stringToUint",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "pure",
           type: "function",
         },
       ],
