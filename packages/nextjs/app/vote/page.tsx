@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { Project } from "~~/components/rounds-and-votes/IProject";
+import { VoteItem, VotesMsg } from "~~/components/rounds-and-votes/IVoteItem";
 import ProjectCard from "~~/components/rounds-and-votes/ProjectCard";
 import RoundCard from "~~/components/rounds-and-votes/RoundCard";
 import { projects } from "~~/utils/quadratic/projects";
@@ -38,19 +39,23 @@ const Vote: NextPage = () => {
 
   const handleFund = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log("handlefund 1");
+
     if (!address || !connector) return;
     const provider = connector.options.getProvider();
 
-    console.log("handlefund 2");
     const functionArguments = {
-      funding_round_id: 3, // todo hardcoded? should we change it?
-      voter_address: projectVotes.map(p => p.address),
-      votes: projectVotes.map(p => p.value),
-    };
+      funding_round_id: "333", // todo hardcoded? should we change it?
+      voter_address: address,
+      votes: projectVotes.map(project => ({
+        project_id: project.id,
+        vote_amount: project.value*1e18 || 0  // Default to 0 if value is undefined
+    }))};
 
-    console.log("handlefund 3");
-    await submitVote(address, provider, functionArguments);
+    await submitVote(
+      address,
+      provider,
+      functionArguments,
+    );    
     console.log(!address, !connector);
 
     router.push("/vote-success");
