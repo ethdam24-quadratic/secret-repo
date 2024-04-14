@@ -35,14 +35,15 @@ const rounds: Round[] = [
 const Overview: NextPage = () => {
   // const [projects, setProjects] = useState();
 
-  const { data: projects } = useScaffoldContractRead({
-    contractName: "Funding",
-    functionName: "getAllRoundIds",
-    args: [],
-  });
+  // const { data: projects } = useScaffoldContractRead({
+  //   contractName: "Funding",
+  //   functionName: "getAllRoundIds",
+  //   args: [],
+  // });
 
   // console.log(projects);
-  const projectsAmount = projects ? projects.length : 0;
+  // const projectsAmount = projects ? projects.length : 0;
+  const projectsAmount = 8;
 
   return (
     <div className="container mx-auto my-10">
