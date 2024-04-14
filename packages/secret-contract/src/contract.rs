@@ -320,11 +320,11 @@ fn trigger_payout(
             StdError::generic_err("Tally calculation failed")
         })?;
 
-    let formatted_list: Vec<String> = funding_results.iter().map(|result| {
-            format!("{}, {};", result.project_id, result.funding_percentage)
+        let formatted_list: Vec<String> = funding_results.iter().map(|result| {
+            format!("{},{}", result.project_id, result.funding_percentage)
         }).collect();
         
-    let final_string = formatted_list.join(" ");
+        let final_string = formatted_list.join(";");
 
     // Encode the JSON string to base64
     let result = base64::encode(final_string);
@@ -386,6 +386,7 @@ fn calculate_curve_funding(deps: DepsMut, funding_round_id: String, curve: Strin
 
     Ok(results)
 }
+
 fn apply_math_operation(operation: &str, value: u128) -> u128 {
     match operation {
         "x" => value, // No operation, return value as is
