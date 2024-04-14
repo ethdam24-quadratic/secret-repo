@@ -9,10 +9,13 @@ import { VoteItem, VotesMsg } from "~~/components/rounds-and-votes/IVoteItem";
 import ProjectCard from "~~/components/rounds-and-votes/ProjectCard";
 import RoundCard from "~~/components/rounds-and-votes/RoundCard";
 import { projects } from "~~/utils/quadratic/projects";
-import { submitVote } from "~~/utils/quadratic/submit";
+import { submitCloseFundingRound, submitTriggerPayout, submitVote } from "~~/utils/quadratic/submit";
+
+
+const admin_address = "0x50FcF0c327Ee4341313Dd5Cb987f0Cd289Be6D4D"
 
 const round = {
-  id: "3",
+  id: 654677,
   title: "R3",
   status: "active",
   imgSrc: "/rounds/round1.png",
@@ -44,12 +47,18 @@ const Vote: NextPage = () => {
     const provider = connector.options.getProvider();
 
     const functionArguments = {
-      funding_round_id: "333", // todo hardcoded? should we change it?
+      funding_round_id: round.id.toString(), // todo hardcoded? should we change it?
       voter_address: address,
       votes: projectVotes.map(project => ({
         project_id: project.id,
-        vote_amount: project.value*1e18 || 0  // Default to 0 if value is undefined
-    }))};
+        vote_amount: project.value*1e9 || 0  // Default to 0 if value is undefined
+      })),
+      totalAmount: projectVotes.reduce((total, project) => {
+        // Default to 0 if value is undefined, then multiply by 1e9
+        const voteAmount = (project.value || 0) * 1e9;
+        return total + voteAmount;
+      }, 0)
+    };
 
     await submitVote(
       address,
@@ -63,11 +72,35 @@ const Vote: NextPage = () => {
 
   const handleManageRound = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    if (!address || !connector) return;
+    const provider = connector.options.getProvider();
     if (!roundClosed) {
       console.log("Close round");
+      const functionArguments = {
+        id: round.id.toString(),
+        admin_address: admin_address
+      };
+  
+      console.log("AVH functionArguments: " + JSON.stringify(functionArguments));
+      await submitCloseFundingRound(
+        address,
+        provider,
+        functionArguments,
+      );
       setRoundClosed(true);
     } else {
       console.log("Trigger payout");
+      const functionArguments = {
+        funding_round_id: round.id.toString(),
+        admin_address: admin_address
+      };
+  
+      console.log("AVH functionArguments: " + JSON.stringify(functionArguments));
+      await submitTriggerPayout(
+        address,
+        provider,
+        functionArguments,
+      );
     }
   };
 

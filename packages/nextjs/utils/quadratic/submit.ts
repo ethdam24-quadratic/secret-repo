@@ -15,8 +15,8 @@ import contractAbi from "../../abi/Funding.json";
 // the function name of the function that is called on the private contract
 
 const contractAddress = "0xF3626FD6d6487593dF4F65B3339D7DA2a76A7573";
-const routing_contract = "secret1au02xewwmzq8wqz30yssk5wmuuyx9k65076d78"; //the contract you want to call in secret
-const routing_code_hash = "cf91107e234348a73c128621a19f8567bad7db25c4e7175d5190ff1c0b18c442"; //its codehash
+const routing_contract = "secret1mykvzzqykcch9vwdr5fj5wezww4s6dq88qayux"; //the contract you want to call in secret
+const routing_code_hash = "b1aa65a28919e5cc1f8456cad30e2f3b822d7c7feeba08a20b557c17094f0d24"; //its codehash
 const admin_address = "0x50FcF0c327Ee4341313Dd5Cb987f0Cd289Be6D4D"
 
 const submitOpenFundingRound = async (
@@ -170,7 +170,7 @@ const submitOpenFundingRound = async (
         _callbackSelector: ${callbackSelector} ,
         _callbackGasLimit: ${callbackGasLimit}`);
 
-  
+        console.log(_userAddress)
   const functionData = iface.encodeFunctionData("createFundingRound", [functionArguments.id, functionArguments.name, functionArguments.description,
     functionArguments.funding_curve, functionArguments.projectIds, functionArguments.projectNames, 
     functionArguments.projectDescriptions, functionArguments.projectAddresses, _userAddress, true, 
@@ -338,14 +338,17 @@ const submitVote = async (
     //@ts-ignore
     const provider2 = new ethers.providers.Web3Provider(window?.ethereum);
     const gasFee = await provider2.getGasPrice();
-  const amountOfGas = gasFee.mul(callbackGasLimit).mul(3).div(2);
+    const amountOfGas = gasFee.mul(callbackGasLimit).mul(3).div(2);
+    console.log(amountOfGas)
+    console.log(functionArguments.totalAmount)
+    console.log(amountOfGas.add(functionArguments.totalAmount))
 
   const tx_params = [
     {
       gas: hexlify(150000),
       to: publicClientAddress,
       from: address,
-      value: hexlify(amountOfGas), // send that extra amount of gas in to pay for the Callback Gas Limit that you set
+      value: hexlify(amountOfGas.add(functionArguments.totalAmount)), // send that extra amount of gas in to pay for the Callback Gas Limit that you set
       data: functionData,
     },
   ];
