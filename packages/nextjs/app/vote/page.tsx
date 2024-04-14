@@ -53,7 +53,7 @@ const Vote: NextPage = () => {
       voter_address: address,
       votes: projectVotes.map(project => ({
         project_id: project.id,
-        vote_amount: project.value*1e9 || 0  // Default to 0 if value is undefined
+        vote_amount: project.value ? project.value*1e9 || 0 : 0 // Default to 0 if value is undefined
       })),
       totalAmount: projectVotes.reduce((total, project) => {
         // Default to 0 if value is undefined, then multiply by 1e9
