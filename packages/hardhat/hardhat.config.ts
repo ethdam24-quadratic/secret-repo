@@ -77,7 +77,7 @@ const config: HardhatUserConfig = {
       accounts: [deployerPrivateKey],
     },
     polygonMumbai: {
-      url: `https://polygon-mumbai.g.alchemy.com/v2/${providerApiKey}`,
+      url: `https://lb.drpc.org/ogrpc?network=polygon-mumbai&dkey=${dRPCApiKey}`,
       accounts: [deployerPrivateKey],
     },
     polygonZkEvm: {

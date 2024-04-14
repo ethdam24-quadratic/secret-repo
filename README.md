@@ -47,6 +47,18 @@ We used Slither to find issues and vunerabilities in our smart contracts. We fou
 
 [Smart contract on Aurora testnet](https://explorer.testnet.aurora.dev/address/0x072117443CEb3920d9D95d2F005b23FeC9E761aD)
 
+### Smart contract deployments
+
+[Sepolia](https://sepolia.etherscan.io/address/0x5D1Fc9da0af509d69a17b6Aa150886dB6597B347#code)
+
+[Aurora testnet](https://explorer.testnet.aurora.dev/address/0xab2EE87906222B433AF6836b1f1588b79294f67e)
+
+[Scroll Sepolia](https://sepolia.scrollscan.dev/address/0x26915391654fBD5131c07a25b4C54942A22f78f2)
+
+[Optimism Sepolia](https://sepolia-optimism.etherscan.io/address/0x6b4B78dB8e772BA81d9c442e010b6Ab477944a09)
+
+[Base Sepolia](https://sepolia.basescan.org/address/0x072117443CEb3920d9D95d2F005b23FeC9E761aD)
+
 ## Team
 
 This project was build during EthDam 24 by:
