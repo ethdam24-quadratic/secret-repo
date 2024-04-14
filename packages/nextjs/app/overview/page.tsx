@@ -32,7 +32,7 @@ const Overview: NextPage = () => {
     <div className="container mx-auto my-10">
       {rounds.map(round => (
         <Link key={round.id} href="/vote">
-          <RoundCard round={round} />
+          <RoundCard title={round.title} status={round.status} imgSrc={round.imgSrc || ""} />
         </Link>
       ))}
       <Metrics />

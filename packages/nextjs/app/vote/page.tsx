@@ -107,9 +107,11 @@ const Vote: NextPage = () => {
     }
   };
 
+
+
   return (
     <div className="vote flex flex-col items-center md:px-12 sm:px-4 pb-12">
-      <RoundCard round={round} />
+      {round && <RoundCard imgSrc={round.imgSrc || ""} status={round.status} title={round.title}/>}
       <div className="container mx-auto my-10 grid md:grid-cols-2 md:grid-cols-1 gap-4">
         {projectVotes.map(item => (
           <ProjectCard key={item.id} project={item} handleInputChange={handleInputChange} />
