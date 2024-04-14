@@ -42,30 +42,7 @@ const RoundCreationForm: React.FC = () => {
       provider,
       functionArguments,
     );
-    
-    const functionArguments2 = {
-      id: roundId,
-      admin_address: admin_address
-    };
-
-    console.log("AVH functionArguments: " + JSON.stringify(functionArguments));
-    await submitCloseFundingRound(
-      address,
-      provider,
-      functionArguments2,
-    );
-
-    const functionArguments3 = {
-      funding_round_id: roundId,
-      admin_address: admin_address
-    };
-
-    console.log("AVH functionArguments: " + JSON.stringify(functionArguments));
-    await submitTriggerPayout(
-      address,
-      provider,
-      functionArguments3,
-    );
+  
   };
 
   return (
