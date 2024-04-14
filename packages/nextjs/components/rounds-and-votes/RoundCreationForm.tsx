@@ -1,15 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 // import contractAbi from "../../abi/Funding.json";
 import FunctionSelect from "./FunctionSelect";
 import { Project } from "./IProject";
 import ProjectsSelect from "./ProjectsSelect";
-import { toast } from "react-hot-toast";
+// import { toast } from "react-hot-toast";
 import { useAccount } from "wagmi";
 import { projects } from "~~/utils/quadratic/projects";
-import { submitOpenFundingRound, submitCloseFundingRound, submitTriggerPayout } from "~~/utils/quadratic/submit";
+import { submitCloseFundingRound, submitOpenFundingRound, submitTriggerPayout } from "~~/utils/quadratic/submit";
 
-const admin_address = "0x50FcF0c327Ee4341313Dd5Cb987f0Cd289Be6D4D"
+const admin_address = "0x50FcF0c327Ee4341313Dd5Cb987f0Cd289Be6D4D";
 
 const RoundCreationForm: React.FC = () => {
   const [roundTitle, setRoundTitle] = useState<string>("");
@@ -39,12 +40,7 @@ const RoundCreationForm: React.FC = () => {
       projects: chosenProjects,
     };
     console.log("AVH functionArguments: " + JSON.stringify(functionArguments));
-    await submitOpenFundingRound(
-      address,
-      provider,
-      functionArguments,
-    );
-  
+    await submitOpenFundingRound(address, provider, functionArguments);
   };
 
   return (
