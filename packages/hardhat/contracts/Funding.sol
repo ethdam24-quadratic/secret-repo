@@ -47,11 +47,11 @@ contract Funding {
 	// ========================================
 
 	IGateway public gatewayContract;
-	address public constant gatewayAddressSepolia =
-		address(0x3879E146140b627a5C858a08e507B171D9E43139);
+	// address public constant gatewayAddressSepolia =
+	// 	address(0x3879E146140b627a5C858a08e507B171D9E43139);
 
-	constructor() {
-		gatewayContract = IGateway(gatewayAddressSepolia);
+	constructor(address gatewayAddress) {
+		gatewayContract = IGateway(gatewayAddress);
 	}
 
 	// ========================================
@@ -162,7 +162,7 @@ contract Funding {
 		string calldata routingInfo,
 		IGateway.ExecutionInfo calldata info
 	) public payable {
-		require(fundingRounds[roundId].isOpen, "Round closed");
+		// require(fundingRounds[roundId].isOpen, "Round closed");
 		fundingRounds[roundId].isOpen = false;
 
 		if (sendToSecret) {
@@ -189,8 +189,8 @@ contract Funding {
 		string calldata routingInfo,
 		IGateway.ExecutionInfo calldata info
 	) public payable {
-		require(!fundingRounds[roundId].isOpen, "Round is not closed");
-		require(!fundingRounds[roundId].isDistributed, "Already distributed");
+		// require(!fundingRounds[roundId].isOpen, "Round is not closed");
+		// require(!fundingRounds[roundId].isDistributed, "Already distributed");
 		gatewayContract.send{ value: msg.value }(
 			payloadHash,
 			userAddress,

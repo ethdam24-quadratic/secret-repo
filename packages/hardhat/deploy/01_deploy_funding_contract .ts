@@ -21,11 +21,21 @@ const deployFundingContract: DeployFunction = async function (hre: HardhatRuntim
   */
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
+  let networkargs = [""];
+  console.log("network")
+  console.log(hre.network.name)
+  
+  
+  if (hre.network.name == "sepolia") {
+    networkargs = ["0x3879E146140b627a5C858a08e507B171D9E43139"]
+  } else {
+    networkargs = [""]
+  }
 
   await deploy("Funding", {
     from: deployer,
     // Contract constructor arguments
-    // args: [],
+    args: networkargs,
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.
