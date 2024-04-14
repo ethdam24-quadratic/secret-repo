@@ -12,12 +12,13 @@ import ProjectCard from "~~/components/rounds-and-votes/ProjectCard";
 import RoundCard from "~~/components/rounds-and-votes/RoundCard";
 import { projects } from "~~/utils/quadratic/projects";
 import { submitCloseFundingRound, submitTriggerPayout, submitVote } from "~~/utils/quadratic/submit";
+import { Round } from "~~/components/rounds-and-votes/IRound";
 
 
 const admin_address = "0x50FcF0c327Ee4341313Dd5Cb987f0Cd289Be6D4D"
 
-const round = {
-  id: 654677,
+const round: Round = {
+  id: String(654677),
   title: "R3",
   status: "active",
   imgSrc: "/rounds/round1.png",
