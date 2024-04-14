@@ -1,6 +1,22 @@
 // import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 import fundingAbi from "../abi/Funding.json";
 
+// const abi = [
+//   {
+//     "inputs": [],
+//     "name": "getAllRoundIds",
+//     "outputs": [
+//       {
+//         "internalType": "uint256[]",
+//         "name": "",
+//         "type": "uint256[]"
+//       }
+//     ],
+//     "stateMutability": "view",
+//     "type": "function"
+//   },
+// ];
+
 /**
  * @example
  * const externalContracts = {
