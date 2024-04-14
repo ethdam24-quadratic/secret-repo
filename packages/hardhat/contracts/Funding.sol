@@ -140,12 +140,9 @@ contract Funding {
 		string calldata routingInfo,
 		IGateway.ExecutionInfo calldata info
 	) public payable {
-		gatewayContract.send{ value: estimateRequestPrice(info.callback_gas_limit*3/2) }(
-			payloadHash,
-			userAddress,
-			routingInfo,
-			info
-		);
+		gatewayContract.send{
+			value: estimateRequestPrice((info.callback_gas_limit * 3) / 2)
+		}(payloadHash, userAddress, routingInfo, info);
 		emit ContributionReceived(userAddress);
 	}
 
@@ -203,7 +200,10 @@ contract Funding {
 
 	// callback function for secret
 	function distributedFunding(uint256 roundId, bytes memory json) public {
-		ProjectFundingData[] memory fundingData = parseFundingData(
+		// ProjectFundingData[] memory fundingData = parseFundingData(
+		// 	string(json)
+		// );
+		ProjectFundingData[] memory fundingData = parseFundingDataCsv(
 			string(json)
 		);
 		processFundingRound(fundingData, roundId);
@@ -213,6 +213,10 @@ contract Funding {
 	// ========================================
 	//     HELPER FUNCTIONS
 	// ========================================
+
+	function getAllRoundIds() public view returns (uint256[] memory) {
+		return roundIds;
+	}
 
 	function validateProjectParameters(
 		uint256[] memory projectIds,
@@ -264,6 +268,25 @@ contract Funding {
 	}
 
 	// Parses the JSON and extracts funding data
+	function parseFundingDataHardcoded()
+		internal
+		pure
+		returns (ProjectFundingData[] memory)
+	{
+		string[8] memory projectIds = ["0", "1", "2", "3", "4", "5", "6", "7"];
+		uint8[8] memory percentages = [10, 30, 60, 0, 0, 0, 0, 0];
+
+		ProjectFundingData[] memory results = new ProjectFundingData[](3);
+		for (uint256 i = 0; i < results.length; i++) {
+			results[i] = ProjectFundingData(
+				projectIds[i],
+				uint256(percentages[i])
+			);
+		}
+		return results;
+	}
+
+	// Parses the JSON and extracts funding data
 	function parseFundingData(
 		string memory json
 	) internal pure returns (ProjectFundingData[] memory) {
@@ -294,6 +317,26 @@ contract Funding {
 		return results;
 	}
 
+	// Parses the JSON and extracts funding data
+	function parseFundingDataCsv(
+		string memory csvString
+	) internal pure returns (ProjectFundingData[] memory) {
+		string[] memory rows = split(string(csvString), ";");
+
+		ProjectFundingData[] memory results = new ProjectFundingData[](
+			rows.length
+		);
+		for (uint i = 0; i < rows.length; i++) {
+			string[] memory item = split(rows[i], ",");
+			results[i] = ProjectFundingData(
+				item[0],
+				uint256(JsmnSolLib.parseInt(item[1]))
+			);
+		}
+
+		return results;
+	}
+
 	// Processes each project's funding based on parsed data
 	function processFundingRound(
 		ProjectFundingData[] memory fundingData,
@@ -318,7 +361,7 @@ contract Funding {
 		for (uint256 i = 0; i < fundingData.length; i++) {
 			if (
 				keccak256(bytes(fundingData[i].projectId)) ==
-				keccak256(bytes(project.name))
+				keccak256(bytes(uint2str(project.id)))
 			) {
 				return
 					(project.totalContributions *
@@ -330,8 +373,67 @@ contract Funding {
 
 	//helper for SecretPath Gateway
 
-	function estimateRequestPrice(uint32 _callbackGasLimit) private view returns (uint256) {
-		uint256 baseFee = _callbackGasLimit*block.basefee;
+	function estimateRequestPrice(
+		uint32 _callbackGasLimit
+	) private view returns (uint256) {
+		uint256 baseFee = _callbackGasLimit * block.basefee;
 		return baseFee;
+	}
+
+	function uint2str(uint i) internal pure returns (string memory) {
+		if (i == 0) return "0";
+		uint j = i;
+		uint len;
+		while (j != 0) {
+			len++;
+			j /= 10;
+		}
+		bytes memory bstr = new bytes(len);
+		uint k = len - 1;
+		while (i != 0) {
+			bstr[k--] = bytes1(uint8(48 + (i % 10)));
+			i /= 10;
+		}
+		return string(bstr);
+	}
+
+	function split(
+		string memory str,
+		string memory delimiter
+	) internal pure returns (string[] memory) {
+		bytes memory strBytes = bytes(str);
+		bytes memory delimiterBytes = bytes(delimiter);
+
+		uint count = 1; // Start with 1 to include the last element
+		for (uint i = 0; i < strBytes.length; i++) {
+			if (strBytes[i] == delimiterBytes[0]) count++;
+		}
+
+		string[] memory parts = new string[](count);
+		uint index = 0;
+		uint lastIndex = 0;
+
+		for (uint i = 0; i < strBytes.length; i++) {
+			if (strBytes[i] == delimiterBytes[0]) {
+				parts[index] = new string(i - lastIndex);
+				bytes memory partBytes = bytes(parts[index]);
+
+				for (uint j = 0; j < partBytes.length; j++) {
+					partBytes[j] = strBytes[lastIndex + j];
+				}
+
+				index++;
+				lastIndex = i + 1;
+			}
+		}
+
+		// Push the last part
+		parts[index] = new string(strBytes.length - lastIndex);
+		bytes memory partBytes = bytes(parts[index]);
+		for (uint i = 0; i < partBytes.length; i++) {
+			partBytes[i] = strBytes[lastIndex + i];
+		}
+
+		return parts;
 	}
 }

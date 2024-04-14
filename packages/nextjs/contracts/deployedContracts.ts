@@ -1303,7 +1303,7 @@ const deployedContracts = {
   },
   11155111: {
     Funding: {
-      address: "0x310187E87154EC33c25379B9B36A307A6A4E2e27",
+      address: "0x0671bDfea4eBF0286395870418E81a628a098A42",
       abi: [
         {
           inputs: [
@@ -1921,6 +1921,19 @@ const deployedContracts = {
               internalType: "contract IGateway",
               name: "",
               type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getAllRoundIds",
+          outputs: [
+            {
+              internalType: "uint256[]",
+              name: "",
+              type: "uint256[]",
             },
           ],
           stateMutability: "view",

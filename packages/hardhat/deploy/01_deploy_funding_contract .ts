@@ -62,6 +62,8 @@ const deployFundingContract: DeployFunction = async function (hre: HardhatRuntim
 
   // Get the deployed contract to interact with it after deploying.
   const funding = await hre.ethers.getContract<Contract>("Funding", deployer);
+  const contractAddress = await funding.getAddress();
+  console.log(`yarn hardhat verify ` + contractAddress +  ` "` + constructorArgs[0]+ `" --network ` + hre.network.name);
   // console.log("👋 Initial greeting:", await yourContract.greeting());
 };
 
