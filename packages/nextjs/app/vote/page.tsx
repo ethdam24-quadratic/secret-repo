@@ -38,21 +38,23 @@ const Vote: NextPage = () => {
 
   const handleFund = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log("handlefund 1");
+
     if (!address || !connector) return;
     const provider = connector.options.getProvider();
 
-    console.log("handlefund 2");
     const functionArguments = {
-      funding_round_id: 3, // todo hardcoded? should we change it?
+      funding_round_id: "333", // todo hardcoded? should we change it?
       voter_address: address,
       votes: projectVotes.map(project => ({
-        projectId: project.id,
-        voteAmount: project.value || 0  // Default to 0 if value is undefined
+        project_id: project.id,
+        vote_amount: project.value*1e18 || 0  // Default to 0 if value is undefined
     }))};
 
-    console.log("handlefund 3");
-    await submitVote(address, provider, functionArguments);
+    await submitVote(
+      address,
+      provider,
+      functionArguments,
+    );    
     console.log(!address, !connector);
   };
 

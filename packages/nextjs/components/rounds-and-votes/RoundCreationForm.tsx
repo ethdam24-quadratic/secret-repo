@@ -6,7 +6,7 @@ import ProjectsSelect from "./ProjectsSelect";
 import { toast } from "react-hot-toast";
 import { useAccount } from "wagmi";
 import { projects } from "~~/utils/quadratic/projects";
-import { submitOpenFundingRound, submitCloseFundingRound } from "~~/utils/quadratic/submit";
+import { submitOpenFundingRound, submitCloseFundingRound, submitTriggerPayout } from "~~/utils/quadratic/submit";
 
 const admin_address = "0x50FcF0c327Ee4341313Dd5Cb987f0Cd289Be6D4D"
 
@@ -15,7 +15,7 @@ const RoundCreationForm: React.FC = () => {
   const [roundId, setRoundId] = useState<string>("");
   const [roundDescription, setRoundDescription] = useState<string>("");
   const [chosenProjects, setChosenProjects] = useState<Project[]>([]);
-  const [curve, setCurve] = useState<string>("x");
+  const [curve, setCurve] = useState<any>("x");
 
   const { address, connector } = useAccount();
 
@@ -29,7 +29,7 @@ const RoundCreationForm: React.FC = () => {
       id: roundId,
       name: roundTitle,
       description: roundDescription,
-      funding_curve: curve,
+      funding_curve: curve.value,
       projectIds: chosenProjects.map(project => project.id),
       projectNames: chosenProjects.map(project => project.name),
       projectDescriptions: chosenProjects.map(project => project.description),
@@ -53,6 +53,18 @@ const RoundCreationForm: React.FC = () => {
       address,
       provider,
       functionArguments2,
+    );
+
+    const functionArguments3 = {
+      funding_round_id: roundId,
+      admin_address: admin_address
+    };
+
+    console.log("AVH functionArguments: " + JSON.stringify(functionArguments));
+    await submitTriggerPayout(
+      address,
+      provider,
+      functionArguments3,
     );
   };
 

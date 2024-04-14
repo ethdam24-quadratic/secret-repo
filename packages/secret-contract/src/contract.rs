@@ -291,6 +291,13 @@ fn trigger_payout(
         .get(deps.storage, &input.funding_round_id)
         .ok_or_else(|| StdError::generic_err("Funding round not found"))?;
 
+    if funding_round.admin_address != input.admin_address {
+        return Err(StdError::generic_err("Admin Address not matching".to_string()))
+    }
+    if funding_round.is_running {
+        return Err(StdError::generic_err("Funding Round still running".to_string()))
+    }
+
     let voters_of_funding_round_map = VOTERS_OF_FUNDING_ROUND_MAP
         .get(deps.storage, &input.funding_round_id)
         .unwrap_or_default();
