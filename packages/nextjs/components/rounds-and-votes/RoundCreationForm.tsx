@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 // import contractAbi from "../../abi/Funding.json";
 import FunctionSelect from "./FunctionSelect";
 import { Project } from "./IProject";
@@ -18,6 +19,7 @@ const RoundCreationForm: React.FC = () => {
   const [curve, setCurve] = useState<any>("x");
 
   const { address, connector } = useAccount();
+  const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
