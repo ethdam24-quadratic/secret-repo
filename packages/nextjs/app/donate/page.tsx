@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import type { NextPage } from "next";
 import { toast } from "react-hot-toast";
 import { useAccount } from "wagmi";
@@ -8,6 +9,7 @@ import { useAccount } from "wagmi";
 const Donate: NextPage = () => {
   const [amount, setAmount] = useState(0);
   const { address } = useAccount();
+  const router = useRouter();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAmount(Number(event.target.value));
@@ -19,6 +21,8 @@ const Donate: NextPage = () => {
       toast.error("Please login");
     }
     console.log("donate");
+
+    router.push("/donate-success");
   };
 
   return (
