@@ -170,6 +170,18 @@ fn vote(
     let mut votes_map = VOTES_MAP
         .get(deps.storage, &vote_association)
         .unwrap_or_default();
+
+    // Filter votes to only include those for projects that are part of the current funding round.
+    let valid_project_ids: Vec<String> = funding_round.projects.iter().map(|p| p.id.clone()).collect();
+
+    // Validate and collect votes for the allowed projects only.
+    let valid_votes = input.votes.into_iter()
+        .filter(|vote| valid_project_ids.contains(&vote.project_id))
+        .collect::<Vec<VoteItem>>();
+
+    if valid_votes.is_empty() {
+        return Err(StdError::generic_err("No valid projects voted on in this funding round"));
+    }
     
     // Function to aggregate votes
     fn aggregate_votes(existing_votes: &mut Vec<VoteItem>, new_votes: Vec<VoteItem>) {
@@ -192,7 +204,7 @@ fn vote(
     }
 
     // Aggregate the votes
-    aggregate_votes(&mut votes_map, input.votes);
+    aggregate_votes(&mut votes_map, valid_votes);
 
     // Save the updated votes map back into the storage
     VOTES_MAP.insert(deps.storage, &vote_association, &votes_map)?;
