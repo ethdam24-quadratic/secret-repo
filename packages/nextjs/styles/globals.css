@@ -61,6 +61,7 @@ p {
   color: #94FEBE;
   transition: transform 0.3s ease;
   transform: scale(1.1);
+  background-color: transparent;
 }
 
 /* MENU ICON */
@@ -186,6 +187,10 @@ p {
   min-height: 150px;
 }
 
+.round-card.card.image-full:before {
+  background-color: transparent !important;
+}
+
 .donate {
   display: flex;
   flex-direction: column;
@@ -254,4 +259,18 @@ button {
 .metric-card strong {
   color: transparent; /* Makes the text color transparent */
     -webkit-text-stroke: 1px #94FEBE; 
+}
+
+.q-login-button div button {
+  background-color: transparent !important;
+  border-radius: 0 !important;
+  border-color: white !important;
+  border-width: 1px  !important;
+  border-style: solid !important;
+  box-shadow: 4px 4px 0 1px #FFFFFF !important;
+}
+
+.switch-network li button {
+  border: none !important;
+  box-shadow: none !important;
 }
