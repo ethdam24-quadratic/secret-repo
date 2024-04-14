@@ -190,3 +190,25 @@ p {
 
   margin-top: 30vh;
 }
+
+button {
+  font-family: "Sen", sans-serif !important;
+  letter-spacing: 1.5px;
+}
+
+.vote button {
+  letter-spacing: 2px;
+  font-size: 1.4rem;
+}
+
+.vote button:hover {
+  color: #94FEBE;
+}
+
+
+.vote span {
+  font-family: "Sen", sans-serif !important;
+  letter-spacing: 1.5px;
+  font-size: small;
+  color: #94FEBE;
+}
