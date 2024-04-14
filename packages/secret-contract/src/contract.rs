@@ -360,10 +360,10 @@ fn calculate_curve_funding(deps: DepsMut, funding_round_id: String, curve: Strin
         }
     }
 
-    // Calculate the square of the sums of square roots for each project
-    let total_funding = project_contributions.values()
-        .map(|&sum| apply_math_operation(&curve, sum))
+    let sum_of_contributions = project_contributions.values()
         .sum::<u128>();
+
+    let total_funding = apply_math_operation(&curve, sum_of_contributions);
 
     // Calculate percentages based on total budget
     let results: Vec<FundingResult> = project_contributions.iter().map(|(project_id, &sum)| {
