@@ -11,8 +11,7 @@ function Metrics(): JSX.Element {
       <div className="metric-card flex flex-col m-5">
         <h3>Total pool</h3>
         <div className="flex-1 flex flex-col justify-center">
-          120/
-          <br />
+          <strong>120/</strong>
           200Ξ
         </div>
       </div>

@@ -245,3 +245,8 @@ button {
   font-size: 5rem;
   color: #94FEBE;
 }
+
+.metric-card strong {
+  color: transparent; /* Makes the text color transparent */
+    -webkit-text-stroke: 1px #94FEBE; 
+}
