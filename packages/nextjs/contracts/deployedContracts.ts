@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   84532: {
     Funding: {
-      address: "0x072117443CEb3920d9D95d2F005b23FeC9E761aD",
+      address: "0xab2EE87906222B433AF6836b1f1588b79294f67e",
       abi: [
         {
           inputs: [
@@ -625,6 +625,19 @@ const deployedContracts = {
               internalType: "contract IGateway",
               name: "",
               type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getAllRoundIds",
+          outputs: [
+            {
+              internalType: "uint256[]",
+              name: "",
+              type: "uint256[]",
             },
           ],
           stateMutability: "view",
@@ -655,7 +668,7 @@ const deployedContracts = {
   },
   534351: {
     Funding: {
-      address: "0x26915391654fBD5131c07a25b4C54942A22f78f2",
+      address: "0x0C5f513C471Dd702Af44a7BF82602308b1D66Ac3",
       abi: [
         {
           inputs: [
@@ -1273,6 +1286,19 @@ const deployedContracts = {
               internalType: "contract IGateway",
               name: "",
               type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getAllRoundIds",
+          outputs: [
+            {
+              internalType: "uint256[]",
+              name: "",
+              type: "uint256[]",
             },
           ],
           stateMutability: "view",
@@ -1964,7 +1990,7 @@ const deployedContracts = {
   },
   11155420: {
     Funding: {
-      address: "0x6b4B78dB8e772BA81d9c442e010b6Ab477944a09",
+      address: "0x7d671aed0E98286525a94b2F56422375EFc79886",
       abi: [
         {
           inputs: [
@@ -2582,6 +2608,19 @@ const deployedContracts = {
               internalType: "contract IGateway",
               name: "",
               type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getAllRoundIds",
+          outputs: [
+            {
+              internalType: "uint256[]",
+              name: "",
+              type: "uint256[]",
             },
           ],
           stateMutability: "view",
@@ -2612,7 +2651,7 @@ const deployedContracts = {
   },
   1313161555: {
     Funding: {
-      address: "0xab2EE87906222B433AF6836b1f1588b79294f67e",
+      address: "0x44CbD15D584f2D7865232123146e8e20404c6952",
       abi: [
         {
           inputs: [
@@ -3230,6 +3269,19 @@ const deployedContracts = {
               internalType: "contract IGateway",
               name: "",
               type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getAllRoundIds",
+          outputs: [
+            {
+              internalType: "uint256[]",
+              name: "",
+              type: "uint256[]",
             },
           ],
           stateMutability: "view",

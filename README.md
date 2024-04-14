@@ -53,13 +53,13 @@ We used Slither to find issues and vunerabilities in our smart contracts. We fou
 
 [Sepolia](https://sepolia.etherscan.io/address/0x5D1Fc9da0af509d69a17b6Aa150886dB6597B347#code)
 
-[Aurora testnet](https://explorer.testnet.aurora.dev/address/0xab2EE87906222B433AF6836b1f1588b79294f67e)
+[Aurora testnet](https://explorer.testnet.aurora.dev/address/0x44CbD15D584f2D7865232123146e8e20404c6952)
 
-[Scroll Sepolia](https://sepolia.scrollscan.dev/address/0x26915391654fBD5131c07a25b4C54942A22f78f2)
+[Scroll Sepolia](https://sepolia.scrollscan.dev/address/0x0C5f513C471Dd702Af44a7BF82602308b1D66Ac3)
 
-[Optimism Sepolia](https://sepolia-optimism.etherscan.io/address/0x6b4B78dB8e772BA81d9c442e010b6Ab477944a09)
+[Optimism Sepolia](https://sepolia-optimism.etherscan.io/address/0x7d671aed0E98286525a94b2F56422375EFc79886)
 
-[Base Sepolia](https://sepolia.basescan.org/address/0x072117443CEb3920d9D95d2F005b23FeC9E761aD)
+[Base Sepolia](https://sepolia.basescan.org/address/0xab2EE87906222B433AF6836b1f1588b79294f67e)
 
 ## Team
 
