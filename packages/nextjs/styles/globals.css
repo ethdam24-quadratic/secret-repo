@@ -262,12 +262,13 @@ button {
 }
 
 .q-login-button div button {
-  background-color: transparent !important;
+  background-color: white !important;
   border-radius: 0 !important;
-  border-color: white !important;
+  border-color: black !important;
   border-width: 1px  !important;
   border-style: solid !important;
   box-shadow: 4px 4px 0 1px #FFFFFF !important;
+  color: black !important;
 }
 
 .switch-network li button {

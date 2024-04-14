@@ -1,10 +1,15 @@
 "use client";
 
+// import { useEffect, useState } from "react";
 import Link from "next/link";
+// import ethers from "ethers";
 import type { NextPage } from "next";
+// import { useAccount } from "wagmi";
 import { Round } from "~~/components/rounds-and-votes/IRound";
 import Metrics from "~~/components/rounds-and-votes/Metrics";
 import RoundCard from "~~/components/rounds-and-votes/RoundCard";
+// import externalContracts from "~~/contracts/externalContracts";
+import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
 
 const rounds: Round[] = [
   {
@@ -28,6 +33,18 @@ const rounds: Round[] = [
 ];
 
 const Overview: NextPage = () => {
+  // const [projects, setProjects] = useState();
+
+  // const { data: projects } = useScaffoldContractRead({
+  //   contractName: "Funding",
+  //   functionName: "getAllRoundIds",
+  //   args: [],
+  // });
+
+  // console.log(projects);
+  // const projectsAmount = projects ? projects.length : 0;
+  const projectsAmount = 8;
+
   return (
     <div className="container mx-auto my-10">
       {rounds.map(round => (
@@ -35,7 +52,7 @@ const Overview: NextPage = () => {
           <RoundCard title={round.title} status={round.status} imgSrc={round.imgSrc || ""} />
         </Link>
       ))}
-      <Metrics />
+      <Metrics projectsAmount={projectsAmount} />
     </div>
   );
 };

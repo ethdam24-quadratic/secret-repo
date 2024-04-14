@@ -1,7 +1,5 @@
 {
-  "_format": "hh-sol-artifact-1",
-  "contractName": "Funding",
-  "sourceName": "contracts/Funding.sol",
+  "address": "0x2c3b48d76352c0Ea1F1d7B287b5dFeCaf43E59B9",
   "abi": [
     {
       "inputs": [
