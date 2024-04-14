@@ -45,21 +45,17 @@ We used Slither to find issues and vunerabilities in our smart contracts. We fou
 
 [Vercel deployment](https://secret-repo-nextjs.vercel.app/)
 
-[Smart contract on Sepolia](https://sepolia.etherscan.io/address/0x5D1Fc9da0af509d69a17b6Aa150886dB6597B347#code)
-
-[Smart contract on Aurora testnet](https://explorer.testnet.aurora.dev/address/0x072117443CEb3920d9D95d2F005b23FeC9E761aD)
-
 ### Smart contract deployments
 
-[Sepolia](https://sepolia.etherscan.io/address/0x5D1Fc9da0af509d69a17b6Aa150886dB6597B347#code)
+[Sepolia](https://sepolia.etherscan.io/tx/0x2137cc78e533552d5345655f5db77efe35629af56b1881c6de1185a8c0effc2e)
 
-[Aurora testnet](https://explorer.testnet.aurora.dev/address/0x44CbD15D584f2D7865232123146e8e20404c6952)
+[Aurora testnet](https://explorer.testnet.aurora.dev/address/0x737BE332C0c3e72e2738842a2138051dc0c01A0A)
 
-[Scroll Sepolia](https://sepolia.scrollscan.dev/address/0x0C5f513C471Dd702Af44a7BF82602308b1D66Ac3)
+[Scroll Sepolia](https://sepolia.scrollscan.dev/address/0x4CCce31adBEB0703941C25AA3146E105FE054440)
 
-[Optimism Sepolia](https://sepolia-optimism.etherscan.io/address/0x7d671aed0E98286525a94b2F56422375EFc79886)
+[Optimism Sepolia](https://sepolia-optimism.etherscan.io/address/0x84449Ff21EE6a5D161fA979F06B49327EFce0854)
 
-[Base Sepolia](https://sepolia.basescan.org/address/0xab2EE87906222B433AF6836b1f1588b79294f67e)
+[Base Sepolia](https://sepolia.basescan.org/address/0xc314278217Ae8D99D95BdAb3432e174A1a483Ed1)
 
 ## Team
 
