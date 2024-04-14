@@ -15,7 +15,7 @@ Whisper redefines the traditional quadratic funding model to enhance flexibility
 
 🔏 **Private Contributions**: All votes are encrypted using Secret Network’s cutting-edge technology, ensuring privacy protection.
 
-📈 **Customizable Funding Curves**: Choose from quadratic or alternative curve structures to optimize your project’s funding potential.
+📈 **Customizable Funding Curves**: Choose from quadratic or alternative curve structures to optimize your project’s funding potential.<br><br>
 
 ![tech stack (5)](https://github.com/ethdam24-quadratic/secret-repo/assets/101796507/6e54f7f1-529b-4b61-b32c-be16a16d0632)
 
