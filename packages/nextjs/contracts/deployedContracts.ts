@@ -1329,7 +1329,7 @@ const deployedContracts = {
   },
   11155111: {
     Funding: {
-      address: "0x0671bDfea4eBF0286395870418E81a628a098A42",
+      address: "0x2c3b48d76352c0Ea1F1d7B287b5dFeCaf43E59B9",
       abi: [
         {
           inputs: [
@@ -1982,6 +1982,25 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "s",
+              type: "string",
+            },
+          ],
+          name: "stringToUint",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "pure",
           type: "function",
         },
       ],

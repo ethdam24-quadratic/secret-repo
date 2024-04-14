@@ -268,56 +268,6 @@ contract Funding {
 	}
 
 	// Parses the JSON and extracts funding data
-	function parseFundingDataHardcoded()
-		internal
-		pure
-		returns (ProjectFundingData[] memory)
-	{
-		string[8] memory projectIds = ["0", "1", "2", "3", "4", "5", "6", "7"];
-		uint8[8] memory percentages = [10, 30, 60, 0, 0, 0, 0, 0];
-
-		ProjectFundingData[] memory results = new ProjectFundingData[](3);
-		for (uint256 i = 0; i < results.length; i++) {
-			results[i] = ProjectFundingData(
-				projectIds[i],
-				uint256(percentages[i])
-			);
-		}
-		return results;
-	}
-
-	// Parses the JSON and extracts funding data
-	function parseFundingData(
-		string memory json
-	) internal pure returns (ProjectFundingData[] memory) {
-		uint256 numTokens;
-		JsmnSolLib.Token[] memory tokens;
-		(, tokens, numTokens) = JsmnSolLib.parse(json, 20);
-		// require(numTokens > 0, "JSON parsing failed or no data found");
-
-		ProjectFundingData[] memory results = new ProjectFundingData[](
-			(numTokens - 1) / 3
-		);
-		for (uint256 i = 0; i < results.length; i++) {
-			string memory projectId = JsmnSolLib.getBytes(
-				json,
-				tokens[1 + 3 * i].start,
-				tokens[1 + 3 * i].end
-			);
-			string memory percentageStr = JsmnSolLib.getBytes(
-				json,
-				tokens[2 + 3 * i].start,
-				tokens[2 + 3 * i].end
-			);
-			uint256 fundingPercentage = uint256(
-				JsmnSolLib.parseInt(percentageStr)
-			);
-			results[i] = ProjectFundingData(projectId, fundingPercentage);
-		}
-		return results;
-	}
-
-	// Parses the JSON and extracts funding data
 	function parseFundingDataCsv(
 		string memory csvString
 	) internal pure returns (ProjectFundingData[] memory) {
@@ -330,7 +280,7 @@ contract Funding {
 			string[] memory item = split(rows[i], ",");
 			results[i] = ProjectFundingData(
 				item[0],
-				uint256(JsmnSolLib.parseInt(item[1]))
+				uint256(stringToUint(item[1]))
 			);
 		}
 
@@ -343,11 +293,14 @@ contract Funding {
 		uint256 roundId
 	) internal {
 		uint256 totalFunds = fundingRounds[roundId].totalContributions;
-		for (uint256 i = 0; i < fundingRounds[roundId].projectIds.length; i++) {
+		for (uint256 i = 0; i < fundingData.length; i++) {
 			Project storage project = fundingRounds[roundId].projects[
 				fundingRounds[roundId].projectIds[i]
 			];
-			uint256 payout = calculatePayout(project, fundingData);
+			uint256 payout = (project.totalContributions *
+				fundingData[i].fundingPercentage) / 100;
+			// uint256 payout = calculatePayout(project, fundingData);
+
 			project.projectAddress.transfer(payout);
 			totalFunds -= payout;
 		}
@@ -435,5 +388,22 @@ contract Funding {
 		}
 
 		return parts;
+	}
+
+	function stringToUint(string memory s) public pure returns (uint) {
+		bytes memory b = bytes(s);
+		uint result = 0;
+		for (uint i = 0; i < b.length; i++) {
+			// c must be a number from '0' to '9'
+			if (b[i] >= 0x30 && b[i] <= 0x39) {
+				result = result * 10 + (uint8(b[i]) - 48); // ASCII '0' is 48
+			} else {
+				// Handle non-numeric characters; revert the transaction
+				revert("Non-numeric character encountered.");
+			}
+		}
+		// Optional: Add a check to ensure the number is within the expected range
+		require(result <= 100, "Number out of expected range.");
+		return result;
 	}
 }
