@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 
@@ -17,6 +16,7 @@ function Success({ title, imgSrc }: SuccessProps): JSX.Element {
         <img
           className="mx-5"
           src="/icons/icon1.png"
+          alt="share"
           style={{
             objectFit: "contain",
             height: "40px",
@@ -25,6 +25,7 @@ function Success({ title, imgSrc }: SuccessProps): JSX.Element {
         <img
           className="mx-5"
           src="/icons/icon2.png"
+          alt="share"
           style={{
             objectFit: "contain",
             height: "40px",
@@ -33,6 +34,7 @@ function Success({ title, imgSrc }: SuccessProps): JSX.Element {
         <img
           className="mx-5"
           src="/icons/icon3.png"
+          alt="share"
           style={{
             objectFit: "contain",
             height: "40px",

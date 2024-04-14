@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { NextPage } from "next";
 import { Round } from "~~/components/rounds-and-votes/IRound";
 import RoundCard from "~~/components/rounds-and-votes/RoundCard";
+import Metrics from "~~/components/rounds-and-votes/Metrics";
 
 const rounds: Round[] = [
   {
@@ -34,6 +35,7 @@ const Overview: NextPage = () => {
           <RoundCard round={round} />
         </Link>
       ))}
+      <Metrics />
     </div>
   );
 };

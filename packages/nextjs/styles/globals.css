@@ -225,3 +225,23 @@ button {
   letter-spacing: 1.5px;
   color: white;
 }
+
+.metric-card {
+  max-width: 200px;
+  text-align: center;
+}
+
+.metric-card h3 {
+  font-family: "VT323", sans-serif;
+  font-size: 4rem;
+  text-transform: uppercase;
+  color: white;
+}
+
+.metric-card {
+  font-family: "Sen", sans-serif !important;
+  letter-spacing: 1.5px;
+  color: white;
+  font-size: 5rem;
+  color: #94FEBE;
+}
