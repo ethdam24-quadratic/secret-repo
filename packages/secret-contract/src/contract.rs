@@ -3,7 +3,7 @@ use crate::{
         ExecuteMsg, GatewayMsg, ResponseCreateVoteMsg, InstantiateMsg, QueryMsg,
         QueryResponse, ResponseVoteMsg, ResponseCloseVotingMsg, OpenFundingRoundMsg, 
         VotesMsg, CloseFundingRoundMsg, VoteItem,
-        TriggerPayoutMsg, FundingResult, ResponseTriggerPayoutMsg
+        TriggerPayoutMsg, FundingResult
     },
     state::{State, CONFIG, FUNDING_ROUND_MAP, VOTES_MAP, VOTERS_OF_FUNDING_ROUND_MAP, FundingRoundItem, VoteAssociation},
 };
@@ -319,18 +319,15 @@ fn trigger_payout(
             // Log the error or handle it differently here
             StdError::generic_err("Tally calculation failed")
         })?;
-    
-    let data = ResponseTriggerPayoutMsg {
-        message: "Calculated Tally successfully".to_string(),
-        tally: funding_results
-    };
 
-    // Serialize the struct to a JSON string
-    let json_string =
-        serde_json_wasm::to_string(&data).map_err(|err| StdError::generic_err(err.to_string()))?;
+    let formatted_list: Vec<String> = funding_results.iter().map(|result| {
+            format!("{}, {};", result.project_id, result.funding_percentage)
+        }).collect();
+        
+    let final_string = formatted_list.join(" ");
 
     // Encode the JSON string to base64
-    let result = base64::encode(json_string);
+    let result = base64::encode(final_string);
 
     let callback_msg = GatewayMsg::Output {
         outputs: PostExecutionMsg {
